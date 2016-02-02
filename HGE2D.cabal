@@ -16,9 +16,20 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
-  -- exposed-modules:     
+  exposed-modules:
+    HGE2D.ShapeFactory
+    HGE2D.Render
+    HGE2D.Datas
+    HGE2D.Types
+    HGE2D.Classes
+    HGE2D.Engine
+    HGE2D.Time
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.8 && <4.9
+  build-depends:       
+      base >=4.8 && <4.9,
+      OpenGL ,
+      GLUT,
+      time
   hs-source-dirs:      src
   default-language:    Haskell2010
