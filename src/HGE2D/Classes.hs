@@ -2,7 +2,7 @@
 module HGE2D.Classes where
 
 import HGE2D.Types
-import HGE2D.Render
+import HGE2D.Datas
 
 --------------------------------------------------------------------------------
 
@@ -34,6 +34,17 @@ class HasTitle a where
     getTitle :: a -> String
 
 --------------------------------------------------------------------------------
+
+class GlRender a where
+    glRender :: a -> IO ()
+
+--------------------------------------------------------------------------------
+
+class GlInstructable a where
+    toGlInstruction :: a -> RenderInstruction
+
+--------------------------------------------------------------------------------
+
 
 type EngineState a = 
     ( MouseInteract a

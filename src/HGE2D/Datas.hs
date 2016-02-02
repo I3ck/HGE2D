@@ -4,7 +4,6 @@ import HGE2D.Types
 
 import qualified Graphics.Rendering.OpenGL as GL
 
-
 data RigidBody = RigidBody
     { rigidPos  :: RealPosition -- current position
     , rigidVel  :: Velocity     -- current velocity
