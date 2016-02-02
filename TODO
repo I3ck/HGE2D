@@ -1,0 +1,7 @@
+gradients
+rename gl methods to fill or stroke or wired
+
+add classes for velocity and collision etc to use same function name for all types 
+
+remove bordered rectangle, since it's too complicated to use with transparency
+
