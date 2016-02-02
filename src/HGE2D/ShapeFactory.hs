@@ -6,6 +6,8 @@ import HGE2D.Datas
 
 import qualified Graphics.Rendering.OpenGL as GL
 
+--------------------------------------------------------------------------------
+
 
 ---TODO move these to Geometry (currently circular reference if moved there)
 rad2deg :: Double -> Double

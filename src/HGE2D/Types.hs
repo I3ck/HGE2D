@@ -2,6 +2,8 @@ module HGE2D.Types where
 
 import qualified Graphics.Rendering.OpenGL as GL
 
+--------------------------------------------------------------------------------
+
 type Pixel = Double
 
 type Second         = Int

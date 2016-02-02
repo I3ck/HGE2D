@@ -13,7 +13,7 @@ instance GlRender RenderInstruction where
     glRender renderInstruction = case renderInstruction of
         RenderNothing            -> return ()
         RenderText text          -> do currentRasterPosition $= Vertex4 0 0 0 1 
-                                       renderString TimesRoman24 text --- TODO font as option?
+                                       renderString TimesRoman24 text
 
         RenderLineStrip shape w  -> do lineWidth $= w 
                                        (renderPrimitive LineStrip $ mapM_ vertex shape)
