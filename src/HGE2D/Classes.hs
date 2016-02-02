@@ -6,11 +6,6 @@ import HGE2D.Render
 
 --------------------------------------------------------------------------------
 
-class Dynamic a where
-    applyTime :: Millisecond -> a -> a
-
---------------------------------------------------------------------------------
-
 class MouseInteract a where
     hover, click, drag :: Double -> Double -> a -> a
 
@@ -22,16 +17,15 @@ class Resizeable a where ---TODO rename
 
 --------------------------------------------------------------------------------
 
-class HasTime a where ---TODO combine with Dynamic
-    getTime :: a -> Int
-    setTime :: Int -> a -> a
-    moveInTime :: Int -> a -> a ---TODO remove, see notes in instance
+class HasTime a where
+    getTime    :: a -> Millisecond
+    setTime    :: Millisecond -> a -> a
+    moveInTime :: Millisecond -> a -> a
 
 --------------------------------------------------------------------------------
 
 class HasSize a where
-    getW :: a -> Double
-    getH :: a -> Double
+    getW, getH :: a -> Double
 
 --------------------------------------------------------------------------------
 
@@ -42,7 +36,6 @@ class HasTitle a where
 
 type EngineState a = 
     ( MouseInteract a
-    , Dynamic a
     , GlInstructable a
     , Resizeable a
     , HasTime a
