@@ -17,10 +17,14 @@ class Resizeable a where ---TODO rename
 
 --------------------------------------------------------------------------------
 
+class Dynamic a where
+    moveInTime :: Millisecond -> a -> a
+
+--------------------------------------------------------------------------------
+
 class HasTime a where
     getTime    :: a -> Millisecond
     setTime    :: Millisecond -> a -> a
-    moveInTime :: Millisecond -> a -> a
 
 --------------------------------------------------------------------------------
 
@@ -50,6 +54,7 @@ type EngineState a =
     ( MouseInteract a
     , GlInstructable a
     , Resizeable a
+    , Dynamic a
     , HasTime a
     , HasSize a
     , HasTitle a
