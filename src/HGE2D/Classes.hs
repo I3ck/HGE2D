@@ -7,13 +7,13 @@ import HGE2D.Render
 --------------------------------------------------------------------------------
 
 class MouseInteract a where
-    hover, click, drag :: Double -> Double -> a -> a
+    hover, click, drag :: PosX -> PosY -> a -> a
 
 --------------------------------------------------------------------------------
 
 class Resizeable a where ---TODO rename
-    resize :: Double -> Double -> a -> a ---TODO (Double, Double)
-    getSize :: a -> (Double, Double)
+    resize :: Width -> Height -> a -> a ---TODO (Width, Height)
+    getSize :: a -> (Width, Height)
 
 --------------------------------------------------------------------------------
 
@@ -25,7 +25,8 @@ class HasTime a where
 --------------------------------------------------------------------------------
 
 class HasSize a where
-    getW, getH :: a -> Double
+    getW :: a -> Width
+    getH :: a -> Height
 
 --------------------------------------------------------------------------------
 
@@ -43,4 +44,3 @@ type EngineState a =
     , HasTitle a
     )
 
---------------------------------------------------------------------------------

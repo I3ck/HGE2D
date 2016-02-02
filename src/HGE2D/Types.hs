@@ -10,6 +10,11 @@ type Millisecond    = Int
 type Radian = Double
 type Degree = Double
 
+type Width  = Double
+type Height = Double
+type PosX   = Double
+type PosY   = Double
+
 
 type GlPoint2    = GL.Vertex2 GL.GLfloat
 type GlPoint3    = GL.Vector3 GL.GLfloat
