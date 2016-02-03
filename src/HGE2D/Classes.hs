@@ -49,6 +49,11 @@ class GlInstructable a where
 
 --------------------------------------------------------------------------------
 
+class HasBoundingBox a where
+    getBB :: a -> BoundingBox
+
+--------------------------------------------------------------------------------
+
 
 type EngineState a = 
     ( MouseInteract a

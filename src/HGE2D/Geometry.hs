@@ -4,6 +4,8 @@ import HGE2D.Math
 import HGE2D.Settings
 import HGE2D.Types
 import HGE2D.Datas
+import HGE2D.Classes
+import HGE2D.Instances
 import HGE2D.ShapeFactory
 
 import Graphics.UI.GLUT
@@ -156,11 +158,11 @@ tilePosToBB pos = BoundingBox minPos maxPos
     maxY = (realY minPos) + tileSize
 -}
 
-doCollideBB :: BoundingBox -> BoundingBox -> Bool
-doCollideBB bb1 bb2 = not $   (bb2Left   > bb1Right)
-                           || (bb2Right  < bb1Left)
-                           || (bb2Top    > bb1Bottom)
-                           || (bb2Bottom < bb1Top)
+doCollideBB :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
+doCollideBB hasBB1 hasBB2 = not $   (bb2Left   > bb1Right)
+                                 || (bb2Right  < bb1Left)
+                                 || (bb2Top    > bb1Bottom)
+                                 || (bb2Bottom < bb1Top)
   where
     bb1Top    = realY $ bbMin $ bb1
     bb1Right  = realX $ bbMax $ bb1
@@ -172,31 +174,37 @@ doCollideBB bb1 bb2 = not $   (bb2Left   > bb1Right)
     bb2Bottom = realY $ bbMax $ bb2
     bb2Left   = realX $ bbMin $ bb2
 
----TODO cleanup, align remove redundant $
-doOverlapBB :: BoundingBox -> BoundingBox -> Bool
-doOverlapBB bb1 bb2 = (isInsideBB bb1 bb2) || (isInsideBB bb2 bb1)
+    bb1 = getBB hasBB1
+    bb2 = getBB hasBB2
 
-isInsideBB :: BoundingBox -> BoundingBox -> Bool
-isInsideBB bbIn bbOut =  (bbInTop    > bbOutTop)
-                      && (bbInBottom < bbOutBottom)
-                      && (bbInLeft   > bbOutLeft)
-                      && (bbInRight  < bbOutRight)
+---TODO cleanup, align remove redundant $
+doOverlapBB :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
+doOverlapBB hasBB1 hasBB2 = (isInsideBB hasBB1 hasBB2) || (isInsideBB hasBB2 hasBB1)
+
+isInsideBB :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
+isInsideBB hasBBIn hasBBOut =  (bbInTop    > bbOutTop)
+                            && (bbInBottom < bbOutBottom)
+                            && (bbInLeft   > bbOutLeft)
+                            && (bbInRight  < bbOutRight)
   where
-      bbInTop    = realY $ bbMin $ bbIn
-      bbInRight  = realX $ bbMax $ bbIn
-      bbInBottom = realY $ bbMax $ bbIn
-      bbInLeft   = realX $ bbMin $ bbIn
+      bbInTop     = realY $ bbMin $ bbIn
+      bbInRight   = realX $ bbMax $ bbIn
+      bbInBottom  = realY $ bbMax $ bbIn
+      bbInLeft    = realX $ bbMin $ bbIn
 
       bbOutTop    = realY $ bbMin $ bbOut
       bbOutRight  = realX $ bbMax $ bbOut
       bbOutBottom = realY $ bbMax $ bbOut
-      bbOutLeft  = realX $ bbMin $ bbOut
+      bbOutLeft   = realX $ bbMin $ bbOut
 
-isInsideRP :: RealPosition -> BoundingBox -> Bool
-isInsideRP pos bb =  (posX > bbLeft)
-                  && (posX < bbRight)
-                  && (posY > bbTop)
-                  && (posY < bbBottom)
+      bbIn        = getBB hasBBIn
+      bbOut       = getBB hasBBOut
+
+isInsideRP :: (HasBoundingBox a) => RealPosition -> a -> Bool
+isInsideRP pos hasBB =  (posX > bbLeft)
+                     && (posX < bbRight)
+                     && (posY > bbTop)
+                     && (posY < bbBottom)
   where
     posX     = realX pos
     posY     = realY pos
@@ -204,9 +212,7 @@ isInsideRP pos bb =  (posX > bbLeft)
     bbRight  = realX $ bbMax $ bb
     bbBottom = realY $ bbMax $ bb
     bbLeft   = realX $ bbMin $ bb
-
-doCollideRB :: RigidBody -> RigidBody -> Bool
-doCollideRB rb1 rb2 = doCollideBB (rigidBB rb1) (rigidBB rb2)
+    bb       = getBB hasBB
 
 makeBB :: RealPosition -> Pixel -> Pixel -> BoundingBox
 makeBB center width height = BoundingBox newMin newMax
