@@ -24,6 +24,8 @@ library
     HGE2D.Classes
     HGE2D.Engine
     HGE2D.Time
+    HGE2D.Math
+    HGE2D.Geometry
   -- other-modules:       
   -- other-extensions:    
   build-depends:       
