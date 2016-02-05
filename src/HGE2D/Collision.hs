@@ -4,8 +4,8 @@ import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Classes
 
-doCollideBB :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-doCollideBB hasBB1 hasBB2 = not $   (bb2Left   > bb1Right)
+doCollide :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
+doCollide hasBB1 hasBB2 = not $   (bb2Left   > bb1Right)
                                  || (bb2Right  < bb1Left)
                                  || (bb2Top    > bb1Bottom)
                                  || (bb2Bottom < bb1Top)
@@ -24,11 +24,11 @@ doCollideBB hasBB1 hasBB2 = not $   (bb2Left   > bb1Right)
     bb2 = getBB hasBB2
 
 ---TODO cleanup, align remove redundant $
-doOverlapBB :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-doOverlapBB hasBB1 hasBB2 = (isInsideBB hasBB1 hasBB2) || (isInsideBB hasBB2 hasBB1)
+doOverlap :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
+doOverlap hasBB1 hasBB2 = (isInside hasBB1 hasBB2) || (isInside hasBB2 hasBB1)
 
-isInsideBB :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-isInsideBB hasBBIn hasBBOut =  (bbInTop    > bbOutTop)
+isInside :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
+isInside hasBBIn hasBBOut =  (bbInTop    > bbOutTop)
                             && (bbInBottom < bbOutBottom)
                             && (bbInLeft   > bbOutLeft)
                             && (bbInRight  < bbOutRight)
