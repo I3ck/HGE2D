@@ -22,10 +22,12 @@ library
     HGE2D.Datas
     HGE2D.Types
     HGE2D.Classes
+    HGE2D.Instances
     HGE2D.Engine
     HGE2D.Time
     HGE2D.Math
     HGE2D.Geometry
+    HGE2D.Collision
   -- other-modules:       
   -- other-extensions:    
   build-depends:       
