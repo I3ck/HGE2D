@@ -54,6 +54,19 @@ class HasBoundingBox a where
 
 --------------------------------------------------------------------------------
 
+class Positioned a where
+    getPos :: a -> RealPosition
+    getX   :: a -> Double
+    getY   :: a -> Double
+
+--------------------------------------------------------------------------------
+
+class Moveable a where
+    moveBy :: RealPosition -> a -> a
+    moveTo :: RealPosition -> a -> a
+
+--------------------------------------------------------------------------------
+
 
 type EngineState a = 
     ( MouseInteract a

@@ -9,6 +9,8 @@ import qualified Graphics.Rendering.OpenGL as GL
 --------------------------------------------------------------------------------
 
 
+---TODO rename simply to shapes
+---TODO move below to math file
 ---TODO move these to Geometry (currently circular reference if moved there)
 rad2deg :: Double -> Double
 rad2deg rad = rad * 180 / pi
