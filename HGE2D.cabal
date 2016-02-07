@@ -19,6 +19,7 @@ library
   exposed-modules:
     HGE2D.ShapeFactory
     HGE2D.Render
+    HGE2D.Colors
     HGE2D.Datas
     HGE2D.Types
     HGE2D.Classes
