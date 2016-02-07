@@ -4,4 +4,5 @@ A game engine written in Haskell
 
 ##Examples
 
-[Simple "Hello world"](src/examples/Example1.hs)
+[Simple "Hello world", showing draw methods and how to setup the state](src/examples/Example1.hs)  
+[Example showing how to react to mouse actions. Also first example showing how to alter the game state](src/examples/Example2.hs)

@@ -45,4 +45,10 @@ executable example1
   build-depends:       base >=4.8 && <4.9, HGE2D
   hs-source-dirs:      src/examples
 
+executable example2
+  default-language:    Haskell2010
+  main-is:             Example2.hs
+  build-depends:       base >=4.8 && <4.9, HGE2D
+  hs-source-dirs:      src/examples
+
   

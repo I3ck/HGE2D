@@ -16,3 +16,12 @@ unify class names (little wild currently)
 
 add example (maybe new github page which uses HGE2D)
 
+with sizes etc. the transform to gl methods will work on HasSize interface, start adding them to the engine
+
+transform code of example2 has to become part of the engine
+
+build instructions in readme
+
+hackage, stack
+
+missing callbacks for keyboard interaction
