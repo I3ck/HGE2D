@@ -10,20 +10,20 @@ doCollide hasBB1 hasBB2 = not $   (bb2Left   > bb1Right)
                                  || (bb2Top    > bb1Bottom)
                                  || (bb2Bottom < bb1Top)
   where
-    bb1Top    = realY $ bbMin $ bb1
-    bb1Right  = realX $ bbMax $ bb1
-    bb1Bottom = realY $ bbMax $ bb1
-    bb1Left   = realX $ bbMin $ bb1
+    bb1Top    = realY $ bbMin bb1
+    bb1Right  = realX $ bbMax bb1
+    bb1Bottom = realY $ bbMax bb1
+    bb1Left   = realX $ bbMin bb1
 
-    bb2Top    = realY $ bbMin $ bb2
-    bb2Right  = realX $ bbMax $ bb2
-    bb2Bottom = realY $ bbMax $ bb2
-    bb2Left   = realX $ bbMin $ bb2
+    bb2Top    = realY $ bbMin bb2
+    bb2Right  = realX $ bbMax bb2
+    bb2Bottom = realY $ bbMax bb2
+    bb2Left   = realX $ bbMin bb2
 
     bb1 = getBB hasBB1
     bb2 = getBB hasBB2
 
----TODO cleanup, align remove redundant $
+---TODO cleanup, align
 doOverlap :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
 doOverlap hasBB1 hasBB2 = (isInside hasBB1 hasBB2) || (isInside hasBB2 hasBB1)
 
@@ -33,15 +33,15 @@ isInside hasBBIn hasBBOut =  (bbInTop    > bbOutTop)
                             && (bbInLeft   > bbOutLeft)
                             && (bbInRight  < bbOutRight)
   where
-      bbInTop     = realY $ bbMin $ bbIn
-      bbInRight   = realX $ bbMax $ bbIn
-      bbInBottom  = realY $ bbMax $ bbIn
-      bbInLeft    = realX $ bbMin $ bbIn
+      bbInTop     = realY $ bbMin bbIn
+      bbInRight   = realX $ bbMax bbIn
+      bbInBottom  = realY $ bbMax bbIn
+      bbInLeft    = realX $ bbMin bbIn
 
-      bbOutTop    = realY $ bbMin $ bbOut
-      bbOutRight  = realX $ bbMax $ bbOut
-      bbOutBottom = realY $ bbMax $ bbOut
-      bbOutLeft   = realX $ bbMin $ bbOut
+      bbOutTop    = realY $ bbMin bbOut
+      bbOutRight  = realX $ bbMax bbOut
+      bbOutBottom = realY $ bbMax bbOut
+      bbOutLeft   = realX $ bbMin bbOut
 
       bbIn        = getBB hasBBIn
       bbOut       = getBB hasBBOut
@@ -54,8 +54,8 @@ isInsideRP pos hasBB =  (posX > bbLeft)
   where
     posX     = realX pos
     posY     = realY pos
-    bbTop    = realY $ bbMin $ bb
-    bbRight  = realX $ bbMax $ bb
-    bbBottom = realY $ bbMax $ bb
-    bbLeft   = realX $ bbMin $ bb
+    bbTop    = realY $ bbMin bb
+    bbRight  = realX $ bbMax bb
+    bbBottom = realY $ bbMax bb
+    bbLeft   = realX $ bbMin bb
     bb       = getBB hasBB
