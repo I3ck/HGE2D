@@ -4,7 +4,7 @@ import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Colors
 import HGE2D.Classes
-import HGE2D.Instances
+import HGE2D.Instances ()
 import HGE2D.ShapeFactory
 import HGE2D.Engine
 

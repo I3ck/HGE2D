@@ -4,7 +4,6 @@ import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Colors
 import HGE2D.Classes
-import HGE2D.Instances
 import HGE2D.ShapeFactory
 import HGE2D.Engine
 
@@ -53,7 +52,7 @@ instance Resizeable GameState where
 
 --how the state shall be rendered, in our example a simple "Hello World"
 instance GlInstructable GameState where
-    toGlInstruction gs = RenderMany
+    toGlInstruction _ = RenderMany
        [ RenderColorize colorWhite
        , rectangle 0.3 0.3
        , RenderColorize colorRed

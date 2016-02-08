@@ -1,8 +1,8 @@
 module HGE2D.Engine where
 
 import HGE2D.Classes
-import HGE2D.Render ---TODO move to classes?
 import HGE2D.Time
+import HGE2D.Render ()
 
 import Control.Concurrent (newMVar, readMVar, takeMVar, putMVar, MVar)
 import Graphics.UI.GLUT

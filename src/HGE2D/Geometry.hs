@@ -1,14 +1,8 @@
 module HGE2D.Geometry where
 
 import HGE2D.Math
-import HGE2D.Settings
 import HGE2D.Types
 import HGE2D.Datas
-import HGE2D.Classes
-import HGE2D.Instances
-import HGE2D.ShapeFactory
-
-import Graphics.UI.GLUT
 
 ---TODO rewrite most / all functions to use classes
 

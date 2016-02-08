@@ -1,6 +1,5 @@
 module HGE2D.Collision where
 
-import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Classes
 
