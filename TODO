@@ -25,3 +25,5 @@ build instructions in readme
 hackage, stack
 
 missing callbacks for keyboard interaction
+
+add camera transform to renderinstructions and write helper method which is able to transfer pxPos to glPos (scale and translate on total rendering)
