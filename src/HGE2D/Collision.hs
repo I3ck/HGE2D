@@ -4,11 +4,13 @@ import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Classes
 
+--------------------------------------------------------------------------------
+
 doCollide :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-doCollide hasBB1 hasBB2 = not $   (bb2Left   > bb1Right)
-                                 || (bb2Right  < bb1Left)
-                                 || (bb2Top    > bb1Bottom)
-                                 || (bb2Bottom < bb1Top)
+doCollide hasBB1 hasBB2 = not $    (bb2Left   > bb1Right)
+                                || (bb2Right  < bb1Left)
+                                || (bb2Top    > bb1Bottom)
+                                || (bb2Bottom < bb1Top)
   where
     bb1Top    = realY $ bbMin bb1
     bb1Right  = realX $ bbMax bb1
@@ -23,12 +25,16 @@ doCollide hasBB1 hasBB2 = not $   (bb2Left   > bb1Right)
     bb1 = getBB hasBB1
     bb2 = getBB hasBB2
 
----TODO cleanup, align
+--------------------------------------------------------------------------------
+
 doOverlap :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-doOverlap hasBB1 hasBB2 = (isInside hasBB1 hasBB2) || (isInside hasBB2 hasBB1)
+doOverlap hasBB1 hasBB2 =   (isInside hasBB1 hasBB2) 
+                         || (isInside hasBB2 hasBB1)
+
+--------------------------------------------------------------------------------
 
 isInside :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-isInside hasBBIn hasBBOut =  (bbInTop    > bbOutTop)
+isInside hasBBIn hasBBOut =    (bbInTop    > bbOutTop)
                             && (bbInBottom < bbOutBottom)
                             && (bbInLeft   > bbOutLeft)
                             && (bbInRight  < bbOutRight)
@@ -45,6 +51,8 @@ isInside hasBBIn hasBBOut =  (bbInTop    > bbOutTop)
 
       bbIn        = getBB hasBBIn
       bbOut       = getBB hasBBOut
+
+--------------------------------------------------------------------------------
 
 isInsideRP :: (HasBoundingBox a) => RealPosition -> a -> Bool
 isInsideRP pos hasBB =  (posX > bbLeft)
