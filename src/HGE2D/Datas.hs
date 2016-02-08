@@ -39,11 +39,13 @@ data Velocity = Velocity
 --------------------------------------------------------------------------------
 
 data RenderInstruction = RenderNothing
+                       | RenderWithCamera GlPosX GlPosY GlScaleX GlScaleY [RenderInstruction]
                        | RenderText String
                        | RenderLineStrip GlShape GL.GLfloat
                        | RenderTriangle GlShape
                        | RenderLineLoop GlShape GL.GLfloat
-                       | RenderTranslate GL.GLfloat GL.GLfloat
+                       | RenderScale GlScaleX GlScaleY
+                       | RenderTranslate GlPosX GlPosY
                        | RenderRotate Double
                        | RenderColorize GlColorRGB
                        | RenderColorizeAlpha GlColorRGBA
