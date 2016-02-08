@@ -12,56 +12,6 @@ import Graphics.UI.GLUT
 
 ---TODO rewrite most / all functions to use classes
 
-
-{- THESE NEED TO BE PORTED TO WORK WITH THE ENGINE
-realXToGlVal :: Double -> GLfloat
-realXToGlVal d = realToFrac $ factor * d - offset
-  where
-    factor = 2.0 / totalSizeX
-    offset = 1.0 ---TODO seems to be wrong
-
-realYToGlVal :: Double -> GLfloat
-realYToGlVal d = realToFrac $ factor * d - offset
-  where
-    factor = - 2.0 / totalSizeY
-    offset = - 1.0-- - 0.5 ---TODO seems to be wrong
-
-pixXToGlVal :: Double -> GLfloat
-pixXToGlVal d = realToFrac $ factor * d
-  where
-    factor = 2.0 / totalSizeX
-
-pixYToGlVal :: Double -> GLfloat
-pixYToGlVal d = realToFrac $ factor * d
-  where
-    factor = 2.0 / totalSizeY
-
-realToGl :: RealPosition -> GlPoint2
-realToGl (RealPosition x y) = point2 (realToFrac $ realXToGlVal x) (realToFrac $ realYToGlVal y)
-
-toTilePos :: RealPosition -> TilePosition
-toTilePos real = TilePosition { tileX = newX, tileY = newY}
-  where
-    newX = (round $ realX real) `quot` (round tileSize)
-    newY = (round $ realY real) `quot` (round tileSize)
-
-
-toRealPos :: TilePosition -> RealPosition
-toRealPos tile = RealPosition { realX = newX, realY = newY }
-  where
-      newX = tileSize * (fromIntegral $ tileX tile)
-      newY = tileSize * (fromIntegral $ tileY tile)
-
-
-toRealPosCentered :: TilePosition -> RealPosition
-toRealPosCentered tile = RealPosition {realX = newX, realY = newY }
-  where
-      newX = topleftX + tileSize / 2.0
-      newY = topleftY + tileSize / 2.0
-      topleftX = realX $ toRealPos tile
-      topleftY = realY $ toRealPos tile
--}
-
 radRealPos :: RealPosition -> RealPosition -> Radian
 radRealPos p1 p2 = atan2 dY dX
   where
