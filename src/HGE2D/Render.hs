@@ -12,7 +12,7 @@ import Graphics.UI.GLUT
 instance GlRender RenderInstruction where
     glRender renderInstruction = case renderInstruction of
         RenderNothing                     -> return ()
-        RenderWithCamera w h sX sY instrs -> glRender $ RenderPreserve ([RenderScale sX sY, RenderTranslate w h] ++ instrs)  
+        RenderWithCamera w h sX sY instrs -> glRender $ RenderPreserve ([RenderTranslate w h, RenderScale sX sY] ++ instrs)  
         RenderText text                   -> do currentRasterPosition $= Vertex4 0 0 0 1 
                                                 renderString TimesRoman24 text
 

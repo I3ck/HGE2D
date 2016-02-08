@@ -40,7 +40,7 @@ addAlpha a (r, g, b) = (r, g, b, a)
 
 translate2 x y = GL.translate $ point3 x y 0.0
 
-scale2 x y = GL.scale  x y 1.0
+scale2 x y = GL.scale x y 1.0
 
 text str = RenderText str
 

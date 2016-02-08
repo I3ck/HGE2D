@@ -27,3 +27,8 @@ hackage, stack
 missing callbacks for keyboard interaction
 
 add camera transform to renderinstructions and write helper method which is able to transfer pxPos to glPos (scale and translate on total rendering)
+(see example 2) (add two function versions, one where 0/0 is at upper left, one where 0/0 is at lower left)
+
+better describe examples
+
+give examples actual names to make it easier to navigate them later on

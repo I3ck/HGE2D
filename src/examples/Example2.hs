@@ -55,24 +55,17 @@ instance Resizeable GameState where
 
 --how the state shall be rendered, in our example a simple "Hello World"
 instance GlInstructable GameState where
-    toGlInstruction gs = RenderPreserve
-       [ RenderColorize color
-       , RenderTranslate (transformX gs (getX $ pos gs)) 
-                         (transformY gs (getY $pos gs))
-       , rectangle 0.3 0.3
-       ]
+    toGlInstruction gs = RenderWithCamera (-1.0) (1.0) (realToFrac $ 2.0 / (fst $ gsSize gs)) (negate $ realToFrac $ 2.0 / (snd $ gsSize gs))
+        [
+            RenderPreserve
+                [ RenderColorize color
+                , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs)
+                , rectangle 30 30
+                ]
+        ]
       where
         color | isClicked gs = colorWhite
               | otherwise    = colorGreen
-
---------------------------------------------------------------------------------
-
---transform world coords to gl coords
-transformX :: GameState -> Double -> GlPosX
-transformX gs x = realToFrac $   2.0 * x / (fst $ gsSize gs) - 1.0
-
-transformY :: GameState -> Double -> GlPosY
-transformY gs y = realToFrac $ - 2.0 * y / (snd $ gsSize gs) + 1.0
 
 --------------------------------------------------------------------------------
 
