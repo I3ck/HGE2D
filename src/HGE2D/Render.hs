@@ -12,7 +12,7 @@ import Graphics.UI.GLUT
 instance GlRender RenderInstruction where
     glRender renderInstruction = case renderInstruction of
         RenderNothing                     -> return ()
-        RenderWithCamera w h sX sY instrs -> glRender $ RenderPreserve ([RenderTranslate w h, RenderScale sX sY] ++ instrs)  
+        RenderWithCamera w h sX sY instrs -> glRender $ RenderPreserve ([RenderTranslate w h, RenderScale sX sY] ++ [instrs])  
         RenderText text                   -> do currentRasterPosition $= Vertex4 0 0 0 1 
                                                 renderString TimesRoman24 text
 
@@ -29,3 +29,10 @@ instance GlRender RenderInstruction where
         RenderColorizeAlpha rgba          -> colorRGBA rgba
         RenderPreserve instrs             -> preservingMatrix (mapM_ glRender instrs)
         RenderMany instrs                 -> mapM_ glRender instrs
+
+--------------------------------------------------------------------------------
+
+---TODO move definition somewhere else?
+---TODO several version with different origin points
+withCamera :: (EngineState a) => a -> RenderInstruction -> RenderInstruction 
+withCamera engine = RenderWithCamera (-1.0) (1.0) (realToFrac $ 2.0 / (getW engine)) (negate $ realToFrac $ 2.0 / (getH engine))

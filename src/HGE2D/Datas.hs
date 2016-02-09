@@ -39,7 +39,7 @@ data Velocity = Velocity
 --------------------------------------------------------------------------------
 
 data RenderInstruction = RenderNothing
-                       | RenderWithCamera GlPosX GlPosY GlScaleX GlScaleY [RenderInstruction]
+                       | RenderWithCamera GlPosX GlPosY GlScaleX GlScaleY RenderInstruction
                        | RenderText String
                        | RenderLineStrip GlShape GL.GLfloat
                        | RenderTriangle GlShape

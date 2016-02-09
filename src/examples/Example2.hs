@@ -6,6 +6,7 @@ import HGE2D.Colors
 import HGE2D.Classes
 import HGE2D.Instances ()
 import HGE2D.ShapeFactory
+import HGE2D.Render
 import HGE2D.Engine
 
 {- Example showing mouse interactions with the game state
@@ -55,13 +56,10 @@ instance Resizeable GameState where
 
 --how the state shall be rendered, in our example a simple "Hello World"
 instance GlInstructable GameState where
-    toGlInstruction gs = RenderWithCamera (-1.0) (1.0) (realToFrac $ 2.0 / (fst $ gsSize gs)) (negate $ realToFrac $ 2.0 / (snd $ gsSize gs))
-        [
-            RenderPreserve
-                [ RenderColorize color
-                , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs)
-                , rectangle 30 30
-                ]
+    toGlInstruction gs = withCamera gs $ RenderPreserve
+        [ RenderColorize color
+        , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs)
+        , rectangle 30 30
         ]
       where
         color | isClicked gs = colorWhite
