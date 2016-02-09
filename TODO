@@ -32,3 +32,5 @@ add camera transform to renderinstructions and write helper method which is able
 better describe examples
 
 give examples actual names to make it easier to navigate them later on
+
+example where e.g. rectangle rotates around cursor pos

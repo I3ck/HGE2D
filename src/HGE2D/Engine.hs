@@ -51,8 +51,19 @@ reshape mvarGs (Size width height) = do
 
 --------------------------------------------------------------------------------
 
+---TODO here named grab, but engine method named drag, name both the same
 mouseGrab :: (EngineState a) => MVar (a) -> Position -> IO ()
-mouseGrab _ (Position x y) = putStrLn $ (show x) ++ (show y)
+mouseGrab mvarGs (Position x y) = do
+    gs <- takeMVar mvarGs ---TODO rename
+
+    let w          = fst $ getSize gs
+        h          = snd $ getSize gs
+        correctedX = (realToFrac x) * (getW gs) / w
+        correctedY = (realToFrac y) * (getH gs) / h
+        newState   = drag correctedX correctedY gs
+
+    putMVar mvarGs newState
+    return ()
 
 mouseHover :: (EngineState a) => MVar (a) -> Position -> IO ()
 mouseHover mvarGs (Position x y) = do
