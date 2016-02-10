@@ -34,3 +34,5 @@ better describe examples
 give examples actual names to make it easier to navigate them later on
 
 example where e.g. rectangle rotates around cursor pos
+
+example3 rectangle wont properly show without hovering the mouse (bug?)
