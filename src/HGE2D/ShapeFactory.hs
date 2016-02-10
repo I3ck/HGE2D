@@ -45,7 +45,7 @@ scale2 x y = GL.scale x y 1.0
 text str = RenderText str
 
 rotate2 :: Double -> IO ()
-rotate2 rad = rotTmp (realToFrac $ - rad2deg rad)
+rotate2 rad = rotTmp (realToFrac $ rad2deg rad)
   where
     rotTmp :: GL.GLfloat -> IO ()
     rotTmp deg = GL.rotate deg $ GL.Vector3 0 0 1
