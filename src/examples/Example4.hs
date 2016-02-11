@@ -4,12 +4,11 @@ import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Colors
 import HGE2D.Classes
-import HGE2D.Instances ()
 import HGE2D.ShapeFactory
-import HGE2D.Render
 import HGE2D.Engine
+import HGE2D.Render
 
-{- Example showing mouse interactions with the game state
+{- Example showing more advanced rendering
    First we are going to define our GameState and instances,
    and finally run the engine
 -}
@@ -17,17 +16,15 @@ import HGE2D.Engine
 
 --in here we are going to store all data of the game
 data GameState = GameState
-    { gsSize    :: (Double, Double) -- current size of the entire game in pixels
-    , time      :: Millisecond      -- current time of the game
-    , isClicked :: Bool             -- whether the rectangle has been clicked
-    , pos       :: RealPosition     -- the position of the rectangle
+    { gsSize :: (Double, Double) -- current size of the entire game in pixels
+    , time   :: Millisecond      -- current time of the game
     }
 
 --------------------------------------------------------------------------------
 
 --this instance shall always return the window title of your game
 instance HasTitle GameState where
-    getTitle _ = "Welcome to Example2"
+    getTitle _ = "Welcome to Example1"
 
 --should return the current size of the game window
 instance HasSize GameState where
@@ -43,10 +40,10 @@ instance HasTime GameState where
 instance Dynamic GameState where
     moveInTime _ gs = gs
 
---react to mouse input
+--also we won't react to any input
 instance MouseInteract GameState where
-    click _ _ gs = gs { isClicked = not $ isClicked gs }
-    hover x y gs = gs { pos = RealPosition x y }
+    click _ _ gs = gs
+    hover _ _ gs = gs
     drag _ _ gs = gs
 
 --enable the engine to pass window resizes to the game
@@ -55,22 +52,32 @@ instance Resizeable GameState where
     getSize gs = gsSize gs
 
 instance GlInstructable GameState where
-    toGlInstruction gs = withCamera gs $ RenderPreserve $ RenderMany
-        [ RenderColorize color
-        , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs)
-        , rectangle 30 30
+    toGlInstruction gs = withCamera gs $ RenderMany
+        [ circleNextToRectangle
+        , whiteRectangle
+        , allMoved
         ]
       where
-        color | isClicked gs = colorWhite
-              | otherwise    = colorGreen
+
+        allMoved :: RenderInstruction
+        allMoved = RenderPreserve $ RenderMany [RenderTranslate 100 100, circleNextToRectangle]
+        
+        circleNextToRectangle :: RenderInstruction
+        circleNextToRectangle = RenderMany [movedCircle, whiteRectangle]
+
+        movedCircle :: RenderInstruction
+        movedCircle = RenderPreserve $ RenderMany [RenderTranslate 50 0, redCircle]
+
+        whiteRectangle :: RenderInstruction
+        whiteRectangle = RenderMany [RenderColorize colorWhite, rectangle 30 30]
+
+        redCircle :: RenderInstruction
+        redCircle = RenderMany [RenderColorize colorRed, circle 30]
+
+
 
 --------------------------------------------------------------------------------
 
 main = do
-    let initialState = GameState 
-                       { time = 0
-                       , gsSize = (0, 0)
-                       , pos = RealPosition 0 0
-                       , isClicked = False 
-                       }
+    let initialState = GameState { time = 0, gsSize = (0, 0) }
     runEngine initialState
