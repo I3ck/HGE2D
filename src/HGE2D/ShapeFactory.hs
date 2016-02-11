@@ -4,7 +4,6 @@ import HGE2D.Settings
 import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.GlFunctions
-import HGE2D.Geometry
 
 import qualified Graphics.Rendering.OpenGL as GL
 

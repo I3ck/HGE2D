@@ -16,8 +16,6 @@ data BoundingBox = BoundingBox
     , bbMax     :: RealPosition -- upper right corner of bb
     } deriving (Show, Read)
 
-type WayPoint = BoundingBox
-
 data TilePosition = TilePosition
     { tileX     :: Int -- position in number of tiles from left starting with 0
     , tileY     :: Int -- position in number of tiles from top starting with 0
