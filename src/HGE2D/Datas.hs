@@ -38,17 +38,17 @@ data Velocity = Velocity
 
 --------------------------------------------------------------------------------
 
-data RenderInstruction = RenderNothing
-                       | RenderWithCamera GlPosX GlPosY GlScaleX GlScaleY RenderInstruction
-                       | RenderText String
-                       | RenderLineStrip GlShape GL.GLfloat
-                       | RenderTriangle GlShape
-                       | RenderLineLoop GlShape GL.GLfloat
-                       | RenderScale GlScaleX GlScaleY
-                       | RenderTranslate GlPosX GlPosY
-                       | RenderRotate Double
-                       | RenderColorize GlColorRGB
-                       | RenderColorizeAlpha GlColorRGBA
-                       | RenderPreserve RenderInstruction
-                       | RenderMany [RenderInstruction]
+data RenderInstruction = RenderNothing                                                       -- do nothing
+                       | RenderWithCamera GlPosX GlPosY GlScaleX GlScaleY RenderInstruction  -- render with a given camera view
+                       | RenderText String                                                   -- render a string
+                       | RenderLineStrip GlShape GL.GLfloat                                  -- render as line strip
+                       | RenderTriangle GlShape                                              -- render as triangles / faces
+                       | RenderLineLoop GlShape GL.GLfloat                                   -- render as line which connects first and last
+                       | RenderScale GlScaleX GlScaleY                                       -- change scale
+                       | RenderTranslate GlPosX GlPosY                                       -- translate / move following instructions
+                       | RenderRotate Double                                                 -- rotate following instructions
+                       | RenderColorize GlColorRGB                                           -- colorize following instructions
+                       | RenderColorizeAlpha GlColorRGBA                                     -- colorize following instructions with alpha setting
+                       | RenderPreserve RenderInstruction                                    -- render instruction while preserving rotation / translation
+                       | RenderMany [RenderInstruction]                                      -- render multiple other instructions
 
