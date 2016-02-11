@@ -43,7 +43,7 @@ instance HasTime GameState where
 instance Dynamic GameState where
     moveInTime _ gs = gs
 
---also we won't react to any input
+--react to mouse input
 instance MouseInteract GameState where
     click _ _ gs = gs { isClicked = not $ isClicked gs }
     hover x y gs = gs { pos = RealPosition x y }
