@@ -3,6 +3,7 @@ module HGE2D.ShapeFactory where
 import HGE2D.Settings
 import HGE2D.Types
 import HGE2D.Datas
+import HGE2D.Geometry
 
 import qualified Graphics.Rendering.OpenGL as GL
 
@@ -10,13 +11,6 @@ import qualified Graphics.Rendering.OpenGL as GL
 
 
 ---TODO rename simply to shapes
----TODO move below to math file
----TODO move these to Geometry (currently circular reference if moved there)
-rad2deg :: Double -> Double
-rad2deg rad = rad * 180 / pi
-
-deg2rad :: Double -> Double
-deg2rad deg = deg * pi / 180
 
 
 ---TODO to different file

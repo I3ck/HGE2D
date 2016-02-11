@@ -5,6 +5,11 @@ import HGE2D.Types
 import HGE2D.Datas
 
 ---TODO rewrite most / all functions to use classes
+rad2deg :: Double -> Double
+rad2deg rad = rad * 180 / pi
+
+deg2rad :: Double -> Double
+deg2rad deg = deg * pi / 180
 
 radRealPos :: RealPosition -> RealPosition -> Radian
 radRealPos p1 p2 = atan2 dY dX
