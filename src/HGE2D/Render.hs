@@ -2,6 +2,7 @@ module HGE2D.Render where
 
 import HGE2D.Datas
 import HGE2D.Classes
+import HGE2D.GlFunctions
 import HGE2D.ShapeFactory
 
 import Graphics.Rendering.OpenGL as GL

@@ -25,6 +25,7 @@ library
     HGE2D.Classes
     HGE2D.Instances
     HGE2D.Engine
+    HGE2D.GlFunctions
     HGE2D.Time
     HGE2D.Math
     HGE2D.Geometry
