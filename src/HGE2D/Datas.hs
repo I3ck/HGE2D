@@ -49,6 +49,6 @@ data RenderInstruction = RenderNothing
                        | RenderRotate Double
                        | RenderColorize GlColorRGB
                        | RenderColorizeAlpha GlColorRGBA
-                       | RenderPreserve [RenderInstruction]
+                       | RenderPreserve RenderInstruction
                        | RenderMany [RenderInstruction]
 

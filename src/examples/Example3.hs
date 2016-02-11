@@ -66,7 +66,7 @@ instance Resizeable GameState where
 
 --how the state shall be rendered, in our example a simple "Hello World"
 instance GlInstructable GameState where
-    toGlInstruction gs = withCamera gs $ RenderPreserve
+    toGlInstruction gs = withCamera gs $ RenderPreserve $ RenderMany
         [ RenderColorize color
         , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs)
         , rectangle 30 30

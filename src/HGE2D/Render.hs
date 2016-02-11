@@ -12,7 +12,7 @@ import Graphics.UI.GLUT
 instance GlRender RenderInstruction where
     glRender renderInstruction = case renderInstruction of
         RenderNothing                     -> return ()
-        RenderWithCamera w h sX sY instrs -> glRender $ RenderPreserve ([RenderTranslate w h, RenderScale sX sY] ++ [instrs])  
+        RenderWithCamera w h sX sY instrs -> glRender $ RenderPreserve $ RenderMany ([RenderTranslate w h, RenderScale sX sY] ++ [instrs])  
         RenderText text                   -> do currentRasterPosition $= Vertex4 0 0 0 1 
                                                 renderString TimesRoman24 text
 
@@ -27,7 +27,7 @@ instance GlRender RenderInstruction where
         RenderRotate rad                  -> rotate2 rad
         RenderColorize rgb                -> colorRGB rgb
         RenderColorizeAlpha rgba          -> colorRGBA rgba
-        RenderPreserve instrs             -> preservingMatrix (mapM_ glRender instrs)
+        RenderPreserve instrs             -> preservingMatrix $ glRender instrs
         RenderMany instrs                 -> mapM_ glRender instrs
 
 --------------------------------------------------------------------------------
