@@ -42,3 +42,7 @@ some examples have incorrect text (e.g. example2 and 3 stating that input is ign
 improve example texts
 
 add screenshots
+
+merge HasSize and Resizeable
+
+GlFunctions should basically not be used, split it into functions which should be used and those who should not.
