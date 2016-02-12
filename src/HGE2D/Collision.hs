@@ -26,8 +26,8 @@ doCollide hasBB1 hasBB2 = not $    (bb2Left   > bb1Right)
 
 --------------------------------------------------------------------------------
 
-doOverlap :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-doOverlap hasBB1 hasBB2 =   (isInside hasBB1 hasBB2) 
+doContain :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
+doContain hasBB1 hasBB2 =   (isInside hasBB1 hasBB2) 
                          || (isInside hasBB2 hasBB1)
 
 --------------------------------------------------------------------------------
