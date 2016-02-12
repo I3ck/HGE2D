@@ -40,3 +40,5 @@ example3 rectangle wont properly show without hovering the mouse (bug?)
 some examples have incorrect text (e.g. example2 and 3 stating that input is ignored, while not ignoring it)
 
 improve example texts
+
+add screenshots

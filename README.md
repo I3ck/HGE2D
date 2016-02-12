@@ -1,6 +1,6 @@
 #HGE2D
 A game engine written in Haskell
-##Version 0.0.7.0
+##Version 0.0.8.0
 
 ##Examples
 
