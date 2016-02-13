@@ -2,17 +2,17 @@
 --  see http://haskell.org/cabal/users-guide/
 
 name:                HGE2D
-version:             0.0.8.0
--- synopsis:            
--- description:         
+version:             0.1.0.0
+-- synopsis:
+-- description:
 license:             MIT
 license-file:        LICENSE
 author:              Martin Buck
 maintainer:          buckmartin@buckmartin.de
--- copyright:           
+-- copyright:
 category:            Game
 build-type:          Simple
--- extra-source-files:  
+-- extra-source-files:
 cabal-version:       >=1.10
 
 library
@@ -30,9 +30,9 @@ library
     HGE2D.Math
     HGE2D.Geometry
     HGE2D.Collision
-  -- other-modules:       
-  -- other-extensions:    
-  build-depends:       
+  -- other-modules:
+  -- other-extensions:
+  build-depends:
       base >=4.8 && <4.9,
       OpenGL ,
       GLUT,
@@ -68,5 +68,3 @@ executable example4
   build-depends:       base >=4.8 && <4.9, HGE2D
   hs-source-dirs:      src/examples
   ghc-options:         -O2 -W -fwarn-incomplete-patterns
-
-  
