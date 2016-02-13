@@ -6,10 +6,7 @@ import HGE2D.Colors
 import HGE2D.ShapeFactory
 import HGE2D.Engine
 
-{- Very basic example showing a "Hello World"
-   First we are going to define our GameState and instances,
-   and finally run the engine
--}
+{- Very basic example showing a "Hello World" -}
 --------------------------------------------------------------------------------
 
 --in here we are going to store all data of the game
@@ -18,8 +15,10 @@ data GameState = GameState
     , time   :: Millisecond      -- current time of the game
     }
 
+--define our initial state
 gs1 = GameState { time = 0, gsSize = (0, 0) }
 
+--define all functions of the engine for usage of our state
 es1 = EngineState
     { getTitle = myGetTitle
     , getW = myGetW
@@ -35,23 +34,22 @@ es1 = EngineState
     , toGlInstr = myToGlInstr
     } :: EngineState GameState
   where
-      myGetTitle _ = "Welcome to Example1"
-      myGetW = fst . gsSize
-      myGetH = snd . gsSize
-      myGetTime = time
-      mySetTime ms gs = gs { time = ms }
-      myMoveTime _ = id
-      myClick _ _ = id
-      myHover _ _ = id
-      myDrag _ _ = id
-      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) }
-      myGetSize = gsSize
-      myToGlInstr _ = RenderMany
-          [ RenderColorize colorWhite
-          , rectangle 0.3 0.3
-          , RenderColorize colorRed
-          , RenderText "Hello World"
+      myGetTitle _ = "Welcome to Example1" --title of the games window
+      myGetW = fst . gsSize -- how to retrieve the games window width
+      myGetH = snd . gsSize -- hot to retrieve the games window height
+      myGetTime = time -- how to retrieve the games time
+      mySetTime ms gs = gs { time = ms } -- how to set the games time
+      myMoveTime _ = id -- our game won't react to time changes
+      myClick _ _ = id -- nor clicks
+      myHover _ _ = id -- nor hovering
+      myDrag _ _ = id -- nor draging
+      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
+      myGetSize = gsSize -- and get its size
+      myToGlInstr _ = RenderMany -- render our game by using multiple instructions
+          [ RenderColorize colorWhite -- rendering a white
+          , rectangle 0.3 0.3 -- rectangle
+          , RenderColorize colorRed -- and a red
+          , RenderText "Hello World" -- "Hello World"
           ]
-
 --------------------------------------------------------------------------------
 main = runEngine es1 gs1

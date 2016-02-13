@@ -7,10 +7,7 @@ import HGE2D.ShapeFactory
 import HGE2D.Engine
 import HGE2D.Render
 
-{- Example showing more advanced rendering
-   First we are going to define our GameState and instances,
-   and finally run the engine
--}
+{- Example showing more advanced rendering -}
 --------------------------------------------------------------------------------
 
 --in here we are going to store all data of the game
@@ -19,8 +16,10 @@ data GameState = GameState
     , time   :: Millisecond      -- current time of the game
     }
 
+--in here we are going to store all data of the game
 gs4 = GameState { time = 0, gsSize = (0, 0) }
 
+--define our initial state
 es4 = EngineState
     { getTitle = myGetTitle
     , getW = myGetW
@@ -36,36 +35,41 @@ es4 = EngineState
     , toGlInstr = myToGlInstr
     } :: EngineState GameState
   where
-      myGetTitle _ = "Welcome to Example4"
-      myGetW = fst . gsSize
-      myGetH = snd . gsSize
-      myGetTime = time
-      mySetTime ms gs = gs { time = ms }
-      myMoveTime _ = id
-      myClick _ _ = id
-      myHover _ _ = id
-      myDrag _ _ = id
-      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) }
-      myGetSize = gsSize
-      myToGlInstr gs = withCamera es4 gs $ RenderMany
-          [ circleNextToRectangle
-          , whiteRectangle
-          , allMoved
+      myGetTitle _ = "Welcome to Example4" --title of the games window
+      myGetW = fst . gsSize -- how to retrieve the games window width
+      myGetH = snd . gsSize -- hot to retrieve the games window height
+      myGetTime = time -- how to retrieve the games time
+      mySetTime ms gs = gs { time = ms } -- how to set the games time
+      myMoveTime _ = id -- our game won't react to time changes
+      myClick _ _ = id -- nor clicks
+      myHover _ _ = id -- nor hovering
+      myDrag _ _ = id -- nor draging
+      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
+      myGetSize = gsSize -- and get its size
+      myToGlInstr gs = withCamera es4 gs $ RenderMany -- render with a camera and while preserving changes
+          [ circleNextToRectangle -- render our circle next to the rectangle
+          , whiteRectangle -- as well as the white rectangle
+          , allMoved -- and the moved group
           ]
         where
 
+          -- move them all by 100px in x and y direction
           allMoved :: RenderInstruction
           allMoved = RenderPreserve $ RenderMany [RenderTranslate 100 100, circleNextToRectangle]
 
+          -- group the moved circle and the white rectangle
           circleNextToRectangle :: RenderInstruction
           circleNextToRectangle = RenderMany [movedCircle, whiteRectangle]
 
+          -- the circle moved
           movedCircle :: RenderInstruction
           movedCircle = RenderPreserve $ RenderMany [RenderTranslate 50 0, redCircle]
 
+          -- a white rectangle
           whiteRectangle :: RenderInstruction
           whiteRectangle = RenderMany [RenderColorize colorWhite, rectangle 30 30]
 
+          -- a red circle
           redCircle :: RenderInstruction
           redCircle = RenderMany [RenderColorize colorRed, circle 30]
 

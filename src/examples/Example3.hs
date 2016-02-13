@@ -9,10 +9,7 @@ import HGE2D.ShapeFactory
 import HGE2D.Render
 import HGE2D.Engine
 
-{- Example showing dynamic changes by moving the rectanlge
-   First we are going to define our GameState and instances,
-   and finally run the engine
--}
+{- Example showing dynamic changes by moving the rectanlge -}
 --------------------------------------------------------------------------------
 
 --in here we are going to store all data of the game
@@ -24,6 +21,7 @@ data GameState = GameState
     , pos       :: RealPosition     -- the position of the rectangle
     }
 
+--define our initial state
 gs3 = GameState
    { time = 0
    , gsSize = (0, 0)
@@ -32,6 +30,7 @@ gs3 = GameState
    , moveUp = False
    }
 
+--define all functions of the engine for usage of our state
 es3 = EngineState
     { getTitle = myGetTitle
     , getW = myGetW
@@ -47,12 +46,12 @@ es3 = EngineState
     , toGlInstr = myToGlInstr
     } :: EngineState GameState
   where
-      myGetTitle _ = "Welcome to Example3"
-      myGetW = fst . gsSize
-      myGetH = snd . gsSize
-      myGetTime = time
-      mySetTime ms gs = gs { time = ms }
-      myMoveTime ms gs = gs { pos = newPos, moveUp = newMoveUp }
+      myGetTitle _ = "Welcome to Example3" --title of the games window
+      myGetW = fst . gsSize -- how to retrieve the games window width
+      myGetH = snd . gsSize -- hot to retrieve the games window height
+      myGetTime = time -- how to retrieve the games time
+      mySetTime ms gs = gs { time = ms } -- how to set the games time
+      myMoveTime ms gs = gs { pos = newPos, moveUp = newMoveUp } -- react to changes in time by moving the position
         where
           newMoveUp | realY oldPos < 1                 && moveUp gs         = False
                     | realY oldPos > (snd $ gsSize gs) && (not (moveUp gs)) = True
@@ -62,17 +61,17 @@ es3 = EngineState
                  | otherwise  = RealPosition (realX oldPos) (realY oldPos + realToFrac ms / 10)
 
           oldPos = pos gs
-      myClick _ _ gs = gs { isClicked = not $ isClicked gs }
-      myHover x y gs = gs { pos = RealPosition x y }
-      myDrag _ _ gs = gs
-      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) }
-      myGetSize = gsSize
-      myToGlInstr gs = withCamera es3 gs $ RenderPreserve $ RenderMany
-          [ RenderColorize color
-          , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs)
-          , rectangle 30 30
+      myClick _ _ gs = gs { isClicked = not $ isClicked gs } -- toggle the isClicked Bool on click
+      myHover x y gs = gs { pos = RealPosition x y } -- store the hover position
+      myDrag _ _ gs = gs -- don't react to draging
+      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
+      myGetSize = gsSize -- and get its size
+      myToGlInstr gs = withCamera es3 gs $ RenderPreserve $ RenderMany -- render with a camera and while preserving changes
+          [ RenderColorize color -- a colored
+          , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs) -- moved to pos
+          , rectangle 30 30 -- rectangle of 30px with and height
           ]
-        where
+        where -- the color of the rectangle depends on the click state
           color | isClicked gs = colorWhite
                 | otherwise    = colorGreen
 

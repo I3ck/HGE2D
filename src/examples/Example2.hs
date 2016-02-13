@@ -9,10 +9,7 @@ import HGE2D.ShapeFactory
 import HGE2D.Render
 import HGE2D.Engine
 
-{- Example showing mouse interactions with the game state
-   First we are going to define our GameState and instances,
-   and finally run the engine
--}
+{- Example showing mouse interactions with the game state -}
 --------------------------------------------------------------------------------
 
 --in here we are going to store all data of the game
@@ -23,6 +20,7 @@ data GameState = GameState
     , pos       :: RealPosition     -- the position of the rectangle
     }
 
+--define our initial state
 gs2 = GameState
    { time = 0
    , gsSize = (0, 0)
@@ -30,6 +28,7 @@ gs2 = GameState
    , isClicked = False
    }
 
+--define all functions of the engine for usage of our state
 es2 = EngineState
     { getTitle = myGetTitle
     , getW = myGetW
@@ -45,26 +44,25 @@ es2 = EngineState
     , toGlInstr = myToGlInstr
     } :: EngineState GameState
   where
-      myGetTitle _ = "Welcome to Example2"
-      myGetW = fst . gsSize
-      myGetH = snd . gsSize
-      myGetTime = time
-      mySetTime ms gs = gs { time = ms }
-      myMoveTime _ = id
-      myClick _ _ gs = gs { isClicked = not $ isClicked gs }
-      myHover x y gs = gs { pos = RealPosition x y }
-      myDrag _ _ gs = gs
-      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) }
-      myGetSize = gsSize
-      myToGlInstr gs = withCamera es2 gs $ RenderPreserve $ RenderMany
-          [ RenderColorize color
-          , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs)
-          , rectangle 30 30
+      myGetTitle _ = "Welcome to Example2" --title of the games window
+      myGetW = fst . gsSize -- how to retrieve the games window width
+      myGetH = snd . gsSize -- hot to retrieve the games window height
+      myGetTime = time -- how to retrieve the games time
+      mySetTime ms gs = gs { time = ms } -- how to set the games time
+      myMoveTime _ = id -- our game won't react to time changes
+      myClick _ _ gs = gs { isClicked = not $ isClicked gs } -- toggle the isClicked Bool on click
+      myHover x y gs = gs { pos = RealPosition x y } -- store the hover position
+      myDrag _ _ gs = gs -- don't react to draging
+      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
+      myGetSize = gsSize -- and get its size
+      myToGlInstr gs = withCamera es2 gs $ RenderPreserve $ RenderMany -- render with a camera and while preserving changes
+          [ RenderColorize color -- a colored
+          , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs) -- moved to pos
+          , rectangle 30 30 -- rectangle of 30px with and height
           ]
-        where
+        where -- the color of the rectangle depends on the click state
           color | isClicked gs = colorWhite
                 | otherwise    = colorGreen
 
 --------------------------------------------------------------------------------
-
 main = runEngine es2 gs2
