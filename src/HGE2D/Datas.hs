@@ -37,18 +37,18 @@ data Velocity = Velocity
 --------------------------------------------------------------------------------
 
 data EngineState a = EngineState
-    { click           :: PosX -> PosY -> a -> a
-    , hover           :: PosX -> PosY -> a -> a
-    , drag            :: PosX -> PosY -> a -> a
-    , resize          :: Width -> Height -> a -> a ---TODO (Width, Height)
-    , getSize         :: a -> (Width, Height)
-    , moveTime        :: Millisecond -> a -> a
-    , getTime         :: a -> Millisecond
-    , setTime         :: Millisecond -> a -> a
-    , getW            :: a -> Width
-    , getH            :: a -> Height
-    , getTitle        :: a -> String
-    , toGlInstr       :: a -> RenderInstruction
+    { click           :: PosX -> PosY -> a -> a -- how your game should change when clicked
+    , hover           :: PosX -> PosY -> a -> a -- how your game should change when hovered
+    , drag            :: PosX -> PosY -> a -> a -- how your game should change whendragged
+    , resize          :: Width -> Height -> a -> a -- how to resize your game
+    , getSize         :: a -> (Width, Height) -- how to get the size of your game
+    , moveTime        :: Millisecond -> a -> a -- how your game should change over time
+    , getTime         :: a -> Millisecond -- how to get the current time of your game
+    , setTime         :: Millisecond -> a -> a -- how to set the time of your game
+    , getW            :: a -> Width -- how to get the width of your game
+    , getH            :: a -> Height -- how to get the height of your game
+    , getTitle        :: a -> String -- how to get the title of your game
+    , toGlInstr       :: a -> RenderInstruction -- how to receive a render instruction to display your game
     }
 
 --------------------------------------------------------------------------------
