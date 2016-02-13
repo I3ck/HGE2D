@@ -1,5 +1,6 @@
 module HGE2D.Engine where
 
+import HGE2D.Datas
 import HGE2D.Classes
 import HGE2D.Time
 import HGE2D.Render ()
@@ -7,42 +8,42 @@ import HGE2D.Render ()
 import Control.Concurrent (newMVar, readMVar, takeMVar, putMVar, MVar)
 import Graphics.UI.GLUT
 
-runEngine :: (EngineState a) => a -> IO ()
-runEngine es = do
+runEngine :: EngineState a -> a -> IO ()
+runEngine es impl = do
 
-    state <- newMVar es
+    state <- newMVar impl
 
     (_progName, _args)    <- getArgsAndInitialize
     initialDisplayMode    $= [DoubleBuffered]
-    initialWindowSize     $= Size (round $ fst $ getSize es) (round $ snd $ getSize es)
-    _window               <- createWindow $ getTitle es
-    keyboardMouseCallback $= Just (keyboardMouse state)
-    motionCallback        $= Just (mouseGrab state)
-    passiveMotionCallback $= Just (mouseHover state)
+    initialWindowSize     $= Size (round $ fst $ getSize es impl) (round $ snd $ getSize es impl)
+    _window               <- createWindow $ getTitle es impl
+    keyboardMouseCallback $= Just (keyboardMouse es state)
+    motionCallback        $= Just (mouseGrab es state)
+    passiveMotionCallback $= Just (mouseHover es state)
     blend $= Enabled
     blendFunc $= (SrcAlpha, OneMinusSrcAlpha)
-    displayCallback       $= display state
-    reshapeCallback       $= Just (reshape state)
-    idleCallback          $= Just (idle state)
+    displayCallback       $= display es state
+    reshapeCallback       $= Just (reshape es state)
+    idleCallback          $= Just (idle es state)
     mainLoop
 
 --------------------------------------------------------------------------------
 
-display :: (EngineState a) => MVar (a) -> IO ()
-display mvarGs = do
+display :: EngineState a -> MVar (a) -> IO ()
+display es mvarGs = do
   clear [ColorBuffer]
   gs <- readMVar mvarGs
-  glRender $ toGlInstruction gs
+  glRender $ toGlInstr es gs
   swapBuffers
 
 --------------------------------------------------------------------------------
 
-reshape :: (EngineState a) => MVar (a) -> Size -> IO ()
-reshape mvarGs (Size width height) = do
+reshape :: EngineState a -> MVar (a) -> Size -> IO ()
+reshape es mvarGs (Size width height) = do
     gs <- takeMVar mvarGs
 
-    let newState = resize (realToFrac width) (realToFrac height) gs
-    
+    let newState = resize es (realToFrac width) (realToFrac height) gs
+
     putMVar mvarGs newState
 
     viewport $= (Position 0 0, Size width height)
@@ -52,68 +53,66 @@ reshape mvarGs (Size width height) = do
 --------------------------------------------------------------------------------
 
 ---TODO here named grab, but engine method named drag, name both the same
-mouseGrab :: (EngineState a) => MVar (a) -> Position -> IO ()
-mouseGrab mvarGs (Position x y) = do
+mouseGrab :: EngineState a -> MVar (a) -> Position -> IO ()
+mouseGrab es mvarGs (Position x y) = do
     gs <- takeMVar mvarGs ---TODO rename
 
-    let w          = fst $ getSize gs
-        h          = snd $ getSize gs
-        correctedX = (realToFrac x) * (getW gs) / w
-        correctedY = (realToFrac y) * (getH gs) / h
-        newState   = drag correctedX correctedY gs
+    let w          = fst $ getSize es gs
+        h          = snd $ getSize es gs
+        correctedX = (realToFrac x) * (getW es gs) / w
+        correctedY = (realToFrac y) * (getH es gs) / h
+        newState   = drag es correctedX correctedY gs
 
     putMVar mvarGs newState
     return ()
 
-mouseHover :: (EngineState a) => MVar (a) -> Position -> IO ()
-mouseHover mvarGs (Position x y) = do
+mouseHover :: EngineState a -> MVar (a) -> Position -> IO ()
+mouseHover es mvarGs (Position x y) = do
     gs <- takeMVar mvarGs ---TODO rename
 
-    let w          = fst $ getSize gs
-        h          = snd $ getSize gs
-        correctedX = (realToFrac x) * (getW gs) / w
-        correctedY = (realToFrac y) * (getH gs) / h
-        newState   = hover correctedX correctedY gs
+    let w          = fst $ getSize es gs
+        h          = snd $ getSize es gs
+        correctedX = (realToFrac x) * (getW es gs) / w
+        correctedY = (realToFrac y) * (getH es gs) / h
+        newState   = hover es correctedX correctedY gs
 
     putMVar mvarGs newState
     return ()
 
 
-keyboardMouse :: (EngineState a) => MVar (a) -> Key -> KeyState -> Modifiers -> Position -> IO ()
-keyboardMouse mvarGs (MouseButton LeftButton) Down _modifiers (Position x y) = mouseDown mvarGs x y
-keyboardMouse mvarGs (MouseButton LeftButton) Up   _modifiers (Position x y) = mouseUp   mvarGs x y
-keyboardMouse _ _ _ _ _ =  return ()
+keyboardMouse :: EngineState a -> MVar (a) -> Key -> KeyState -> Modifiers -> Position -> IO ()
+keyboardMouse es mvarGs (MouseButton LeftButton) Down _modifiers (Position x y) = mouseDown es mvarGs x y
+keyboardMouse es mvarGs (MouseButton LeftButton) Up   _modifiers (Position x y) = mouseUp   es mvarGs x y
+keyboardMouse _ _ _ _ _ _ =  return ()
 
 
-mouseDown :: (EngineState a) => MVar (a) -> GLint -> GLint -> IO ()
-mouseDown mvarGs x y = do
+mouseDown :: EngineState a -> MVar (a) -> GLint -> GLint -> IO ()
+mouseDown es mvarGs x y = do
     gs <- takeMVar mvarGs ---TODO rename
 
     ---TODO define method for corrections since used here and in hover
-    let w          = fst $ getSize gs
-        h          = snd $ getSize gs
-        correctedX = (realToFrac x) * (getW gs) / w
-        correctedY = (realToFrac y) * (getH gs) / h
-        newState   = click correctedX correctedY gs
+    let w          = fst $ getSize es gs
+        h          = snd $ getSize es gs
+        correctedX = (realToFrac x) * (getW es gs) / w
+        correctedY = (realToFrac y) * (getH es gs) / h
+        newState   = click es correctedX correctedY gs
 
     putMVar mvarGs newState
     return ()
 
-mouseUp :: (EngineState a) => MVar (a) -> GLint -> GLint -> IO ()
-mouseUp _ _ _ = return ()
+mouseUp :: EngineState a -> MVar (a) -> GLint -> GLint -> IO ()
+mouseUp _ _ _ _ = return ()
 
 --------------------------------------------------------------------------------
 
-idle :: (EngineState a) => MVar (a) -> IdleCallback
-idle mvarGs = do
+idle :: EngineState a -> MVar (a) -> IdleCallback
+idle es mvarGs = do
   gs   <- takeMVar mvarGs
   secs <- getSeconds
 
   let ms       = toMilliSeconds secs
-      deltaMs  = ms - (getTime gs)
-      newState = moveInTime deltaMs (setTime ms gs) ---TODO currently bot setting the time AND transforming
+      deltaMs  = ms - (getTime es gs)
+      newState = moveTime es deltaMs (setTime es ms gs) ---TODO currently bot setting the time AND transforming
 
   putMVar mvarGs newState
   postRedisplay Nothing
-
-

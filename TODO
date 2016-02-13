@@ -1,3 +1,5 @@
+use record of functions instead of classes and instances?
+
 write proper readme with example
 gradients
 rename gl methods to fill or stroke or wired

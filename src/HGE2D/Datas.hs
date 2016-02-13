@@ -36,6 +36,23 @@ data Velocity = Velocity
 
 --------------------------------------------------------------------------------
 
+data EngineState a = EngineState
+    { click           :: PosX -> PosY -> a -> a
+    , hover           :: PosX -> PosY -> a -> a
+    , drag            :: PosX -> PosY -> a -> a
+    , resize          :: Width -> Height -> a -> a ---TODO (Width, Height)
+    , getSize         :: a -> (Width, Height)
+    , moveTime        :: Millisecond -> a -> a
+    , getTime         :: a -> Millisecond
+    , setTime         :: Millisecond -> a -> a
+    , getW            :: a -> Width
+    , getH            :: a -> Height
+    , getTitle        :: a -> String
+    , toGlInstr       :: a -> RenderInstruction
+    }
+
+--------------------------------------------------------------------------------
+
 data RenderInstruction = RenderNothing                                                       -- do nothing
                        | RenderWithCamera GlPosX GlPosY GlScaleX GlScaleY RenderInstruction  -- render with a given camera view
                        | RenderText String                                                   -- render a string
@@ -49,4 +66,3 @@ data RenderInstruction = RenderNothing                                          
                        | RenderColorizeAlpha GlColorRGBA                                     -- colorize following instructions with alpha setting
                        | RenderPreserve RenderInstruction                                    -- render instruction while preserving rotation / translation
                        | RenderMany [RenderInstruction]                                      -- render multiple other instructions
-
