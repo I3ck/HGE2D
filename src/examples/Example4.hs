@@ -24,7 +24,7 @@ data GameState = GameState
 
 --this instance shall always return the window title of your game
 instance HasTitle GameState where
-    getTitle _ = "Welcome to Example1"
+    getTitle _ = "Welcome to Example4"
 
 --should return the current size of the game window
 instance HasSize GameState where
