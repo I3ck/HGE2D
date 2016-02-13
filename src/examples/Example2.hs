@@ -23,54 +23,48 @@ data GameState = GameState
     , pos       :: RealPosition     -- the position of the rectangle
     }
 
+gs2 = GameState
+   { time = 0
+   , gsSize = (0, 0)
+   , pos = RealPosition 0 0
+   , isClicked = False
+   }
+
+es2 = EngineState
+    { getTitle = myGetTitle
+    , getW = myGetW
+    , getH = myGetH
+    , getTime = myGetTime
+    , setTime = mySetTime
+    , moveTime = myMoveTime
+    , click = myClick
+    , hover = myHover
+    , drag = myDrag
+    , resize = myResize
+    , getSize = myGetSize
+    , toGlInstr = myToGlInstr
+    } :: EngineState GameState
+  where
+      myGetTitle _ = "Welcome to Example2"
+      myGetW = fst . gsSize
+      myGetH = snd . gsSize
+      myGetTime = time
+      mySetTime ms gs = gs { time = ms }
+      myMoveTime _ = id
+      myClick _ _ gs = gs { isClicked = not $ isClicked gs }
+      myHover x y gs = gs { pos = RealPosition x y }
+      myDrag _ _ gs = gs
+      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) }
+      myGetSize = gsSize
+      myToGlInstr gs = withCamera es2 gs $ RenderPreserve $ RenderMany
+          [ RenderColorize color
+          , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs)
+          , rectangle 30 30
+          ]
+        where
+          color | isClicked gs = colorWhite
+                | otherwise    = colorGreen
+
 --------------------------------------------------------------------------------
 
---this instance shall always return the window title of your game
-instance HasTitle GameState where
-    getTitle _ = "Welcome to Example2"
-
---should return the current size of the game window
-instance HasSize GameState where
-    getW gs = fst $ gsSize gs
-    getH gs = snd $ gsSize gs
-
---used to know and initalize the game's time
-instance HasTime GameState where
-    getTime gs = time gs
-    setTime ms gs = gs { time = ms }
-
---our first example is static, therefore we just gonna leave the game as-is
-instance Dynamic GameState where
-    moveInTime _ gs = gs
-
---react to mouse input
-instance MouseInteract GameState where
-    click _ _ gs = gs { isClicked = not $ isClicked gs }
-    hover x y gs = gs { pos = RealPosition x y }
-    drag _ _ gs = gs
-
---enable the engine to pass window resizes to the game
-instance Resizeable GameState where
-    resize w h gs = gs { gsSize = (realToFrac w, realToFrac h) }
-    getSize gs = gsSize gs
-
-instance GlInstructable GameState where
-    toGlInstruction gs = withCamera gs $ RenderPreserve $ RenderMany
-        [ RenderColorize color
-        , RenderTranslate (realToFrac $ getX $ pos gs) (realToFrac $ getY $ pos gs)
-        , rectangle 30 30
-        ]
-      where
-        color | isClicked gs = colorWhite
-              | otherwise    = colorGreen
-
---------------------------------------------------------------------------------
-
-main = do
-    let initialState = GameState 
-                       { time = 0
-                       , gsSize = (0, 0)
-                       , pos = RealPosition 0 0
-                       , isClicked = False 
-                       }
-    runEngine initialState
+main = runEngine es2 gs2
