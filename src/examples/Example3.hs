@@ -64,7 +64,7 @@ es3 = EngineState
       myClick _ _ gs = gs { isClicked = not $ isClicked gs } -- toggle the isClicked Bool on click
       myHover x y gs = gs { pos = RealPosition x y } -- store the hover position
       myDrag _ _ gs = gs -- don't react to draging
-      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
+      myResize (w, h) gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
       myGetSize = gsSize -- and get its size
       myToGlInstr gs = withCamera es3 gs $ RenderPreserve $ RenderMany -- render with a camera and while preserving changes
           [ RenderColorize color -- a colored

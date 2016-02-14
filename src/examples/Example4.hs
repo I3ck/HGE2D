@@ -44,7 +44,7 @@ es4 = EngineState
       myClick _ _ = id -- nor clicks
       myHover _ _ = id -- nor hovering
       myDrag _ _ = id -- nor draging
-      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
+      myResize (w, h) gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
       myGetSize = gsSize -- and get its size
       myToGlInstr gs = withCamera es4 gs $ RenderMany -- render with a camera and while preserving changes
           [ circleNextToRectangle -- render our circle next to the rectangle

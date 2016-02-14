@@ -42,7 +42,7 @@ reshape :: EngineState a -> MVar (a) -> Size -> IO ()
 reshape es mvarGs (Size width height) = do
     gs <- takeMVar mvarGs
 
-    let newState = resize es (realToFrac width) (realToFrac height) gs
+    let newState = resize es (realToFrac width, realToFrac height) gs
 
     putMVar mvarGs newState
 

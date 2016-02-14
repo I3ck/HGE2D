@@ -1,6 +1,6 @@
 # HGE2D
 A 2D game engine written in and for Haskell
-## Version 0.1.0.0
+## Version 0.1.1.0
 
 ## Install
 `git clone https://github.com/I3ck/HGE2D.git`  
@@ -45,7 +45,7 @@ data EngineState a = EngineState
     { click           :: PosX -> PosY -> a -> a -- how your game should change when clicked
     , hover           :: PosX -> PosY -> a -> a -- how your game should change when hovered
     , drag            :: PosX -> PosY -> a -> a -- how your game should change when dragged
-    , resize          :: Width -> Height -> a -> a -- how to resize your game
+    , resize          :: (Width, Height) -> a -> a -- how to resize your game
     , getSize         :: a -> (Width, Height) -- how to get the size of your game
     , moveTime        :: Millisecond -> a -> a -- how your game should change over time
     , getTime         :: a -> Millisecond -- how to get the current time of your game

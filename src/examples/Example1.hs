@@ -43,7 +43,7 @@ es1 = EngineState
       myClick _ _ = id -- nor clicks
       myHover _ _ = id -- nor hovering
       myDrag _ _ = id -- nor draging
-      myResize w h gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
+      myResize (w, h) gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
       myGetSize = gsSize -- and get its size
       myToGlInstr _ = RenderMany -- render our game by using multiple instructions
           [ RenderColorize colorWhite -- rendering a white
