@@ -59,8 +59,8 @@ mouseGrab es mvarGs (Position x y) = do
 
     let w          = fst $ getSize es gs
         h          = snd $ getSize es gs
-        correctedX = (realToFrac x) * (getW es gs) / w
-        correctedY = (realToFrac y) * (getH es gs) / h
+        correctedX = (realToFrac x) * (fst $ getSize es gs) / w
+        correctedY = (realToFrac y) * (snd $ getSize es gs) / h
         newState   = drag es correctedX correctedY gs
 
     putMVar mvarGs newState
@@ -72,8 +72,8 @@ mouseHover es mvarGs (Position x y) = do
 
     let w          = fst $ getSize es gs
         h          = snd $ getSize es gs
-        correctedX = (realToFrac x) * (getW es gs) / w
-        correctedY = (realToFrac y) * (getH es gs) / h
+        correctedX = (realToFrac x) * (fst $ getSize es gs) / w
+        correctedY = (realToFrac y) * (snd $ getSize es gs) / h
         newState   = hover es correctedX correctedY gs
 
     putMVar mvarGs newState
@@ -93,8 +93,8 @@ mouseDown es mvarGs x y = do
     ---TODO define method for corrections since used here and in hover
     let w          = fst $ getSize es gs
         h          = snd $ getSize es gs
-        correctedX = (realToFrac x) * (getW es gs) / w
-        correctedY = (realToFrac y) * (getH es gs) / h
+        correctedX = (realToFrac x) * (fst $ getSize es gs) / w
+        correctedY = (realToFrac y) * (snd $ getSize es gs) / h
         newState   = click es correctedX correctedY gs
 
     putMVar mvarGs newState

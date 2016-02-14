@@ -35,4 +35,4 @@ instance GlRender RenderInstruction where
 ---TODO move definition somewhere else?
 ---TODO several version with different origin points
 withCamera :: EngineState a -> a -> RenderInstruction -> RenderInstruction
-withCamera es impl = RenderWithCamera (-1.0) (1.0) (realToFrac $ 2.0 / (getW es impl)) (negate $ realToFrac $ 2.0 / (getH es impl))
+withCamera es impl = RenderWithCamera (-1.0) (1.0) (realToFrac $ 2.0 / (fst $ getSize es impl)) (negate $ realToFrac $ 2.0 / (snd $ getSize es impl))

@@ -22,8 +22,6 @@ gs4 = GameState { time = 0, gsSize = (0, 0) }
 --define our initial state
 es4 = EngineState
     { getTitle = myGetTitle
-    , getW = myGetW
-    , getH = myGetH
     , getTime = myGetTime
     , setTime = mySetTime
     , moveTime = myMoveTime
@@ -36,8 +34,6 @@ es4 = EngineState
     } :: EngineState GameState
   where
       myGetTitle _ = "Welcome to Example4" --title of the games window
-      myGetW = fst . gsSize -- how to retrieve the games window width
-      myGetH = snd . gsSize -- hot to retrieve the games window height
       myGetTime = time -- how to retrieve the games time
       mySetTime ms gs = gs { time = ms } -- how to set the games time
       myMoveTime _ = id -- our game won't react to time changes

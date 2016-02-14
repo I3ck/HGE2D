@@ -50,8 +50,6 @@ data EngineState a = EngineState
     , moveTime        :: Millisecond -> a -> a -- how your game should change over time
     , getTime         :: a -> Millisecond -- how to get the current time of your game
     , setTime         :: Millisecond -> a -> a -- how to set the time of your game
-    , getW            :: a -> Width -- how to get the width of your game
-    , getH            :: a -> Height -- how to get the height of your game
     , getTitle        :: a -> String -- how to get the title of your game
     , toGlInstr       :: a -> RenderInstruction -- how to receive a render instruction to display your game
     }
