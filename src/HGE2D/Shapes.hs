@@ -1,4 +1,4 @@
-module HGE2D.ShapeFactory where
+module HGE2D.Shapes where
 
 import HGE2D.Settings
 import HGE2D.Types
@@ -9,15 +9,8 @@ import qualified Graphics.Rendering.OpenGL as GL
 
 --------------------------------------------------------------------------------
 
-
----TODO rename simply to shapes
-
-
----TODO to different file
-
----TODO move these elsewhere and properly define their types
-
-borderedRectangle w h t colorInner colorBorder = RenderMany 
+borderedRectangle :: GlWidth -> GlHeight -> GlThickness -> GlColorRGB -> GlColorRGBA -> RenderInstruction
+borderedRectangle w h t colorInner colorBorder = RenderMany
     [ RenderColorize colorInner
     , rectangle w h
     , RenderColorizeAlpha colorBorder

@@ -17,7 +17,7 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:
-    HGE2D.ShapeFactory
+    HGE2D.Shapes
     HGE2D.Render
     HGE2D.Colors
     HGE2D.Datas

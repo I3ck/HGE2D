@@ -78,7 +78,7 @@ data RenderInstruction = RenderNothing
 `RenderMany` can be used to combine multiple instructions. Your `GameState` will pretty likely be defined as a `RenderMany [player, map, ...]`.  
 Scaling, translating and rotating will affect all the shapes to come. To scope them, use `RenderPreserve`. In combination with `RenderMany` :  
 `RenderPreserve $ RenderMany [RenderTranslate 10 10, RenderRotate 0.1, player]`.  
-See [ShapeFactory.hs](src/HGE2D/ShapeFactory.hs) for functions which will generate some basic shapes. It's also pretty straight forward to define your very own primitives in a similar manner.  
+See [Shapes.hs](src/HGE2D/Shapes.hs) for functions which will generate some basic shapes. It's also pretty straight forward to define your very own primitives in a similar manner.  
 For more information please take a look at the examples. These will also always be up-to-date since they're compiled on every change.
 
 ## Examples

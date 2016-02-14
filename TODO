@@ -10,7 +10,7 @@ remove bordered rectangle, since it's too complicated to use with transparency
 
 font is currently fixed, make it possible to set it
 
-shapefactory needs major refactor
+Shapes needs major refactor
 
 freeze dependencies
 
