@@ -39,7 +39,7 @@ data Velocity = Velocity
 data EngineState a = EngineState
     { click           :: PosX -> PosY -> a -> a -- how your game should change when clicked
     , hover           :: PosX -> PosY -> a -> a -- how your game should change when hovered
-    , drag            :: PosX -> PosY -> a -> a -- how your game should change whendragged
+    , drag            :: PosX -> PosY -> a -> a -- how your game should change when dragged
     , resize          :: Width -> Height -> a -> a -- how to resize your game
     , getSize         :: a -> (Width, Height) -- how to get the size of your game
     , moveTime        :: Millisecond -> a -> a -- how your game should change over time
