@@ -1,4 +1,5 @@
 use record of functions instead of classes and instances?
+geometry.hs needs cleanup
 
 write proper readme with example
 gradients

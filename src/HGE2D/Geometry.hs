@@ -115,3 +115,8 @@ makeBB center width height = BoundingBox newMin newMax
   where
     newMin = RealPosition (realX center - width / 2) (realY center - height / 2)
     newMax = RealPosition (realX center + width / 2) (realY center + height / 2)
+
+applyVelocity :: RealPosition -> Velocity -> Millisecond -> RealPosition
+applyVelocity oldPos vel time =
+    (RealPosition ((realX oldPos) + (fromIntegral time) * (velX vel))
+                  ((realY oldPos) + (fromIntegral time) * (velY vel)))

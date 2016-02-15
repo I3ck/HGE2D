@@ -1,5 +1,6 @@
 module HGE2D.Instances where
 
+import HGE2D.Geometry
 import HGE2D.Datas
 import HGE2D.Classes
 
@@ -46,3 +47,13 @@ instance Moveable RigidBody where
         newMinPos = moveBy by $ bbMin $ rigidBB rb
         newMaxPos = moveBy by $ bbMax $ rigidBB rb
         by = RealPosition (realX newPos - getX rb) (realY newPos - getY rb)
+
+--------------------------------------------------------------------------------
+
+instance Dynamic RigidBody where
+    moveInTime time rb = rb { rigidPos = newPos , rigidBB = newBB }
+      where
+        newBB = (rigidBB rb) { bbMin = newMinPos, bbMax = newMaxPos}
+        newPos = applyVelocity (rigidPos rb) (rigidVel rb) time
+        newMinPos = applyVelocity (bbMin $ rigidBB rb) (rigidVel rb) time
+        newMaxPos = applyVelocity (bbMax $ rigidBB rb) (rigidVel rb) time
