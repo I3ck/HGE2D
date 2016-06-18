@@ -50,11 +50,11 @@ es2 = EngineState
       mySetTime ms gs = gs { time = ms } -- how to set the games time
       myMoveTime _ = id -- our game won't react to time changes
       myClick _ _ gs = gs { isClicked = not $ isClicked gs } -- toggle the isClicked Bool on click
-      myMouseUp _ _ = id --nor mouse up
+      myMouseUp _ _ gs = gs { isClicked = not $ isClicked gs } --also toggle it on release again
       myHover x y gs = gs { pos = RealPosition x y } -- store the hover position
       myDrag _ _ gs = gs -- don't react to draging
-      myKeyDown _ _ _ = id -- nor key presses
-      myKeyUp _ _ _ = id --nor key releases
+      myKeyDown _ _ _ gs = gs { isClicked = not $ isClicked gs } -- also toggle clicked with a key press
+      myKeyUp _ _ _ gs = gs { isClicked = not $ isClicked gs } --also toggle clicked with key release
       myResize (w, h) gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
       myGetSize = gsSize -- and get its size
       myToGlInstr gs = withCamera es2 gs $ RenderPreserve $ RenderMany -- render with a camera and while preserving changes
