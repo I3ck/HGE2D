@@ -83,8 +83,11 @@ mouseHover es mvarGs (Position x y) = do
 keyboardMouse :: EngineState a -> MVar (a) -> Key -> KeyState -> Modifiers -> Position -> IO ()
 keyboardMouse es mvarGs (MouseButton LeftButton) Down _modifiers (Position x y) = mouseDown es mvarGs x y
 keyboardMouse es mvarGs (MouseButton LeftButton) Up   _modifiers (Position x y) = mouseUp   es mvarGs x y
+keyboardMouse es mvarGs (Char        c)          Down _modifiers (Position x y) = keyDown   es mvarGs x y c
+keyboardMouse es mvarGs (Char        c)          Up   _modifiers (Position x y) = keyUp     es mvarGs x y c
 keyboardMouse _ _ _ _ _ _ =  return ()
 
+--------------------------------------------------------------------------------
 
 mouseDown :: EngineState a -> MVar (a) -> GLint -> GLint -> IO ()
 mouseDown es mvarGs x y = do
@@ -101,7 +104,48 @@ mouseDown es mvarGs x y = do
     return ()
 
 mouseUp :: EngineState a -> MVar (a) -> GLint -> GLint -> IO ()
-mouseUp _ _ _ _ = return ()
+mouseUp es mvarGs x y = do
+    gs <- takeMVar mvarGs ---TODO rename
+
+    ---TODO define method for corrections since used here and in hover
+    let w          = fst $ getSize es gs
+        h          = snd $ getSize es gs
+        correctedX = (realToFrac x) * (fst $ getSize es gs) / w
+        correctedY = (realToFrac y) * (snd $ getSize es gs) / h
+        newState   = mUp es correctedX correctedY gs
+
+    putMVar mvarGs newState
+    return ()
+
+--------------------------------------------------------------------------------
+
+keyDown :: EngineState a -> MVar (a) -> GLint -> GLint -> Char -> IO ()
+keyDown es mvarGs x y c = do
+    gs <- takeMVar mvarGs ---TODO rename
+
+    ---TODO define method for corrections since used here and in hover
+    let w          = fst $ getSize es gs
+        h          = snd $ getSize es gs
+        correctedX = (realToFrac x) * (fst $ getSize es gs) / w
+        correctedY = (realToFrac y) * (snd $ getSize es gs) / h
+        newState   = kDown es correctedX correctedY c gs
+
+    putMVar mvarGs newState
+    return ()
+
+keyUp :: EngineState a -> MVar (a) -> GLint -> GLint -> Char -> IO ()
+keyUp es mvarGs x y c = do
+    gs <- takeMVar mvarGs ---TODO rename
+
+    ---TODO define method for corrections since used here and in hover
+    let w          = fst $ getSize es gs
+        h          = snd $ getSize es gs
+        correctedX = (realToFrac x) * (fst $ getSize es gs) / w
+        correctedY = (realToFrac y) * (snd $ getSize es gs) / h
+        newState   = kUp es correctedX correctedY c gs
+
+    putMVar mvarGs newState
+    return ()
 
 --------------------------------------------------------------------------------
 

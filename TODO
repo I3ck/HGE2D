@@ -51,3 +51,11 @@ add screenshots
 merge HasSize and Resizeable
 
 GlFunctions should basically not be used, split it into functions which should be used and those who should not.
+
+test keydown keyup and mouse up
+
+add examples for keyboard interaction
+
+physics types
+
+add special key interaction
