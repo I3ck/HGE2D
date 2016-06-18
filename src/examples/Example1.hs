@@ -25,8 +25,11 @@ es1 = EngineState
     , setTime = mySetTime
     , moveTime = myMoveTime
     , click = myClick
+    , mUp = myMouseUp
     , hover = myHover
     , drag = myDrag
+    , kDown = myKeyDown
+    , kUp = myKeyUp
     , resize = myResize
     , getSize = myGetSize
     , toGlInstr = myToGlInstr
@@ -37,8 +40,11 @@ es1 = EngineState
       mySetTime ms gs = gs { time = ms } -- how to set the games time
       myMoveTime _ = id -- our game won't react to time changes
       myClick _ _ = id -- nor clicks
+      myMouseUp _ _ = id --nor mouse up
       myHover _ _ = id -- nor hovering
       myDrag _ _ = id -- nor draging
+      myKeyDown _ _ _ = id -- nor key presses
+      myKeyUp _ _ _ = id --nor key releases
       myResize (w, h) gs = gs { gsSize = (realToFrac w, realToFrac h) } -- how to resize our game
       myGetSize = gsSize -- and get its size
       myToGlInstr _ = RenderMany -- render our game by using multiple instructions
