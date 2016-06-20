@@ -30,6 +30,7 @@ library
     HGE2D.Math
     HGE2D.Geometry
     HGE2D.Collision
+    HGE2D.Physical
   -- other-modules:
   -- other-extensions:
   build-depends:
