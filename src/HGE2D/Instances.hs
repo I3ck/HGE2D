@@ -36,19 +36,26 @@ instance Moveable RealPosition where
         newY = realY pos + realY by
     moveTo to _ = RealPosition (realX to) (realY to)
 
+instance Moveable BoundingBox where
+    moveBy by bb = BoundingBox { bbMin = newMinPos, bbMax = newMaxPos }
+      where
+        newMinPos = moveBy by $ bbMin bb
+        newMaxPos = moveBy by $ bbMax bb
+
+    moveTo by bb = BoundingBox { bbMin = newMinPos, bbMax = newMaxPos }
+      where
+        newMinPos = moveTo by $ bbMin bb
+        newMaxPos = moveTo by $ bbMax bb
+
 instance Moveable RigidBody where
     moveBy by rb = rb { rigidPos = newPos , rigidBB = newBB }
       where
-        newBB = (rigidBB rb) { bbMin = newMinPos, bbMax = newMaxPos}
+        newBB = moveBy by (rigidBB rb)
         newPos = moveBy by (rigidPos rb)
-        newMinPos = moveBy by $ bbMin $ rigidBB rb
-        newMaxPos = moveBy by $ bbMax $ rigidBB rb
     moveTo to rb = rb { rigidPos = newPos, rigidBB = newBB }
       where
-        newBB = (rigidBB rb) { bbMin = newMinPos, bbMax = newMaxPos}
+        newBB = moveTo to (rigidBB rb)
         newPos = moveTo to $ rigidPos rb
-        newMinPos = moveBy by $ bbMin $ rigidBB rb
-        newMaxPos = moveBy by $ bbMax $ rigidBB rb
         by = RealPosition (realX newPos - getX rb) (realY newPos - getY rb)
 
 --------------------------------------------------------------------------------
