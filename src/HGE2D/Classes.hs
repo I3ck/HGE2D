@@ -26,6 +26,11 @@ class HasBoundingBox a where
 
 --------------------------------------------------------------------------------
 
+class IsPhysicalObject a where
+    getPhys :: a -> PhysicalObject
+
+--------------------------------------------------------------------------------
+
 class Positioned a where
     getPos :: a -> RealPosition
     getX   :: a -> Double

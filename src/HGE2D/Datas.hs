@@ -4,6 +4,18 @@ import HGE2D.Types
 
 import qualified Graphics.Rendering.OpenGL as GL
 
+data PhysicalObject = PhysicalObject
+    { physicalPos               :: RealPosition
+    , physicalVel               :: Velocity
+    , physicalAcc               :: Acceleration
+    , physicalBB                :: BoundingBox
+    , physicalDir               :: Direction
+    , phiysicalRotSpeed         :: RotationSpeed
+    , physicalRotAcceleration   :: RotationAcceleration
+    , physicalMass              :: Mass
+    , physicalDrag              :: Drag
+    } deriving (Show, Read)
+
 data RigidBody = RigidBody
     { rigidPos  :: RealPosition -- current position
     , rigidVel  :: Velocity     -- current velocity
@@ -33,6 +45,16 @@ data Velocity = Velocity
     , velY      :: Double -- velocity in vertical direction
     } deriving (Show, Read)
 
+
+data Acceleration = Acceleration
+    { accX      :: Double -- acceleration in x direction
+    , accY      :: Double -- acceleration in y direction
+    } deriving (Show, Read)
+
+data Direction = Direction
+    { dirX      :: Double -- x component of the direction
+    , dirY      :: Double -- y component of the direction
+    } deriving (Show, Read)
 
 --------------------------------------------------------------------------------
 

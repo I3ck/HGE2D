@@ -12,6 +12,9 @@ instance HasBoundingBox BoundingBox where
 instance HasBoundingBox RigidBody where
     getBB = rigidBB
 
+instance HasBoundingBox PhysicalObject where
+    getBB = physicalBB
+
 --------------------------------------------------------------------------------
 
 instance Positioned RealPosition where

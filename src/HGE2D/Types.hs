@@ -9,8 +9,15 @@ type Pixel = Double
 type Second         = Int
 type Millisecond    = Int
 
+type Mass = Double
+
+type Drag = Double
+
 type Radian = Double
 type Degree = Double
+
+type RotationSpeed = Radian
+type RotationAcceleration = Radian
 
 type Width  = Double
 type Height = Double
