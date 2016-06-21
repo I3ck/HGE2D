@@ -9,11 +9,12 @@ data PhysicalObject = PhysicalObject
     , physicalVel               :: Velocity
     , physicalAcc               :: Acceleration
     , physicalBB                :: BoundingBox
-    , physicalDir               :: Direction
-    , phiysicalRotSpeed         :: RotationSpeed
-    , physicalRotAcceleration   :: RotationAcceleration
+    , physicalRot               :: Radian
+    , physicalRotSpeed          :: RotationSpeed ---TODO rename to ..Vel
+    , physicalRotAcceleration   :: RotationAcceleration ---TODO rename to Acc
     , physicalMass              :: Mass
     , physicalDrag              :: Drag
+    , physicalRotDrag           :: Drag ---TODO RotDrag?
     } deriving (Show, Read)
 
 data RigidBody = RigidBody
@@ -51,6 +52,7 @@ data Acceleration = Acceleration
     , accY      :: Double -- acceleration in y direction
     } deriving (Show, Read)
 
+---TODO unused, use radian instead
 data Direction = Direction
     { dirX      :: Double -- x component of the direction
     , dirY      :: Double -- y component of the direction

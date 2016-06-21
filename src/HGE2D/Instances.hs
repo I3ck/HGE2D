@@ -58,6 +58,16 @@ instance Moveable RigidBody where
         newPos = moveTo to $ rigidPos rb
         by = RealPosition (realX newPos - getX rb) (realY newPos - getY rb)
 
+instance Moveable PhysicalObject where
+    moveBy by po = po { physicalPos = newPos, physicalBB = newBB }
+      where
+        newBB = moveBy by (physicalBB po)
+        newPos = moveBy by (physicalPos po)
+    moveTo to po = po { physicalPos = newPos, physicalBB = newBB }
+      where
+        newBB = moveTo to (physicalBB po)
+        newPos = moveTo to (physicalPos po)
+
 --------------------------------------------------------------------------------
 
 instance Dynamic RigidBody where
