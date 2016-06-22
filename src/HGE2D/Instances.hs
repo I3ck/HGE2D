@@ -1,6 +1,10 @@
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE TypeSynonymInstances #-}
+
 module HGE2D.Instances where
 
 import HGE2D.Geometry
+import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Classes
 
@@ -19,8 +23,8 @@ instance HasBoundingBox PhysicalObject where
 
 instance Positioned RealPosition where
     getPos = id
-    getX = realX
-    getY = realY
+    getX = fst
+    getY = snd
 
 instance Positioned RigidBody where
     getPos = getPos . rigidPos
@@ -30,11 +34,11 @@ instance Positioned RigidBody where
 --------------------------------------------------------------------------------
 
 instance Moveable RealPosition where
-    moveBy by pos = RealPosition newX newY
+    moveBy by pos = (newX, newY)
       where
-        newX = realX pos + realX by
-        newY = realY pos + realY by
-    moveTo to _ = RealPosition (realX to) (realY to)
+        newX = fst pos + fst by
+        newY = snd pos + snd by
+    moveTo to _ = ((fst to), (snd to))
 
 instance Moveable BoundingBox where
     moveBy by bb = BoundingBox { bbMin = newMinPos, bbMax = newMaxPos }
@@ -56,7 +60,7 @@ instance Moveable RigidBody where
       where
         newBB = moveTo to (rigidBB rb)
         newPos = moveTo to $ rigidPos rb
-        by = RealPosition (realX newPos - getX rb) (realY newPos - getY rb)
+        by = ((fst newPos - getX rb), (snd newPos - getY rb))
 
 instance Moveable PhysicalObject where
     moveBy by po = po { physicalPos = newPos, physicalBB = newBB }

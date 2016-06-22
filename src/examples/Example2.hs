@@ -24,7 +24,7 @@ data GameState = GameState
 gs2 = GameState
    { time = 0
    , gsSize = (0, 0)
-   , pos = RealPosition 0 0
+   , pos = (0, 0)
    , isClicked = False
    }
 
@@ -51,7 +51,7 @@ es2 = EngineState
       myMoveTime _ = id -- our game won't react to time changes
       myClick _ _ gs = gs { isClicked = not $ isClicked gs } -- toggle the isClicked Bool on click
       myMouseUp _ _ gs = gs { isClicked = not $ isClicked gs } --also toggle it on release again
-      myHover x y gs = gs { pos = RealPosition x y } -- store the hover position
+      myHover x y gs = gs { pos = (x, y) } -- store the hover position
       myDrag _ _ gs = gs -- don't react to draging
       myKeyDown _ _ _ gs = gs { isClicked = not $ isClicked gs } -- also toggle clicked with a key press
       myKeyUp _ _ _ gs = gs { isClicked = not $ isClicked gs } --also toggle clicked with key release

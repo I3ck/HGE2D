@@ -25,7 +25,7 @@ data GameState = GameState
 gs3 = GameState
    { time = 0
    , gsSize = (0, 0)
-   , pos = RealPosition 0 0
+   , pos = (0, 0)
    , isClicked = False
    , moveUp = False
    }
@@ -52,17 +52,17 @@ es3 = EngineState
       mySetTime ms gs = gs { time = ms } -- how to set the games time
       myMoveTime ms gs = gs { pos = newPos, moveUp = newMoveUp } -- react to changes in time by moving the position
         where
-          newMoveUp | realY oldPos < 1                 && moveUp gs         = False
-                    | realY oldPos > (snd $ gsSize gs) && (not (moveUp gs)) = True
+          newMoveUp | snd oldPos < 1                 && moveUp gs         = False
+                    | snd oldPos > (snd $ gsSize gs) && (not (moveUp gs)) = True
                     | otherwise = moveUp gs
 
-          newPos | moveUp gs  = RealPosition (realX oldPos) (realY oldPos - realToFrac ms / 30)
-                 | otherwise  = RealPosition (realX oldPos) (realY oldPos + realToFrac ms / 10)
+          newPos | moveUp gs  = ((fst oldPos), (snd oldPos - realToFrac ms / 30))
+                 | otherwise  = ((fst oldPos), (snd oldPos + realToFrac ms / 10))
 
           oldPos = pos gs
       myClick _ _ gs = gs { isClicked = not $ isClicked gs } -- toggle the isClicked Bool on click
       myMouseUp _ _ = id --nor mouse up
-      myHover x y gs = gs { pos = RealPosition x y } -- store the hover position
+      myHover x y gs = gs { pos = (x, y) } -- store the hover position
       myDrag _ _ gs = gs -- don't react to draging
       myKeyDown _ _ _ = id -- nor key presses
       myKeyUp _ _ _ = id --nor key releases

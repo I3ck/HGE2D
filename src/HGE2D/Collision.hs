@@ -1,5 +1,6 @@
 module HGE2D.Collision where
 
+import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Classes
 
@@ -11,15 +12,15 @@ doCollide hasBB1 hasBB2 = not $    (bb2Left   > bb1Right)
                                 || (bb2Top    > bb1Bottom)
                                 || (bb2Bottom < bb1Top)
   where
-    bb1Top    = realY $ bbMin bb1
-    bb1Right  = realX $ bbMax bb1
-    bb1Bottom = realY $ bbMax bb1
-    bb1Left   = realX $ bbMin bb1
+    bb1Top    = snd $ bbMin bb1
+    bb1Right  = fst $ bbMax bb1
+    bb1Bottom = snd $ bbMax bb1
+    bb1Left   = fst $ bbMin bb1
 
-    bb2Top    = realY $ bbMin bb2
-    bb2Right  = realX $ bbMax bb2
-    bb2Bottom = realY $ bbMax bb2
-    bb2Left   = realX $ bbMin bb2
+    bb2Top    = snd $ bbMin bb2
+    bb2Right  = fst $ bbMax bb2
+    bb2Bottom = snd $ bbMax bb2
+    bb2Left   = fst $ bbMin bb2
 
     bb1 = getBB hasBB1
     bb2 = getBB hasBB2
@@ -27,7 +28,7 @@ doCollide hasBB1 hasBB2 = not $    (bb2Left   > bb1Right)
 --------------------------------------------------------------------------------
 
 doContain :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-doContain hasBB1 hasBB2 =   (isInside hasBB1 hasBB2) 
+doContain hasBB1 hasBB2 =   (isInside hasBB1 hasBB2)
                          || (isInside hasBB2 hasBB1)
 
 --------------------------------------------------------------------------------
@@ -38,15 +39,15 @@ isInside hasBBIn hasBBOut =    (bbInTop    > bbOutTop)
                             && (bbInLeft   > bbOutLeft)
                             && (bbInRight  < bbOutRight)
   where
-      bbInTop     = realY $ bbMin bbIn
-      bbInRight   = realX $ bbMax bbIn
-      bbInBottom  = realY $ bbMax bbIn
-      bbInLeft    = realX $ bbMin bbIn
+      bbInTop     = snd $ bbMin bbIn
+      bbInRight   = fst $ bbMax bbIn
+      bbInBottom  = snd $ bbMax bbIn
+      bbInLeft    = fst $ bbMin bbIn
 
-      bbOutTop    = realY $ bbMin bbOut
-      bbOutRight  = realX $ bbMax bbOut
-      bbOutBottom = realY $ bbMax bbOut
-      bbOutLeft   = realX $ bbMin bbOut
+      bbOutTop    = snd $ bbMin bbOut
+      bbOutRight  = fst $ bbMax bbOut
+      bbOutBottom = snd $ bbMax bbOut
+      bbOutLeft   = fst $ bbMin bbOut
 
       bbIn        = getBB hasBBIn
       bbOut       = getBB hasBBOut
@@ -59,10 +60,10 @@ isInsideRP pos hasBB =  (posX > bbLeft)
                      && (posY > bbTop)
                      && (posY < bbBottom)
   where
-    posX     = realX pos
-    posY     = realY pos
-    bbTop    = realY $ bbMin bb
-    bbRight  = realX $ bbMax bb
-    bbBottom = realY $ bbMax bb
-    bbLeft   = realX $ bbMin bb
+    posX     = fst pos
+    posY     = snd pos
+    bbTop    = snd $ bbMin bb
+    bbRight  = fst $ bbMax bb
+    bbBottom = snd $ bbMax bb
+    bbLeft   = fst $ bbMin bb
     bb       = getBB hasBB

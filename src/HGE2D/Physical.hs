@@ -15,7 +15,7 @@ applyPhysics ms x = setPhys newPo x
   where
     newPo = (applyVel . applyAcc . applyRotVel . applyRotAcc . applyDrag . applyRotDrag) (getPhys x) ---TODO more consistent order acc > vel > abs
 
-    applyVel po = moveBy (RealPosition dX dY) po ---TODO define more general for reuse
+    applyVel po = moveBy (dX, dY) po ---TODO define more general for reuse
       where
         dX = (fromIntegral ms) * (velX $ physicalVel po)
         dY = (fromIntegral ms) * (velY $ physicalVel po)

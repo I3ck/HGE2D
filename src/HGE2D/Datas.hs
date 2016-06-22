@@ -34,13 +34,6 @@ data TilePosition = TilePosition
     , tileY     :: Int -- position in number of tiles from top starting with 0
     } deriving (Show, Read, Eq)
 
-
-data RealPosition = RealPosition ---TODO rename to PixelPosition
-    { realX     :: Pixel -- real position absolutely from left
-    , realY     :: Pixel -- real position absolutely from right
-    } deriving (Show, Read, Eq)
-
-
 data Velocity = Velocity
     { velX      :: Double -- velocity in horizontal direction
     , velY      :: Double -- velocity in vertical direction

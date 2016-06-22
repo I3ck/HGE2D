@@ -4,6 +4,10 @@ import qualified Graphics.Rendering.OpenGL as GL
 
 --------------------------------------------------------------------------------
 
+type Meter = Double
+
+type RealPosition = (Meter, Meter)
+
 type Pixel = Double
 
 type Second         = Int

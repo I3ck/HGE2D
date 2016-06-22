@@ -14,8 +14,8 @@ deg2rad deg = deg * pi / 180
 radRealPos :: RealPosition -> RealPosition -> Radian
 radRealPos p1 p2 = atan2 dY dX
   where
-    dX = (realX p2) - (realX p1)
-    dY = (realY p2) - (realY p1)
+    dX = (fst p2) - (fst p1)
+    dY = (snd p2) - (snd p1)
 
 
 velAngle :: Velocity -> Radian
@@ -23,21 +23,21 @@ velAngle v = atan2 (velY v) (velX v)
 
 
 distance :: RealPosition -> RealPosition -> Double
-distance v1 v2 = sqrt $ (realX v1 - realX v2)**2 + (realY v1 - realY v2)**2
+distance v1 v2 = sqrt $ (fst v1 - fst v2)**2 + (snd v1 - snd v2)**2
 
 direction :: RealPosition -> RealPosition -> RealPosition --- TODO define different types?
-direction pos1 pos2 = RealPosition newX newY
+direction pos1 pos2 = (newX, newY)
   where
-    newX = ((realX pos2) - (realX pos1)) / l
-    newY = ((realY pos2) - (realY pos1)) / l
+    newX = ((fst pos2) - (fst pos1)) / l
+    newY = ((snd pos2) - (snd pos1)) / l
     l = distance pos1 pos2
 
 
 interceptionPos :: (RealPosition, Double) -> (RealPosition, Velocity) -> RealPosition
-interceptionPos (p1, v) (p2, v2) = RealPosition newX newY
+interceptionPos (p1, v) (p2, v2) = (newX, newY)
   where
-    tx = (realX p2) - (realX p1)
-    ty = (realY p2) - (realY p1)
+    tx = (fst p2) - (fst p1)
+    ty = (snd p2) - (snd p1)
     tvx = velX v2
     tvy = velY v2
 
@@ -52,8 +52,8 @@ interceptionPos (p1, v) (p2, v2) = RealPosition newX newY
     t | temp > 0 = temp
       | otherwise = max t0 t1
 
-    newX = (realX p2) + (velX v2) * t
-    newY = (realY p2) + (velY v2) * t
+    newX = (fst p2) + (velX v2) * t
+    newY = (snd p2) + (velY v2) * t
 
 makeRB :: RealPosition -> Velocity -> Pixel -> Pixel -> RigidBody
 makeRB center vel width height = RigidBody { rigidPos = center, rigidVel = vel, rigidBB = sizedBB center width height }
@@ -61,24 +61,24 @@ makeRB center vel width height = RigidBody { rigidPos = center, rigidVel = vel, 
 sizedBB :: RealPosition -> Pixel -> Pixel -> BoundingBox
 sizedBB center width height = BoundingBox posMin posMax
   where
-    posMin = RealPosition minX minY
-    posMax = RealPosition maxX maxY
-    minX = (realX center) - width / 2
-    minY = (realY center) - height / 2
-    maxX = (realX center) + width / 2
-    maxY = (realY center) + height / 2
+    posMin = (minX, minY)
+    posMax = (maxX, maxY)
+    minX = (fst center) - width / 2
+    minY = (snd center) - height / 2
+    maxX = (fst center) + width / 2
+    maxY = (snd center) + height / 2
 
 sizeBB :: BoundingBox -> (Pixel, Pixel)
 sizeBB bb = (width, height)
   where
-    width  = (realX $ bbMax bb) - (realX $ bbMin bb)
-    height = (realY $ bbMax bb) - (realY $ bbMin bb)
+    width  = (fst $ bbMax bb) - (fst $ bbMin bb)
+    height = (snd $ bbMax bb) - (snd $ bbMin bb)
 
 centerBB :: BoundingBox -> RealPosition
-centerBB bb = RealPosition newX newY
+centerBB bb = (newX, newY)
   where
-    newX = (realX $ bbMin bb) + (width / 2)
-    newY = (realY $ bbMin bb) + (height / 2)
+    newX = (fst $ bbMin bb) + (width / 2)
+    newY = (snd $ bbMin bb) + (height / 2)
     (width, height) = sizeBB bb
 
 mergeBB :: BoundingBox -> BoundingBox -> BoundingBox
@@ -88,16 +88,16 @@ mergeBB bb1 bb2 = BoundingBox newMin newMax
     newMax = mergeMax (bbMax bb1) (bbMax bb2)
 
     mergeMin :: RealPosition -> RealPosition -> RealPosition
-    mergeMin pos1 pos2 = RealPosition x y
+    mergeMin pos1 pos2 = (x, y)
       where
-       x = min (realX pos1) (realX pos2)
-       y = min (realY pos1) (realY pos2)
+       x = min (fst pos1) (fst pos2)
+       y = min (snd pos1) (snd pos2)
 
     mergeMax :: RealPosition -> RealPosition -> RealPosition
-    mergeMax pos1 pos2 = RealPosition x y
+    mergeMax pos1 pos2 = (x, y)
       where
-       x = max (realX pos1) (realX pos2)
-       y = max (realY pos1) (realY pos2)
+       x = max (fst pos1) (fst pos2)
+       y = max (snd pos1) (snd pos2)
 
 {- see above
 tilePosToBB :: TilePosition -> BoundingBox
@@ -105,18 +105,18 @@ tilePosToBB pos = BoundingBox minPos maxPos
   where
     minPos = toRealPos $ pos
     maxPos = RealPosition maxX maxY
-    maxX = (realX minPos) + tileSize
-    maxY = (realY minPos) + tileSize
+    maxX = (fst minPos) + tileSize
+    maxY = (snd minPos) + tileSize
 -}
 
 
 makeBB :: RealPosition -> Pixel -> Pixel -> BoundingBox
 makeBB center width height = BoundingBox newMin newMax
   where
-    newMin = RealPosition (realX center - width / 2) (realY center - height / 2)
-    newMax = RealPosition (realX center + width / 2) (realY center + height / 2)
+    newMin = ((fst center - width / 2), (snd center - height / 2))
+    newMax = ((fst center + width / 2), (snd center + height / 2))
 
 applyVelocity :: RealPosition -> Velocity -> Millisecond -> RealPosition
 applyVelocity oldPos vel time =
-    (RealPosition ((realX oldPos) + (fromIntegral time) * (velX vel))
-                  ((realY oldPos) + (fromIntegral time) * (velY vel)))
+    (((fst oldPos) + (fromIntegral time) * (velX vel)),
+    ((snd oldPos) + (fromIntegral time) * (velY vel)))
