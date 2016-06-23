@@ -1,6 +1,6 @@
 # HGE2D
 A 2D game engine written in and for Haskell
-## Version 0.1.2.0
+## Version 0.1.3.0
 
 ## Install
 `git clone https://github.com/I3ck/HGE2D.git`  
