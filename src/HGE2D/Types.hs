@@ -4,34 +4,36 @@ import qualified Graphics.Rendering.OpenGL as GL
 
 --------------------------------------------------------------------------------
 
-type Meter = Double
-type MeterPmsec = Double
-type MeterPmsecSqr = Double
-
-type RealPosition = (Meter, Meter)
-type Velocity = (MeterPmsec, MeterPmsec)
-type Acceleration = (MeterPmsecSqr, MeterPmsecSqr)
-
-type Pixel = Double
-
 type Second         = Int
 type Millisecond    = Int
 
-type Mass = Double
+--------------------------------------------------------------------------------
 
-type Drag = Double
-
-type Radian = Double
-type Degree = Double
-
-type RotationSpeed = Radian
+type Degree         = Double
+type Drag           = Double
+type Mass           = Double
+type Meter          = Double
+type MeterPmsec     = Double
+type MeterPmsecSqr  = Double
+type Pixel          = Double
+type Radian         = Double
 type RotationAcceleration = Radian
+type RotationSpeed  = Radian
+
+--------------------------------------------------------------------------------
 
 type Width  = Double
 type Height = Double
 type PosX   = Double
 type PosY   = Double
 
+--------------------------------------------------------------------------------
+
+type Acceleration   = (MeterPmsecSqr, MeterPmsecSqr)
+type RealPosition   = (Meter, Meter)
+type Velocity       = (MeterPmsec, MeterPmsec)
+
+--------------------------------------------------------------------------------
 
 type GlPoint2    = GL.Vertex2 GL.GLfloat
 type GlPoint3    = GL.Vector3 GL.GLfloat

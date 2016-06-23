@@ -2,7 +2,7 @@
 --  see http://haskell.org/cabal/users-guide/
 
 name:                HGE2D
-version:             0.1.2.3
+version:             0.1.3.0
 -- synopsis:
 -- description:
 license:             MIT
