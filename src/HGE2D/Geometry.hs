@@ -14,8 +14,8 @@ deg2rad deg = deg * pi / 180
 radRealPos :: RealPosition -> RealPosition -> Radian
 radRealPos p1 p2 = atan2 dY dX
   where
-    Meter dX = (fst p2) - (fst p1)
-    Meter dY = (snd p2) - (snd p1)
+    dX = (fst p2) - (fst p1)
+    dY = (snd p2) - (snd p1)
 
 
 velAngle :: Velocity -> Radian

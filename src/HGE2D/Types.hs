@@ -1,12 +1,10 @@
-{-#LANGUAGE GeneralizedNewtypeDeriving #-}
-
 module HGE2D.Types where
 
 import qualified Graphics.Rendering.OpenGL as GL
 
 --------------------------------------------------------------------------------
 
-newtype Meter = Meter Double deriving (Show, Read, Eq, Ord, Num)
+type Meter = Double
 
 type RealPosition = (Meter, Meter)
 
