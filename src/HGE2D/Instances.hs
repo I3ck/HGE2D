@@ -73,6 +73,22 @@ instance Moveable PhysicalObject where
 
 --------------------------------------------------------------------------------
 
+instance Acceleratable RigidBody where
+    accBy by rb = rb { rigidVel = newVel }
+      where
+        newVel = ((fst oldVel) + (fst by) , (snd oldVel) + (snd by))
+        oldVel = rigidVel rb
+    accTo to rb = rb { rigidVel = to }
+
+instance Acceleratable PhysicalObject where
+    accBy by po = po { physicalVel = newVel }
+      where
+        newVel = ((fst oldVel) + (fst by) , (snd oldVel) + (snd by))
+        oldVel = physicalVel po
+    accTo to po = po { physicalVel = to }
+
+--------------------------------------------------------------------------------
+
 instance Dynamic RigidBody where
     moveInTime time rb = rb { rigidPos = newPos , rigidBB = newBB }
       where
