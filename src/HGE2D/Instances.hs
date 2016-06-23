@@ -60,7 +60,6 @@ instance Moveable RigidBody where
       where
         newBB = moveTo to (rigidBB rb)
         newPos = moveTo to $ rigidPos rb
-        by = ((fst newPos - getX rb), (snd newPos - getY rb))
 
 instance Moveable PhysicalObject where
     moveBy by po = po { physicalPos = newPos, physicalBB = newBB }
