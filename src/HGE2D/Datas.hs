@@ -34,17 +34,6 @@ data TilePosition = TilePosition
     , tileY     :: Int -- position in number of tiles from top starting with 0
     } deriving (Show, Read, Eq)
 
-data Velocity = Velocity
-    { velX      :: Double -- velocity in horizontal direction
-    , velY      :: Double -- velocity in vertical direction
-    } deriving (Show, Read)
-
-
-data Acceleration = Acceleration
-    { accX      :: Double -- acceleration in x direction
-    , accY      :: Double -- acceleration in y direction
-    } deriving (Show, Read)
-
 ---TODO unused, use radian instead
 data Direction = Direction
     { dirX      :: Double -- x component of the direction

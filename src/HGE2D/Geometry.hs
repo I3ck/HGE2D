@@ -19,7 +19,7 @@ radRealPos p1 p2 = atan2 dY dX
 
 
 velAngle :: Velocity -> Radian
-velAngle v = atan2 (velY v) (velX v)
+velAngle v = atan2 (fst v) (snd v)
 
 
 distance :: RealPosition -> RealPosition -> Double
@@ -38,8 +38,8 @@ interceptionPos (p1, v) (p2, v2) = (newX, newY)
   where
     tx = (fst p2) - (fst p1)
     ty = (snd p2) - (snd p1)
-    tvx = velX v2
-    tvy = velY v2
+    tvx = fst v2
+    tvy = snd v2
 
     a = tvx*tvx + tvy*tvy - v*v :: Double
     b = 2 * (tvx * tx + tvy * ty) :: Double
@@ -52,8 +52,8 @@ interceptionPos (p1, v) (p2, v2) = (newX, newY)
     t | temp > 0 = temp
       | otherwise = max t0 t1
 
-    newX = (fst p2) + (velX v2) * t
-    newY = (snd p2) + (velY v2) * t
+    newX = (fst p2) + (fst v2) * t
+    newY = (snd p2) + (snd v2) * t
 
 makeRB :: RealPosition -> Velocity -> Pixel -> Pixel -> RigidBody
 makeRB center vel width height = RigidBody { rigidPos = center, rigidVel = vel, rigidBB = sizedBB center width height }
@@ -118,5 +118,5 @@ makeBB center width height = BoundingBox newMin newMax
 
 applyVelocity :: RealPosition -> Velocity -> Millisecond -> RealPosition
 applyVelocity oldPos vel time =
-    (((fst oldPos) + (fromIntegral time) * (velX vel)),
-    ((snd oldPos) + (fromIntegral time) * (velY vel)))
+    (((fst oldPos) + (fromIntegral time) * (fst vel)),
+    ((snd oldPos) + (fromIntegral time) * (snd vel)))

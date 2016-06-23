@@ -17,13 +17,13 @@ applyPhysics ms x = setPhys newPo x
 
     applyVel po = moveBy (dX, dY) po ---TODO define more general for reuse
       where
-        dX = (fromIntegral ms) * (velX $ physicalVel po)
-        dY = (fromIntegral ms) * (velY $ physicalVel po)
+        dX = (fromIntegral ms) * (fst $ physicalVel po)
+        dY = (fromIntegral ms) * (snd $ physicalVel po)
 
-    applyAcc po = po { physicalVel = (Velocity vX vY) } ---TODO see above
+    applyAcc po = po { physicalVel = (vX, vY) } ---TODO see above
       where
-        vX = (velX $ physicalVel po) + (fromIntegral ms) * (accX $ physicalAcc po)
-        vY = (velY $ physicalVel po) + (fromIntegral ms) * (accY $ physicalAcc po)
+        vX = (fst $ physicalVel po) + (fromIntegral ms) * (fst $ physicalAcc po)
+        vY = (snd $ physicalVel po) + (fromIntegral ms) * (snd $ physicalAcc po)
 
     applyRotVel po = po { physicalRot = fixedRot } ---TODO see above
       where

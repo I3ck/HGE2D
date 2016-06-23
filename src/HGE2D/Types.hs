@@ -5,8 +5,12 @@ import qualified Graphics.Rendering.OpenGL as GL
 --------------------------------------------------------------------------------
 
 type Meter = Double
+type MeterPmsec = Double
+type MeterPmsecSqr = Double
 
 type RealPosition = (Meter, Meter)
+type Velocity = (MeterPmsec, MeterPmsec)
+type Acceleration = (MeterPmsecSqr, MeterPmsecSqr)
 
 type Pixel = Double
 
