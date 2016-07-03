@@ -7,23 +7,22 @@ import HGE2D.Classes
 --------------------------------------------------------------------------------
 
 doCollide :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-doCollide hasBB1 hasBB2 = not $    (bb2Left   > bb1Right)
-                                || (bb2Right  < bb1Left)
-                                || (bb2Top    > bb1Bottom)
-                                || (bb2Bottom < bb1Top)
-  where
-    bb1Top    = snd $ bbMin bb1
-    bb1Right  = fst $ bbMax bb1
-    bb1Bottom = snd $ bbMax bb1
-    bb1Left   = fst $ bbMin bb1
-
-    bb2Top    = snd $ bbMin bb2
-    bb2Right  = fst $ bbMax bb2
-    bb2Bottom = snd $ bbMax bb2
-    bb2Left   = fst $ bbMin bb2
-
-    bb1 = getBB hasBB1
-    bb2 = getBB hasBB2
+doCollide hasBB1 hasBB2 = 2.0 * xcenterthis - xcenterother < (xsizethis + xsizeother) && 2.0 * ycenterthis - ycenterother < (ysizethis + ysizeother)
+    where
+      bb1 = getBB hasBB1
+      bb2 = getBB hasBB2
+      minthis = bbMin bb1
+      maxthis = bbMax bb1
+      minother = bbMin bb2
+      maxother = bbMax bb2
+      xsizethis = abs $ (fst minthis) - (fst maxthis)
+      ysizethis = abs $ (snd minthis) - (snd maxthis)
+      xsizeother = abs $ (fst minother) - (fst maxother)
+      ysizeother = abs $ (snd minother) - (snd maxother)
+      xcenterthis = (fst minthis) + (fst maxthis) / 2.0
+      ycenterthis = (snd minthis) + (snd maxthis) / 2.0
+      xcenterother = (fst minother) + (fst maxother) / 2.0
+      ycenterother = (snd minother) + (snd maxother) / 2.0
 
 --------------------------------------------------------------------------------
 
