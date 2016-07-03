@@ -27,23 +27,14 @@ doContain hasBB1 hasBB2 =   (isInside hasBB1 hasBB2)
 --------------------------------------------------------------------------------
 
 isInside :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-isInside hasBBIn hasBBOut =    (bbInTop    > bbOutTop)
-                            && (bbInBottom < bbOutBottom)
-                            && (bbInLeft   > bbOutLeft)
-                            && (bbInRight  < bbOutRight)
+isInside hasBBIn hasBBOut =  (fst minIn) > (fst minOut)
+                          && (snd minIn) > (snd minOut)
+                          && (fst maxIn) < (fst maxOut)
+                          && (snd maxIn) < (snd maxOut)
   where
-      bbInTop     = snd $ bbMin bbIn
-      bbInRight   = fst $ bbMax bbIn
-      bbInBottom  = snd $ bbMax bbIn
-      bbInLeft    = fst $ bbMin bbIn
-
-      bbOutTop    = snd $ bbMin bbOut
-      bbOutRight  = fst $ bbMax bbOut
-      bbOutBottom = snd $ bbMax bbOut
-      bbOutLeft   = fst $ bbMin bbOut
-
-      bbIn        = getBB hasBBIn
-      bbOut       = getBB hasBBOut
+    (bbIn, bbOut)       = (getBB hasBBIn, getBB hasBBOut)
+    (minIn, maxIn)      = (bbMin bbIn, bbMax bbIn)
+    (minOut, maxOut)    = (bbMin bbOut, bbMax bbOut)
 
 --------------------------------------------------------------------------------
 
