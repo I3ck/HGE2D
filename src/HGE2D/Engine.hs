@@ -10,8 +10,10 @@ import Graphics.UI.GLUT
 
 runEngine :: EngineState a -> a -> IO ()
 runEngine es impl = do
+    secs <- getSeconds
+    let ms = toMilliSeconds secs
 
-    state <- newMVar impl
+    state <- newMVar $ setTime es ms impl
 
     (_progName, _args)    <- getArgsAndInitialize
     initialDisplayMode    $= [DoubleBuffered]
