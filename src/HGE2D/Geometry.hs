@@ -3,6 +3,7 @@ module HGE2D.Geometry where
 import HGE2D.Math
 import HGE2D.Types
 import HGE2D.Datas
+import HGE2D.Classes
 
 ---TODO rewrite most / all functions to use classes
 rad2deg :: Double -> Double
@@ -21,16 +22,23 @@ radRealPos p1 p2 = atan2 dY dX
 velAngle :: Velocity -> Radian
 velAngle v = atan2 (fst v) (snd v)
 
+distance :: (Positioned a, Positioned b) => a -> b -> Double
+distance x y = sqrt $ distanceSqr x y
 
-distance :: RealPosition -> RealPosition -> Double
-distance v1 v2 = sqrt $ (fst v1 - fst v2)**2 + (snd v1 - snd v2)**2
-
-direction :: RealPosition -> RealPosition -> RealPosition --- TODO define different types?
-direction pos1 pos2 = (newX, newY)
+distanceSqr :: (Positioned a, Positioned b) => a -> b -> Double
+distanceSqr x y = (fst p1 - fst p2)**2 + (snd p1 - snd p2)**2
   where
-    newX = ((fst pos2) - (fst pos1)) / l
-    newY = ((snd pos2) - (snd pos1)) / l
-    l = distance pos1 pos2
+    p1 = getPos x
+    p2 = getPos y
+
+direction :: (Positioned a, Positioned b) => a -> b -> RealPosition
+direction x y = (newX, newY)
+  where
+    newX = ((fst p2) - (fst p1)) / l
+    newY = ((snd p2) - (snd p1)) / l
+    l = distance x y
+    p1 = getPos x
+    p2 = getPos y
 
 
 interceptionPos :: (RealPosition, Double) -> (RealPosition, Velocity) -> RealPosition
