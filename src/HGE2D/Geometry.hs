@@ -1,5 +1,7 @@
 module HGE2D.Geometry where
 
+import Data.List
+
 import HGE2D.Math
 import HGE2D.Types
 import HGE2D.Datas
@@ -39,6 +41,12 @@ direction x y = (newX, newY)
     l = distance x y
     p1 = getPos x
     p2 = getPos y
+
+closest :: (Positioned a, Positioned b) => a -> [b] -> b
+closest a bs = minimumBy (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
+
+furthest :: (Positioned a, Positioned b) => a -> [b] -> b
+furthest a bs = maximumBy (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
 
 
 interceptionPos :: (RealPosition, Double) -> (RealPosition, Velocity) -> RealPosition

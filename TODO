@@ -67,3 +67,5 @@ define all types in units
 more examples and update the README
 
 tests!
+
+use maybe types in methods like closest
