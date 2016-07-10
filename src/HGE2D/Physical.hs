@@ -1,3 +1,10 @@
+-- |
+-- Module      :  HGE2D.Physical
+-- Copyright   :  (c) 2016 Martin Buck
+-- License     :  see LICENSE
+--
+-- Containing functions for PhysicalObjects
+
 module HGE2D.Physical where
 
 import HGE2D.Types
@@ -10,6 +17,8 @@ import HGE2D.Instances
 ---TODO not fully implemented
 ---TODO rename
 ---TODO rename class to HasPhysicalObject
+
+-- | Applies physics to a physical object. E.g. velocity changing position, acceleration changing velocity ...
 applyPhysics :: (IsPhysicalObject a) => Millisecond -> a -> a
 applyPhysics ms x = setPhys newPo x
   where
