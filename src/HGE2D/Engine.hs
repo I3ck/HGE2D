@@ -1,3 +1,10 @@
+-- |
+-- Module      :  HGE2D.Engine
+-- Copyright   :  (c) 2016 Martin Buck
+-- License     :  see LICENSE
+--
+-- Containing functions for the engine, mostly to interact with GLUT and OpenGL
+
 module HGE2D.Engine where
 
 import HGE2D.Datas
@@ -8,6 +15,9 @@ import HGE2D.Render ()
 import Control.Concurrent (newMVar, readMVar, takeMVar, putMVar, MVar)
 import Graphics.UI.GLUT
 
+--------------------------------------------------------------------------------
+
+-- | Main function to run the engine
 runEngine :: EngineState a -> a -> IO ()
 runEngine es impl = do
     secs <- getSeconds
@@ -31,6 +41,7 @@ runEngine es impl = do
 
 --------------------------------------------------------------------------------
 
+-- | Function to render the current state of the engine
 display :: EngineState a -> MVar (a) -> IO ()
 display es mvarGs = do
   clear [ColorBuffer]
@@ -40,6 +51,7 @@ display es mvarGs = do
 
 --------------------------------------------------------------------------------
 
+-- | Function to react to changes of the window size
 reshape :: EngineState a -> MVar (a) -> Size -> IO ()
 reshape es mvarGs (Size width height) = do
     gs <- takeMVar mvarGs
@@ -55,6 +67,8 @@ reshape es mvarGs (Size width height) = do
 --------------------------------------------------------------------------------
 
 ---TODO here named grab, but engine method named drag, name both the same
+
+-- | Mouse grab interactions with the engine
 mouseGrab :: EngineState a -> MVar (a) -> Position -> IO ()
 mouseGrab es mvarGs (Position x y) = do
     gs <- takeMVar mvarGs ---TODO rename
@@ -68,6 +82,7 @@ mouseGrab es mvarGs (Position x y) = do
     putMVar mvarGs newState
     return ()
 
+-- | Mouse hover interactions with the engine
 mouseHover :: EngineState a -> MVar (a) -> Position -> IO ()
 mouseHover es mvarGs (Position x y) = do
     gs <- takeMVar mvarGs ---TODO rename
@@ -82,6 +97,7 @@ mouseHover es mvarGs (Position x y) = do
     return ()
 
 
+-- | Keyboard and mouse interactions with the engine
 keyboardMouse :: EngineState a -> MVar (a) -> Key -> KeyState -> Modifiers -> Position -> IO ()
 keyboardMouse es mvarGs (MouseButton LeftButton) Down _modifiers (Position x y) = mouseDown es mvarGs x y
 keyboardMouse es mvarGs (MouseButton LeftButton) Up   _modifiers (Position x y) = mouseUp   es mvarGs x y
@@ -91,6 +107,7 @@ keyboardMouse _ _ _ _ _ _ =  return ()
 
 --------------------------------------------------------------------------------
 
+-- | MouseDown interaction with the engine
 mouseDown :: EngineState a -> MVar (a) -> GLint -> GLint -> IO ()
 mouseDown es mvarGs x y = do
     gs <- takeMVar mvarGs ---TODO rename
@@ -105,6 +122,7 @@ mouseDown es mvarGs x y = do
     putMVar mvarGs newState
     return ()
 
+-- | MouseUp interaction with the engine
 mouseUp :: EngineState a -> MVar (a) -> GLint -> GLint -> IO ()
 mouseUp es mvarGs x y = do
     gs <- takeMVar mvarGs ---TODO rename
@@ -121,6 +139,7 @@ mouseUp es mvarGs x y = do
 
 --------------------------------------------------------------------------------
 
+-- | KeyPress interaction with the engine
 keyDown :: EngineState a -> MVar (a) -> GLint -> GLint -> Char -> IO ()
 keyDown es mvarGs x y c = do
     gs <- takeMVar mvarGs ---TODO rename
@@ -135,6 +154,7 @@ keyDown es mvarGs x y c = do
     putMVar mvarGs newState
     return ()
 
+-- | KeyRelease interaction with the engine
 keyUp :: EngineState a -> MVar (a) -> GLint -> GLint -> Char -> IO ()
 keyUp es mvarGs x y c = do
     gs <- takeMVar mvarGs ---TODO rename
@@ -151,6 +171,7 @@ keyUp es mvarGs x y c = do
 
 --------------------------------------------------------------------------------
 
+-- | Idle function of the engine. Used to e.g. apply changes in time to the game state
 idle :: EngineState a -> MVar (a) -> IdleCallback
 idle es mvarGs = do
   gs   <- takeMVar mvarGs
