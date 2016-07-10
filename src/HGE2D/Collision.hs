@@ -48,17 +48,15 @@ isInside hasBBIn hasBBOut =  (fst minIn) > (fst minOut)
 
 --------------------------------------------------------------------------------
 
----TODO use HasPosition?
-
 -- | Tests whether a position is within the bounding box
-isInsideRP :: (HasBoundingBox a) => RealPosition -> a -> Bool
+isInsideRP :: (Positioned a, HasBoundingBox b) => a -> b -> Bool
 isInsideRP pos hasBB =  (posX > bbLeft)
                      && (posX < bbRight)
                      && (posY > bbTop)
                      && (posY < bbBottom)
   where
-    posX     = fst pos
-    posY     = snd pos
+    posX     = fst $ getPos pos
+    posY     = snd $ getPos pos
     bbTop    = snd $ bbMin bb
     bbRight  = fst $ bbMax bb
     bbBottom = snd $ bbMax bb
