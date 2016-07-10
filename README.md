@@ -3,6 +3,8 @@ A 2D game engine written in and for Haskell
 ## Version 0.1.6.0
 
 ## Install
+get it via `cabal  install HGE2D` (https://hackage.haskell.org/package/HGE2D)  
+or directly via git :  
 `git clone https://github.com/I3ck/HGE2D.git`  
 `cd HGE2D`  
 `cabal install` (to install the lib)  
