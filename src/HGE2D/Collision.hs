@@ -1,3 +1,10 @@
+-- |
+-- Module      :  HGE2D.Collision
+-- Copyright   :  (c) 2016 Martin Buck
+-- License     :  see LICENSE
+--
+-- Containing functions for collision detection
+
 module HGE2D.Collision where
 
 import HGE2D.Types
@@ -6,6 +13,7 @@ import HGE2D.Classes
 
 --------------------------------------------------------------------------------
 
+-- | Tests whether two objects collide (overlap in any way)
 doCollide :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
 doCollide hasBB1 hasBB2 = 2.0 * xcenterthis - xcenterother < (xsizethis + xsizeother)
                        && 2.0 * ycenterthis - ycenterother < (ysizethis + ysizeother)
@@ -20,12 +28,14 @@ doCollide hasBB1 hasBB2 = 2.0 * xcenterthis - xcenterother < (xsizethis + xsizeo
 
 --------------------------------------------------------------------------------
 
+-- | Tests whether either of the two objects fully contain the other
 doContain :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
 doContain hasBB1 hasBB2 =   (isInside hasBB1 hasBB2)
                          || (isInside hasBB2 hasBB1)
 
 --------------------------------------------------------------------------------
 
+-- | Tests whether the first is fully in the second
 isInside :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
 isInside hasBBIn hasBBOut =  (fst minIn) > (fst minOut)
                           && (snd minIn) > (snd minOut)
@@ -38,6 +48,9 @@ isInside hasBBIn hasBBOut =  (fst minIn) > (fst minOut)
 
 --------------------------------------------------------------------------------
 
+---TODO use HasPosition?
+
+-- | Tests whether a position is within the bounding box
 isInsideRP :: (HasBoundingBox a) => RealPosition -> a -> Bool
 isInsideRP pos hasBB =  (posX > bbLeft)
                      && (posX < bbRight)
