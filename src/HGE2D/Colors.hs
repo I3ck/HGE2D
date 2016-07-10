@@ -1,3 +1,10 @@
+-- |
+-- Module      :  HGE2D.Colors
+-- Copyright   :  (c) 2016 Martin Buck
+-- License     :  see LICENSE
+--
+-- Containing color definitions to have easy access to basic colors
+
 module HGE2D.Colors where
 
 import HGE2D.Types
@@ -10,7 +17,7 @@ colorBlack = (0, 0, 0)
 colorWhite :: GlColorRGB
 colorWhite = (1, 1, 1)
 
-colorIce :: GlColorRGB 
+colorIce :: GlColorRGB
 colorIce = (0.45, 0.73, 0.98)
 
 colorMetal :: GlColorRGB
@@ -39,4 +46,3 @@ colorRock = (0.73, 0.73, 0.73)
 
 colorLaser :: GlColorRGB
 colorLaser = (0, 1, 0)
-
