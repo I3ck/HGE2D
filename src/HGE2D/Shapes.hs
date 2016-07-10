@@ -1,3 +1,10 @@
+-- |
+-- Module      :  HGE2D.Shapes
+-- Copyright   :  (c) 2016 Martin Buck
+-- License     :  see LICENSE
+--
+-- Containing basic shapes which can be used to define more complex ones through combination
+
 module HGE2D.Shapes where
 
 import HGE2D.Settings
@@ -9,6 +16,7 @@ import qualified Graphics.Rendering.OpenGL as GL
 
 --------------------------------------------------------------------------------
 
+-- | A bordered rectangle define by width, height, thickness and two colors
 borderedRectangle :: GlWidth -> GlHeight -> GlThickness -> GlColorRGB -> GlColorRGBA -> RenderInstruction
 borderedRectangle w h t colorInner colorBorder = RenderMany
     [ RenderColorize colorInner
@@ -17,9 +25,11 @@ borderedRectangle w h t colorInner colorBorder = RenderMany
     , wireFrame w h t
     ]
 
+-- | A line defined by its start and end points and a thickness
 line :: GlPoint2 -> GlPoint2 -> GlThickness -> RenderInstruction
 line start end w = RenderLineStrip [start, end] w
 
+-- | A wireframe defined by width heigh and thickness (the borders of a box)
 wireFrame :: GlWidth -> GlHeight -> GlThickness -> RenderInstruction
 wireFrame w h t = RenderLineLoop [ll, lr, ur, ul] t
   where
@@ -33,7 +43,7 @@ wireFrame w h t = RenderLineLoop [ll, lr, ur, ul] t
     yMin = - (h/2)
     yMax =   (h/2)
 
-
+-- | A rectangle defined by width and height
 rectangle :: GlWidth -> GlHeight -> RenderInstruction
 rectangle w h = RenderTriangle [ll, lr, ur, ur, ul, ll]
   where
@@ -47,6 +57,7 @@ rectangle w h = RenderTriangle [ll, lr, ur, ur, ul, ll]
     yMin = - (h/2)
     yMax =   (h/2)
 
+-- | A ring defined by its radius and thickness
 ring :: GlRadius -> GlThickness -> RenderInstruction
 ring r w = RenderLineLoop (buildRing 0 []) w
   where
@@ -64,7 +75,7 @@ ring r w = RenderLineLoop (buildRing 0 []) w
               y = r * sin phi
               phi = 2.0 * pi * (fromIntegral i / fromIntegral nFacesCircle)
 
-
+-- | A circle defined by its radius
 circle :: GlRadius -> RenderInstruction
 circle r = RenderTriangle (buildCircle 0 [])
   where
