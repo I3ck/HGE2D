@@ -3,8 +3,8 @@
 
 name:                HGE2D
 version:             0.1.6.0
--- synopsis:
--- description:
+synopsis:            2D game engine written in Haskell
+description:         See README and examples/ for further information
 license:             MIT
 license-file:        LICENSE
 author:              Martin Buck
