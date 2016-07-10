@@ -7,9 +7,11 @@ synopsis:            2D game engine written in Haskell
 description:         See README and examples/ for further information
 license:             MIT
 license-file:        LICENSE
-author:              Martin Buck
-maintainer:          buckmartin@buckmartin.de
--- copyright:
+author:              Martin Buck <buckmartin@buckmartin.de>
+maintainer:          Martin Buck <buckmartin@buckmartin.de>
+copyright:           Martin Buck <buckmartin@buckmartin.de>
+homepage:            https://github.com/I3ck/HGE2D
+bug-reports:         https://github.com/I3ck/HGE2D/issues
 category:            Game
 build-type:          Simple
 -- extra-source-files:
