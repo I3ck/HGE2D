@@ -1,3 +1,10 @@
+-- |
+-- Module      :  HGE2D.Render
+-- Copyright   :  (c) 2016 Martin Buck
+-- License     :  see LICENSE
+--
+-- Containing the instance of GlRender for a RenderInstruction
+
 module HGE2D.Render where
 
 import HGE2D.Datas
@@ -9,6 +16,8 @@ import Graphics.UI.GLUT
 
 --------------------------------------------------------------------------------
 
+-- | Instance of GLRender for a RenderInstruction
+--   Makes it possible to render the RenderInstruction primitives
 instance GlRender RenderInstruction where
     glRender renderInstruction = case renderInstruction of
         RenderNothing                     -> return ()
@@ -34,5 +43,7 @@ instance GlRender RenderInstruction where
 
 ---TODO move definition somewhere else?
 ---TODO several version with different origin points
+
+-- | Adding a default camera instruction to a given RenderInstruction
 withCamera :: EngineState a -> a -> RenderInstruction -> RenderInstruction
 withCamera es impl = RenderWithCamera (-1.0) (1.0) (realToFrac $ 2.0 / (fst $ getSize es impl)) (negate $ realToFrac $ 2.0 / (snd $ getSize es impl))
