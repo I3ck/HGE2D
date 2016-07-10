@@ -69,3 +69,5 @@ more examples and update the README
 tests!
 
 use maybe types in methods like closest
+
+also document function params or fields of data types

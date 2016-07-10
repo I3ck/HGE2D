@@ -1,9 +1,17 @@
+-- |
+-- Module      :  HGE2D.Datas
+-- Copyright   :  (c) 2016 Martin Buck
+-- License     :  see LICENSE
+--
+-- Containing data definitions used within HGE2D
+
 module HGE2D.Datas where
 
 import HGE2D.Types
 
 import qualified Graphics.Rendering.OpenGL as GL
 
+-- | A physical object with position, sizes, velocities, accelerations, mass, drag etc.
 data PhysicalObject = PhysicalObject
     { physicalPos               :: RealPosition
     , physicalVel               :: Velocity
@@ -17,31 +25,28 @@ data PhysicalObject = PhysicalObject
     , physicalRotDrag           :: Drag ---TODO RotDrag?
     } deriving (Show, Read)
 
+-- | A rigidbody defined by position, size and velocity
 data RigidBody = RigidBody
     { rigidPos  :: RealPosition -- current position
     , rigidVel  :: Velocity     -- current velocity
     , rigidBB   :: BoundingBox  -- bounding box
     } deriving (Show, Read)
 
-
+-- | A bounding box defined by two positions in space
 data BoundingBox = BoundingBox
     { bbMin     :: RealPosition -- lower left corner of bb
     , bbMax     :: RealPosition -- upper right corner of bb
     } deriving (Show, Read)
 
+-- | A position defined in number of tiles in x and y direction
 data TilePosition = TilePosition
     { tileX     :: Int -- position in number of tiles from left starting with 0
     , tileY     :: Int -- position in number of tiles from top starting with 0
     } deriving (Show, Read, Eq)
 
----TODO unused, use radian instead
-data Direction = Direction
-    { dirX      :: Double -- x component of the direction
-    , dirY      :: Double -- y component of the direction
-    } deriving (Show, Read)
-
 --------------------------------------------------------------------------------
 
+-- | The enginestate which defines multiple callbacks required by the engine to interact with the gamestate
 data EngineState a = EngineState
     { click           :: PosX -> PosY -> a -> a -- how your game should change when clicked
     , mUp             :: PosX -> PosY -> a -> a -- how your game should change when mouse up happens
@@ -60,6 +65,7 @@ data EngineState a = EngineState
 
 --------------------------------------------------------------------------------
 
+-- | The instructions used to render the game
 data RenderInstruction = RenderNothing                                                       -- do nothing
                        | RenderWithCamera GlPosX GlPosY GlScaleX GlScaleY RenderInstruction  -- render with a given camera view
                        | RenderText String                                                   -- render a string
