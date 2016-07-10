@@ -1,3 +1,10 @@
+-- |
+-- Module      :  HGE2D.Instances
+-- Copyright   :  (c) 2016 Martin Buck
+-- License     :  see LICENSE
+--
+-- Containing instance definitions for the classes / types of HGE2D
+
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 
@@ -10,22 +17,27 @@ import HGE2D.Classes
 
 --------------------------------------------------------------------------------
 
+-- | Instance of HasBoundingBox for BoundingBox
 instance HasBoundingBox BoundingBox where
     getBB = id
 
+-- | Instance of HasBoundingBox for RigidBody
 instance HasBoundingBox RigidBody where
     getBB = rigidBB
 
+-- | Instance of HasBoundingBox for PhysicalObject
 instance HasBoundingBox PhysicalObject where
     getBB = physicalBB
 
 --------------------------------------------------------------------------------
 
+-- | Instance of Positioned for RealPosition
 instance Positioned RealPosition where
     getPos = id
     getX = fst
     getY = snd
 
+-- | Instance of Positioned for RigidBody
 instance Positioned RigidBody where
     getPos = getPos . rigidPos
     getX = getX . rigidPos
@@ -33,6 +45,7 @@ instance Positioned RigidBody where
 
 --------------------------------------------------------------------------------
 
+-- | Instance of Moveable for RealPosition
 instance Moveable RealPosition where
     moveBy by pos = (newX, newY)
       where
@@ -40,6 +53,7 @@ instance Moveable RealPosition where
         newY = snd pos + snd by
     moveTo to _ = ((fst to), (snd to))
 
+-- | Instance of Moveable for BoundingBox
 instance Moveable BoundingBox where
     moveBy by bb = BoundingBox { bbMin = newMinPos, bbMax = newMaxPos }
       where
@@ -51,6 +65,7 @@ instance Moveable BoundingBox where
         newMinPos = moveTo by $ bbMin bb
         newMaxPos = moveTo by $ bbMax bb
 
+-- | Instance of Moveable for RigidBody
 instance Moveable RigidBody where
     moveBy by rb = rb { rigidPos = newPos , rigidBB = newBB }
       where
@@ -61,6 +76,7 @@ instance Moveable RigidBody where
         newBB = moveTo to (rigidBB rb)
         newPos = moveTo to $ rigidPos rb
 
+-- | Instance of Moveable for PhysicalObject
 instance Moveable PhysicalObject where
     moveBy by po = po { physicalPos = newPos, physicalBB = newBB }
       where
@@ -73,6 +89,7 @@ instance Moveable PhysicalObject where
 
 --------------------------------------------------------------------------------
 
+-- | Instance of Acceleratable for RigidBody
 instance Acceleratable RigidBody where
     accBy by rb = rb { rigidVel = newVel }
       where
@@ -80,6 +97,7 @@ instance Acceleratable RigidBody where
         oldVel = rigidVel rb
     accTo to rb = rb { rigidVel = to }
 
+-- | Instance of Acceleratable for PhysicalObject
 instance Acceleratable PhysicalObject where
     accBy by po = po { physicalVel = newVel }
       where
@@ -89,6 +107,7 @@ instance Acceleratable PhysicalObject where
 
 --------------------------------------------------------------------------------
 
+-- | Instance of Dynamic for RigidBody
 instance Dynamic RigidBody where
     moveInTime time rb = rb { rigidPos = newPos , rigidBB = newBB }
       where
