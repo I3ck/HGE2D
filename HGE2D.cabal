@@ -2,7 +2,7 @@
 --  see http://haskell.org/cabal/users-guide/
 
 name:                HGE2D
-version:             0.1.6.1
+version:             0.1.6.2
 synopsis:            2D game engine written in Haskell
 description:         See README and examples/ for further information
 license:             MIT
@@ -36,6 +36,7 @@ library
     HGE2D.Geometry
     HGE2D.Collision
     HGE2D.Physical
+    HGE2D.Settings
   -- other-modules:
   -- other-extensions:
   build-depends:
