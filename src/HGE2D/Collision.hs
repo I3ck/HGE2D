@@ -10,21 +10,21 @@ module HGE2D.Collision where
 import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Classes
+import HGE2D.Geometry
+import HGE2D.Instances
 
 --------------------------------------------------------------------------------
 
 -- | Tests whether two objects collide (overlap in any way)
 doCollide :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-doCollide hasBB1 hasBB2 = 2.0 * xcenterthis - xcenterother < (xsizethis + xsizeother)
-                       && 2.0 * ycenterthis - ycenterother < (ysizethis + ysizeother)
+doCollide hasBB1 hasBB2 = abs (xcenterthis - xcenterother) < 0.5 * (xsizethis + xsizeother) &&
+                          abs (ycenterthis - ycenterother) < 0.5 * (ysizethis + ysizeother)
     where
       (bb1, bb2)                    = (getBB hasBB1, getBB hasBB2)
-      (minthis, maxthis)            = (bbMin bb1, bbMax bb1)
-      (minother, maxother)          = (bbMin bb2, bbMax bb2)
-      (xsizethis, ysizethis)        = (abs $ (fst minthis) - (fst maxthis),    abs $ (snd minthis) - (snd maxthis))
-      (xsizeother, ysizeother)      = (abs $ (fst minother) - (fst maxother),    abs $ (snd minother) - (snd maxother))
-      (xcenterthis, ycenterthis)    = ((fst minthis) + (fst maxthis) / 2.0,    (snd minthis) + (snd maxthis) / 2.0)
-      (xcenterother, ycenterother)  = ((fst minother) + (fst maxother) / 2.0,    (snd minother) + (snd maxother) / 2.0)
+      (xsizethis, ysizethis)        = (fst $ sizeBB bb1, snd $ sizeBB bb1)
+      (xsizeother, ysizeother)      = (fst $ sizeBB bb2, snd $ sizeBB bb2)
+      (xcenterthis, ycenterthis)    = (getX bb1, getY bb1)
+      (xcenterother, ycenterother)  = (getX bb2, getY bb2)
 
 --------------------------------------------------------------------------------
 
