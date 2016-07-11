@@ -47,8 +47,8 @@ instance Positioned RigidBody where
 instance Positioned BoundingBox where
     getPos bb = (x, y)
       where
-        x = 0.5 * (fst $ bbMin bb) + (fst $ bbMax bb)
-        y = 0.5 * (snd $ bbMin bb) + (snd $ bbMax bb)
+        x = 0.5 * ((fst $ bbMin bb) + (fst $ bbMax bb))
+        y = 0.5 * ((snd $ bbMin bb) + (snd $ bbMax bb))
     getX = fst . getPos
     getY = snd . getPos
 
