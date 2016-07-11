@@ -43,6 +43,15 @@ instance Positioned RigidBody where
     getX = getX . rigidPos
     getY = getY . rigidPos
 
+-- | Instance of Positioned for BoundingBox
+instance Positioned BoundingBox where
+    getPos bb = (x, y)
+      where
+        x = 0.5 * (fst $ bbMin bb) + (fst $ bbMax bb)
+        y = 0.5 * (snd $ bbMin bb) + (snd $ bbMax bb)
+    getX = fst . getPos
+    getY = snd . getPos
+
 --------------------------------------------------------------------------------
 
 -- | Instance of Moveable for RealPosition
