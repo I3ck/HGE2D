@@ -14,6 +14,8 @@ import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Classes
 
+import Safe
+
 ---TODO rewrite most / all functions to use classes
 ---TODO use typedefs
 
@@ -60,12 +62,12 @@ direction x y = (newX, newY)
     p2 = getPos y
 
 -- | Find the closest in [b] to a
-closest :: (Positioned a, Positioned b) => a -> [b] -> b
-closest a bs = minimumBy (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
+closest :: (Positioned a, Positioned b) => a -> [b] -> Maybe b
+closest a bs = minimumByMay (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
 
 -- | Find the furthest in [b] to a
-furthest :: (Positioned a, Positioned b) => a -> [b] -> b
-furthest a bs = maximumBy (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
+furthest :: (Positioned a, Positioned b) => a -> [b] -> Maybe b
+furthest a bs = minimumByMay (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
 
 -- | Given a position and projectile speed of a gun / turret and an object defined by its current position and velocity
 --   Calculates the position where both will intercept. (useful for pre-aiming)
