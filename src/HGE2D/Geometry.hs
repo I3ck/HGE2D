@@ -123,11 +123,21 @@ centerBB bb = (newX, newY)
     newY = (snd $ bbMin bb) + (height / 2)
     (width, height) = sizeBB bb
 
----TODO make monoid
+
+-- | Testing whether a BoundingBox has the same min and max values
+isNullBB :: BoundingBox -> Bool
+isNullBB bb = (bbMin bb) == (bbMax bb)
+
+-- | A BoundingBox which counts as null, having the same min and max position
+nullBB :: BoundingBox
+nullBB = BoundingBox (0,0) (0,0)
 
 -- | Merges two bounding boxes, creating a new one which wraps around the inputs
+--   In case a nullBB is passed as one parameter, the other BoundingBox is returned
 mergeBB :: BoundingBox -> BoundingBox -> BoundingBox
-mergeBB bb1 bb2 = BoundingBox newMin newMax
+mergeBB bb1 bb2 | isNullBB bb1 = bb2
+                | isNullBB bb2 = bb1
+                | otherwise    = BoundingBox newMin newMax
   where
     newMin = mergeMin (bbMin bb1) (bbMin bb2)
     newMax = mergeMax (bbMax bb1) (bbMax bb2)

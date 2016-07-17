@@ -73,3 +73,7 @@ use maybe types in methods like closest
 also document function params or fields of data types
 
 search structures (quad tree) for faster collision detection
+
+missing right click binding
+
+tileposition should be of type (Int, Int)

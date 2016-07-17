@@ -17,6 +17,13 @@ import HGE2D.Classes
 
 --------------------------------------------------------------------------------
 
+-- | Instance of Monoid for BoundingBox
+instance Monoid BoundingBox where
+    mempty = nullBB
+    mappend = mergeBB
+
+--------------------------------------------------------------------------------
+
 -- | Instance of HasBoundingBox for BoundingBox
 instance HasBoundingBox BoundingBox where
     getBB = id
