@@ -12,7 +12,7 @@ import HGE2D.Classes
 import HGE2D.Time
 import HGE2D.Render ()
 
-import Control.Concurrent (newMVar, readMVar, takeMVar, putMVar, MVar)
+import Control.Concurrent (newMVar, readMVar, takeMVar, putMVar, swapMVar, MVar)
 import Graphics.UI.GLUT
 
 --------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ mouseGrab es mvarGs (Position x y) = do
 -- | Mouse hover interactions with the engine
 mouseHover :: EngineState a -> MVar (a) -> Position -> IO ()
 mouseHover es mvarGs (Position x y) = do
-    gs <- takeMVar mvarGs ---TODO rename
+    gs <- readMVar mvarGs ---TODO rename
 
     let w          = fst $ getSize es gs
         h          = snd $ getSize es gs
@@ -93,7 +93,7 @@ mouseHover es mvarGs (Position x y) = do
         correctedY = (realToFrac y) * (snd $ getSize es gs) / h
         newState   = hover es correctedX correctedY gs
 
-    putMVar mvarGs newState
+    swapMVar mvarGs newState
     return ()
 
 
@@ -110,7 +110,7 @@ keyboardMouse _ _ _ _ _ _ =  return ()
 -- | MouseDown interaction with the engine
 mouseDown :: EngineState a -> MVar (a) -> GLint -> GLint -> IO ()
 mouseDown es mvarGs x y = do
-    gs <- takeMVar mvarGs ---TODO rename
+    gs <- readMVar mvarGs ---TODO rename
 
     ---TODO define method for corrections since used here and in hover
     let w          = fst $ getSize es gs
@@ -119,13 +119,13 @@ mouseDown es mvarGs x y = do
         correctedY = (realToFrac y) * (snd $ getSize es gs) / h
         newState   = click es correctedX correctedY gs
 
-    putMVar mvarGs newState
+    swapMVar mvarGs newState
     return ()
 
 -- | MouseUp interaction with the engine
 mouseUp :: EngineState a -> MVar (a) -> GLint -> GLint -> IO ()
 mouseUp es mvarGs x y = do
-    gs <- takeMVar mvarGs ---TODO rename
+    gs <- readMVar mvarGs ---TODO rename
 
     ---TODO define method for corrections since used here and in hover
     let w          = fst $ getSize es gs
@@ -134,7 +134,7 @@ mouseUp es mvarGs x y = do
         correctedY = (realToFrac y) * (snd $ getSize es gs) / h
         newState   = mUp es correctedX correctedY gs
 
-    putMVar mvarGs newState
+    swapMVar mvarGs newState
     return ()
 
 --------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ mouseUp es mvarGs x y = do
 -- | KeyPress interaction with the engine
 keyDown :: EngineState a -> MVar (a) -> GLint -> GLint -> Char -> IO ()
 keyDown es mvarGs x y c = do
-    gs <- takeMVar mvarGs ---TODO rename
+    gs <- readMVar mvarGs ---TODO rename
 
     ---TODO define method for corrections since used here and in hover
     let w          = fst $ getSize es gs
@@ -151,13 +151,13 @@ keyDown es mvarGs x y c = do
         correctedY = (realToFrac y) * (snd $ getSize es gs) / h
         newState   = kDown es correctedX correctedY c gs
 
-    putMVar mvarGs newState
+    swapMVar mvarGs newState
     return ()
 
 -- | KeyRelease interaction with the engine
 keyUp :: EngineState a -> MVar (a) -> GLint -> GLint -> Char -> IO ()
 keyUp es mvarGs x y c = do
-    gs <- takeMVar mvarGs ---TODO rename
+    gs <- readMVar mvarGs ---TODO rename
 
     ---TODO define method for corrections since used here and in hover
     let w          = fst $ getSize es gs
@@ -166,7 +166,7 @@ keyUp es mvarGs x y c = do
         correctedY = (realToFrac y) * (snd $ getSize es gs) / h
         newState   = kUp es correctedX correctedY c gs
 
-    putMVar mvarGs newState
+    swapMVar mvarGs newState
     return ()
 
 --------------------------------------------------------------------------------
@@ -174,12 +174,12 @@ keyUp es mvarGs x y c = do
 -- | Idle function of the engine. Used to e.g. apply changes in time to the game state
 idle :: EngineState a -> MVar (a) -> IdleCallback
 idle es mvarGs = do
-  gs   <- takeMVar mvarGs
+  gs <- readMVar mvarGs
   secs <- getSeconds
 
   let ms       = toMilliSeconds secs
       deltaMs  = ms - (getTime es gs)
       newState = moveTime es deltaMs (setTime es ms gs) ---TODO currently bot setting the time AND transforming
 
-  putMVar mvarGs newState
+  swapMVar mvarGs newState
   postRedisplay Nothing
