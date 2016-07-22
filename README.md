@@ -85,6 +85,8 @@ For more information please take a look at the examples. These will also always 
 
 ## Examples
 
+[Full tower defense game](https://github.com/I3ck/HGE2Ddemo)
+
 [Simple "Hello world", showing draw methods and how to setup the state](src/examples/Example1.hs)  
 
 [Example showing how to react to mouse actions. Also first example showing how to alter the game state](src/examples/Example2.hs)  
