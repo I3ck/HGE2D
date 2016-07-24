@@ -51,6 +51,23 @@ distanceSqr x y = (fst p1 - fst p2)**2 + (snd p1 - snd p2)**2
     p1 = getPos x
     p2 = getPos y
 
+-- | Distance between a position and a bounding box
+distanceBB :: (Positioned a, HasBoundingBox b) => a -> b -> Double
+distanceBB p bb = sqrt $ distanceBBSqr p bb
+
+-- | Squared distance between a position and a bounding box
+--   Faster than calculating the distance. Can be used to e.g. compare distances cheaply
+distanceBBSqr :: (Positioned a, HasBoundingBox b) => a -> b -> Double
+distanceBBSqr p bb = dx * dx + dy * dy
+  where
+      dx = max 0 $ abs (xP - xBB) - w / 2.0
+      dy = max 0 $ abs (yP - yBB) - h / 2.0
+      xP = getX p
+      yP = getY p
+      xBB = fst $ centerBB $ getBB bb
+      yBB = snd $ centerBB $ getBB bb
+      (w, h) = sizeBB $ getBB bb
+
 -- | Calculate the direction vector between two positions
 direction :: (Positioned a, Positioned b) => a -> b -> RealPosition
 direction x y = (newX, newY)
