@@ -123,6 +123,16 @@ centerBB bb = (newX, newY)
     newY = (snd $ bbMin bb) + (height / 2)
     (width, height) = sizeBB bb
 
+-- | Calculates the bounding box of multiple positions
+bbFromList :: (Positioned a) => [a] -> BoundingBox
+bbFromList []  = nullBB
+bbFromList [x] = nullBB
+bbFromList xs  = BoundingBox (minX, minY) (maxX, maxY)
+  where
+    minX = minimum $ map getX xs
+    minY = minimum $ map getY xs
+    maxX = maximum $ map getX xs
+    maxY = maximum $ map getY xs
 
 -- | Testing whether a BoundingBox has the same min and max values
 isNullBB :: BoundingBox -> Bool
