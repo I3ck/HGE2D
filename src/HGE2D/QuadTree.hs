@@ -17,9 +17,26 @@ data QuadDir = NN | NP | PN | PP
 
 --------------------------------------------------------------------------------
 
+-- | Mapping function for the QuadTree. Do not use with functions which change the position of items,
+--   since they would invalidate the search structure (use fmapQuadRebuild instead)
+fmapQuad :: (Positioned a, Positioned b) => (a -> b) -> QuadTree a -> QuadTree b
+fmapQuad f QuadEmpty                    = QuadEmpty
+fmapQuad f (QuadLeaf x)                 = (QuadLeaf (f x))
+fmapQuad f (QuadBranch nn np pn pp bb)  = (QuadBranch (fmapQuad f nn) (fmapQuad f np) (fmapQuad f pn) (fmapQuad f pp) bb)
+
+-- | Mapping function for the QuadTree. This rebuilds the entire tree, but allows the usage of
+--   position changing functions. Use this only for positioned changing functions, and fmapQuad otherwise,
+--   since it is faster
+fmapQuadRebuild :: (Positioned a, Positioned b) => (a -> b) -> QuadTree a -> QuadTree b
+fmapQuadRebuild f old = buildQuadTree (bbFromList xs) xs
+  where
+    xs = map f $ quadTreeToList old
+
+--------------------------------------------------------------------------------
+
 ---TODO can drop bb param?
 
--- | Builds a QuadTree from a list of elements with positions
+-- | Builds a QuadTree from a list of elements with positions. 
 --   The BoundingBox should be the BoundingBox of the elements
 buildQuadTree :: (Positioned a) => BoundingBox -> [a] -> QuadTree a
 buildQuadTree _ []    = QuadEmpty
