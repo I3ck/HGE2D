@@ -28,30 +28,24 @@ fmapQuad f (QuadBranch nn np pn pp bb)  = (QuadBranch (fmapQuad f nn) (fmapQuad 
 --   position changing functions. Use this only for positioned changing functions, and fmapQuad otherwise,
 --   since it is faster
 fmapQuadRebuild :: (Positioned a, Positioned b) => (a -> b) -> QuadTree a -> QuadTree b
-fmapQuadRebuild f old = buildQuadTree (bbFromList xs) xs
+fmapQuadRebuild f old = buildQuadTree newXs
   where
-    xs = map f $ quadTreeToList old
+    newXs = map f $ quadTreeToList old
 
 --------------------------------------------------------------------------------
 
----TODO can drop bb param?
-
--- | Builds a QuadTree from a list of elements with positions. 
---   The BoundingBox should be the BoundingBox of the elements
-buildQuadTree :: (Positioned a) => BoundingBox -> [a] -> QuadTree a
-buildQuadTree _ []    = QuadEmpty
-buildQuadTree _ [x]   = QuadLeaf x
-buildQuadTree bb xs   = QuadBranch nn np pn pp bb
+-- | Builds a QuadTree from a list of elements with positions.
+buildQuadTree :: (Positioned a) => [a] -> QuadTree a
+buildQuadTree []  = QuadEmpty
+buildQuadTree [x] = QuadLeaf x
+buildQuadTree xs  = QuadBranch nn np pn pp bb
   where
-    nn = buildQuadTree bbnn $ filter isnn xs
-    np = buildQuadTree bbnp $ filter isnp xs
-    pn = buildQuadTree bbpn $ filter ispn xs
-    pp = buildQuadTree bbpp $ filter ispp xs
+    bb = bbFromList xs
 
-    bbnn = bbFromList [center, (bbMin bb)]
-    bbnp = bbFromList [center, (fst $ bbMin bb, snd $ bbMax bb)]
-    bbpn = bbFromList [center, (fst $ bbMax bb, snd $ bbMin bb)]
-    bbpp = bbFromList [center, (bbMax bb)]
+    nn = buildQuadTree $ filter isnn xs
+    np = buildQuadTree $ filter isnp xs
+    pn = buildQuadTree $ filter ispn xs
+    pp = buildQuadTree $ filter ispp xs
 
     center = centerBB bb
 
