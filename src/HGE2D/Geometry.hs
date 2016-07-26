@@ -151,9 +151,10 @@ bbFromList xs  = BoundingBox (minX, minY) (maxX, maxY)
     maxX = maximum $ map getX xs
     maxY = maximum $ map getY xs
 
+--- TODO hard define via enum
 -- | Testing whether a BoundingBox has the same min and max values
 isNullBB :: BoundingBox -> Bool
-isNullBB bb = (bbMin bb) == (bbMax bb)
+isNullBB bb = (bbMin bb) == (bbMax bb) && (bbMax bb) == (0.0, 0.0)
 
 -- | A BoundingBox which counts as null, having the same min and max position
 nullBB :: BoundingBox
