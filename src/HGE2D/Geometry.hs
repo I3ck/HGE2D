@@ -166,20 +166,24 @@ mergeBB bb1 bb2 | isNullBB bb1 = bb2
                 | isNullBB bb2 = bb1
                 | otherwise    = BoundingBox newMin newMax
   where
-    newMin = mergeMin (bbMin bb1) (bbMin bb2)
-    newMax = mergeMax (bbMax bb1) (bbMax bb2)
+    newMin = mergeMin poss
+    newMax = mergeMax poss
+    poss = [bbMin bb1, bbMin bb2, bbMax bb1, bbMax bb2]
 
-    mergeMin :: RealPosition -> RealPosition -> RealPosition
-    mergeMin pos1 pos2 = (x, y)
+    mergeMin :: [RealPosition]-> RealPosition
+    mergeMin poss = (x, y)
       where
-       x = min (fst pos1) (fst pos2)
-       y = min (snd pos1) (snd pos2)
+       x = fst $ minimumBy compareX poss
+       y = snd $ minimumBy compareY poss
 
-    mergeMax :: RealPosition -> RealPosition -> RealPosition
-    mergeMax pos1 pos2 = (x, y)
+    mergeMax :: [RealPosition] -> RealPosition
+    mergeMax poss = (x, y)
       where
-       x = max (fst pos1) (fst pos2)
-       y = max (snd pos1) (snd pos2)
+       x = fst $ maximumBy compareX poss
+       y = snd $ maximumBy compareY poss
+
+    compareX a b = compare (fst a) (fst b)
+    compareY a b = compare (snd a) (snd b)
 
 {- see above
 tilePosToBB :: TilePosition -> BoundingBox

@@ -107,3 +107,9 @@ quadTreeToList :: (Positioned a) => QuadTree a -> [a]
 quadTreeToList QuadEmpty = []
 quadTreeToList (QuadLeaf x) = [x]
 quadTreeToList (QuadBranch nn np pn pp _) = (quadTreeToList nn) ++ (quadTreeToList np) ++ (quadTreeToList pn) ++ (quadTreeToList pp)
+
+{-
+quadRebuild :: (Positioned a) => QuadTree a -> QuadTree a
+
+quadFilter :: (Positioned a) => (a -> Bool) -> QuadTree a -> QuadTree a
+-}
