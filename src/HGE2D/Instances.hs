@@ -19,7 +19,7 @@ import HGE2D.Classes
 
 -- | Instance of Monoid for BoundingBox
 instance Monoid BoundingBox where
-    mempty = nullBB
+    mempty = BBEmpty
     mappend = mergeBB
 
 --------------------------------------------------------------------------------

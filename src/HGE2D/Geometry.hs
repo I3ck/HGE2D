@@ -142,8 +142,8 @@ centerBB bb = (newX, newY)
 
 -- | Calculates the bounding box of multiple positions
 bbFromList :: (Positioned a) => [a] -> BoundingBox
-bbFromList []  = nullBB
-bbFromList [x] = nullBB
+bbFromList []  = BBEmpty
+bbFromList [_] = BBEmpty
 bbFromList xs  = BoundingBox (minX, minY) (maxX, maxY)
   where
     minX = minimum $ map getX xs
@@ -151,21 +151,12 @@ bbFromList xs  = BoundingBox (minX, minY) (maxX, maxY)
     maxX = maximum $ map getX xs
     maxY = maximum $ map getY xs
 
---- TODO hard define via enum
--- | Testing whether a BoundingBox has the same min and max values
-isNullBB :: BoundingBox -> Bool
-isNullBB bb = (bbMin bb) == (bbMax bb) && (bbMax bb) == (0.0, 0.0)
-
--- | A BoundingBox which counts as null, having the same min and max position
-nullBB :: BoundingBox
-nullBB = BoundingBox (0,0) (0,0)
-
 -- | Merges two bounding boxes, creating a new one which wraps around the inputs
 --   In case a nullBB is passed as one parameter, the other BoundingBox is returned
 mergeBB :: BoundingBox -> BoundingBox -> BoundingBox
-mergeBB bb1 bb2 | isNullBB bb1 = bb2
-                | isNullBB bb2 = bb1
-                | otherwise    = BoundingBox newMin newMax
+mergeBB BBEmpty bb2 = bb2
+mergeBB bb1 BBEmpty = bb1
+mergeBB bb1 bb2     = BoundingBox newMin newMax
   where
     newMin = mergeMin poss
     newMax = mergeMax poss

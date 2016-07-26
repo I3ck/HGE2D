@@ -33,10 +33,12 @@ data RigidBody = RigidBody
     } deriving (Show, Read, Eq)
 
 -- | A bounding box defined by two positions in space
-data BoundingBox = BoundingBox
-    { bbMin     :: RealPosition -- lower left corner of bb
-    , bbMax     :: RealPosition -- upper right corner of bb
-    } deriving (Show, Read, Eq)
+data BoundingBox = BBEmpty
+                 | BoundingBox
+                    { bbMin     :: RealPosition -- lower left corner of bb
+                    , bbMax     :: RealPosition -- upper right corner of bb
+                    }
+                 deriving (Show, Read, Eq)
 
 -- | A position defined in number of tiles in x and y direction
 data TilePosition = TilePosition
