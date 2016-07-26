@@ -1,3 +1,10 @@
+-- |
+-- Module      :  HGE2D.QuadTree
+-- Copyright   :  (c) 2016 Martin Buck
+-- License     :  see LICENSE
+--
+-- Containing the definition and functions for a quad tree
+
 module HGE2D.QuadTree where
 
 import HGE2D.Datas
@@ -6,6 +13,8 @@ import HGE2D.Geometry
 import HGE2D.Classes
 
 import Data.List
+
+--------------------------------------------------------------------------------
 
 -- | A QuadTree for faster search queries
 data (Positioned a) => QuadTree a = QuadEmpty   -- empty node

@@ -7,6 +7,8 @@
 
 module HGE2D.Math where
 
+---TODO return maybe instead of 0 0
+
 -- | Calculate the two minima of the quadratic equation
 quadraticEquation :: Double -> Double -> Double -> (Double, Double)
 quadraticEquation a b c = if d < 0 then (0, 0) else (x, y)

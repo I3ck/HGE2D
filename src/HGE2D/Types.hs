@@ -19,6 +19,11 @@ type Millisecond    = Int
 
 --------------------------------------------------------------------------------
 
+-- | Maximum depth of a tree
+type MaxDepth = Int
+
+--------------------------------------------------------------------------------
+
 -- | Angle in degrees
 type Degree         = Double
 

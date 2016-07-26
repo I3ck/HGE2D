@@ -77,3 +77,7 @@ search structures (quad tree) for faster collision detection
 missing right click binding
 
 tileposition should be of type (Int, Int)
+
+prefix types of classes to all of their functions / fields (or at least some unique prefix)
+
+update readme, since it doesnt mention the search trees and much more
