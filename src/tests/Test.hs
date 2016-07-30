@@ -7,6 +7,7 @@ import HGE2D.Classes
 import HGE2D.Instances
 import HGE2D.Geometry
 import HGE2D.Time
+import HGE2D.Collision
 
 import Test.Hspec
 import Test.QuickCheck
@@ -93,6 +94,40 @@ main = hspec $ do
 
         it "applyVelocity" $
             property $ \ pos vel time -> applyVelocity pos vel time == (((fst pos) + (fromIntegral time * (fst vel))), ((snd pos) + (fromIntegral time * (snd vel))))
+
+    describe "Collision.hs" $ do
+        it "doCollideNull1" $
+            property $ \ pMin pMax -> doCollide (BBEmpty) (BoundingBox pMin pMax) == False
+        it "doCollideNull2" $
+            property $ \ pMin pMax -> doCollide (BoundingBox pMin pMax) (BBEmpty) == False
+        it "doCollideSelf" $
+            property $ \pMin pMax -> doCollide (BoundingBox pMin pMax) (BoundingBox pMin pMax) == True
+        it "doCollide" $ do
+            doCollide (BoundingBox (0.0, 0.0) (1.0, 1.0)) (BoundingBox (1.1, 1.1) (2.0, 2.0)) `shouldBe` False
+            doCollide (BoundingBox (0.0, 0.0) (1.0, 1.0)) (BoundingBox (0.99, 0.99) (2.0, 2.0)) `shouldBe` True
+        it "isInsideNull1" $
+            property $ \ pMin pMax -> isInside (BBEmpty) (BoundingBox pMin pMax) == False
+        it "isInsideNull2" $
+            property $ \ pMin pMax -> isInside (BoundingBox pMin pMax) (BBEmpty) == False
+        it "isInside" $ do
+            isInside (BoundingBox (0.0, 0.0) (1.0, 1.0)) (BoundingBox (1.1, 1.1) (2.0, 2.0)) `shouldBe` False
+            isInside (BoundingBox (0.0, 0.0) (1.0, 1.0)) (BoundingBox (0.99, 0.99) (2.0, 2.0)) `shouldBe` False
+            isInside (BoundingBox (0.5, 0.5) (1.0, 1.0)) (BoundingBox (0.0, 0.0) (2.0, 2.0)) `shouldBe` True
+        it "isInsideRPNull1" $
+            property $ \ p -> isInsideRP (p :: RealPosition) BBEmpty == False
+        it "isInsideRP" $ do
+            isInsideRP ((0.0, 0.0) :: RealPosition) (BoundingBox (0.5, 0.5) (1.0, 1.0)) `shouldBe` False
+            isInsideRP ((0.7, 0.0) :: RealPosition) (BoundingBox (0.5, 0.5) (1.0, 1.0)) `shouldBe` False
+            isInsideRP ((0.7, 0.7) :: RealPosition) (BoundingBox (0.5, 0.5) (1.0, 1.0)) `shouldBe` True
+        it "doContainNull1" $
+            property $ \ pMin pMax -> doContain (BBEmpty) (BoundingBox pMin pMax) == False
+        it "doContainNull2" $
+            property $ \ pMin pMax -> doContain (BoundingBox pMin pMax) (BBEmpty) == False
+        it "doContain" $ do
+            doContain (BoundingBox (0.0, 0.0) (1.0, 1.0)) (BoundingBox (1.1, 1.1) (2.0, 2.0)) `shouldBe` False
+            doContain (BoundingBox (0.0, 0.0) (1.0, 1.0)) (BoundingBox (0.99, 0.99) (2.0, 2.0)) `shouldBe` False
+            doContain (BoundingBox (0.5, 0.5) (1.0, 1.0)) (BoundingBox (0.0, 0.0) (2.0, 2.0)) `shouldBe` True
+            doContain (BoundingBox (0.0, 0.0) (2.0, 2.0)) (BoundingBox (0.5, 0.5) (1.0, 1.0)) `shouldBe` True
 
     describe "RealPosition" $ do
         it "Positioned getX" $

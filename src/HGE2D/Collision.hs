@@ -17,8 +17,11 @@ import HGE2D.Instances
 
 -- | Tests whether two objects collide (overlap in any way)
 doCollide :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-doCollide hasBB1 hasBB2 = abs (xcenterthis - xcenterother) < 0.5 * (xsizethis + xsizeother) &&
-                          abs (ycenterthis - ycenterother) < 0.5 * (ysizethis + ysizeother)
+doCollide hasBB1 hasBB2 | bb1 == BBEmpty = False
+                        | bb2 == BBEmpty = False
+                        | bb1 == bb2     = True
+                        | otherwise = abs (xcenterthis - xcenterother) < 0.5 * (xsizethis + xsizeother) &&
+                                      abs (ycenterthis - ycenterother) < 0.5 * (ysizethis + ysizeother)
     where
       (bb1, bb2)                    = (getBB hasBB1, getBB hasBB2)
       (xsizethis, ysizethis)        = (fst $ sizeBB bb1, snd $ sizeBB bb1)
@@ -37,10 +40,13 @@ doContain hasBB1 hasBB2 =   (isInside hasBB1 hasBB2)
 
 -- | Tests whether the first is fully in the second
 isInside :: (HasBoundingBox a, HasBoundingBox b) => a -> b -> Bool
-isInside hasBBIn hasBBOut =  (fst minIn) > (fst minOut)
-                          && (snd minIn) > (snd minOut)
-                          && (fst maxIn) < (fst maxOut)
-                          && (snd maxIn) < (snd maxOut)
+isInside hasBBIn hasBBOut | bbIn == BBEmpty     = False
+                          | bbOut == BBEmpty    = False
+                          | bbIn == bbOut       = True
+                          | otherwise           =   (fst minIn) > (fst minOut)
+                                                 && (snd minIn) > (snd minOut)
+                                                 && (fst maxIn) < (fst maxOut)
+                                                 && (snd maxIn) < (snd maxOut)
   where
     (bbIn, bbOut)       = (getBB hasBBIn, getBB hasBBOut)
     (minIn, maxIn)      = (bbMin bbIn, bbMax bbIn)
@@ -50,10 +56,11 @@ isInside hasBBIn hasBBOut =  (fst minIn) > (fst minOut)
 
 -- | Tests whether a position is within the bounding box
 isInsideRP :: (Positioned a, HasBoundingBox b) => a -> b -> Bool
-isInsideRP pos hasBB =  (posX > bbLeft)
-                     && (posX < bbRight)
-                     && (posY > bbTop)
-                     && (posY < bbBottom)
+isInsideRP pos hasBB | bb == BBEmpty = False
+                     | otherwise     =    (posX > bbLeft)
+                                       && (posX < bbRight)
+                                       && (posY > bbTop)
+                                       && (posY < bbBottom)
   where
     posX     = fst $ getPos pos
     posY     = snd $ getPos pos
