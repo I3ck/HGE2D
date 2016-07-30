@@ -84,7 +84,7 @@ closest a bs = minimumByMay (  \ x y -> compare (distanceSqr a x) (distanceSqr a
 
 -- | Find the furthest in [b] to a
 furthest :: (Positioned a, Positioned b) => a -> [b] -> Maybe b
-furthest a bs = minimumByMay (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
+furthest a bs = maximumByMay (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
 
 -- | Given a position and projectile speed of a gun / turret and an object defined by its current position and velocity
 --   Calculates the position where both will intercept. (useful for pre-aiming)
