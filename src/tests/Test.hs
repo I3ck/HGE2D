@@ -76,6 +76,24 @@ main = hspec $ do
         it "centerBB" $
             property $ \ center width height -> distance center (centerBB (sizedBB center width height)) < 0.001
 
+        it "bbFromList" $ do
+            bbFromList ([] :: [RealPosition])                                       `shouldBe` BBEmpty
+            bbFromList ([(0.0, 0.0)] :: [RealPosition])                             `shouldBe` BBEmpty
+            bbFromList ([(0.0, 0.0), (1.0, 1.0)] :: [RealPosition])                 `shouldBe` BoundingBox (0.0, 0.0) (1.0, 1.0)
+            bbFromList ([(0.0, 0.0), (1.0, 1.0), (1.5, 0.8)] :: [RealPosition])     `shouldBe` BoundingBox (0.0, 0.0) (1.5, 1.0)
+
+        it "mergeBBEmpty" $
+            property $ \ minPos maxPos -> mergeBB (BoundingBox minPos maxPos) BBEmpty == (BoundingBox minPos maxPos)
+
+        it "mergeBB" $ do
+            mergeBB (BoundingBox (0.0, 5.0) (1.0, 6.0)) (BoundingBox (-5.0, 2.0) (2.0, 12.0)) `shouldBe` (BoundingBox (-5.0, 2.0) (2.0, 12.0))
+
+        it "makeBB" $ ---TODO same as sizedBB (drop one of the functions)
+            property $ \ center width height -> makeBB center width height == sizedBB center width height
+
+        it "applyVelocity" $
+            property $ \ pos vel time -> applyVelocity pos vel time == (((fst pos) + (fromIntegral time * (fst vel))), ((snd pos) + (fromIntegral time * (snd vel))))
+
     describe "RealPosition" $ do
         it "Positioned getX" $
             property $ \ x y -> fst (x,y)       == getX   ( (x,y) :: RealPosition )
