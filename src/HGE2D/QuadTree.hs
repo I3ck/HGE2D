@@ -29,7 +29,7 @@ data QuadDir = NN | NP | PN | PP
 -- | Mapping function for the QuadTree. Do not use with functions which change the position of items,
 --   since they would invalidate the search structure (use fmapQuadRebuild instead)
 fmapQuad :: (Positioned a, Positioned b) => (a -> b) -> QuadTree a -> QuadTree b
-fmapQuad f QuadEmpty                    = QuadEmpty
+fmapQuad _ QuadEmpty                    = QuadEmpty
 fmapQuad f (QuadLeaf x)                 = (QuadLeaf (f x))
 fmapQuad f (QuadBranch nn np pn pp bb)  = (QuadBranch (fmapQuad f nn) (fmapQuad f np) (fmapQuad f pn) (fmapQuad f pp) bb)
 

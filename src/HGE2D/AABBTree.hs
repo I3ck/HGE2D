@@ -10,7 +10,6 @@ module HGE2D.AABBTree where
 import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Classes
-import HGE2D.Instances
 import HGE2D.Geometry
 import HGE2D.Collision
 

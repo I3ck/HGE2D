@@ -2,7 +2,7 @@
 --  see http://haskell.org/cabal/users-guide/
 
 name:                HGE2D
-version:             0.1.9.2
+version:             0.1.9.3
 synopsis:            2D game engine written in Haskell
 description:         See README and examples/ for further information
 license:             MIT
@@ -49,7 +49,7 @@ library
       safe == 0.3.9
   hs-source-dirs:      src
   default-language:    Haskell2010
-  ghc-options:         -O2 -W -fwarn-incomplete-patterns
+  ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
 
 test-suite test1
   type:                exitcode-stdio-1.0
@@ -57,7 +57,7 @@ test-suite test1
   main-is:             Test.hs
   build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D, hspec, QuickCheck
   hs-source-dirs:      src/tests
-  ghc-options:         -W -fwarn-incomplete-patterns
+  ghc-options:         -W -fwarn-incomplete-patterns -Werror
 
 
 executable example1
@@ -65,25 +65,25 @@ executable example1
   main-is:             Example1.hs
   build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D
   hs-source-dirs:      src/examples
-  ghc-options:         -O2 -W -fwarn-incomplete-patterns
+  ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
 
 executable example2
   default-language:    Haskell2010
   main-is:             Example2.hs
   build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D
   hs-source-dirs:      src/examples
-  ghc-options:         -O2 -W -fwarn-incomplete-patterns
+  ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
 
 executable example3
   default-language:    Haskell2010
   main-is:             Example3.hs
   build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D
   hs-source-dirs:      src/examples
-  ghc-options:         -O2 -W -fwarn-incomplete-patterns
+  ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
 
 executable example4
   default-language:    Haskell2010
   main-is:             Example4.hs
   build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D
   hs-source-dirs:      src/examples
-  ghc-options:         -O2 -W -fwarn-incomplete-patterns
+  ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror

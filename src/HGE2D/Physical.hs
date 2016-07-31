@@ -10,7 +10,7 @@ module HGE2D.Physical where
 import HGE2D.Types
 import HGE2D.Datas
 import HGE2D.Classes
-import HGE2D.Instances
+import HGE2D.Instances ()
 
 --------------------------------------------------------------------------------
 
