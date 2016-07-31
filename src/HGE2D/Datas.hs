@@ -34,7 +34,7 @@ data RigidBody = RigidBody
 
 -- | A bounding box defined by two positions in space
 data BoundingBox = BBEmpty
-                 | BoundingBox
+                 | BB
                     { bbMin     :: RealPosition -- lower left corner of bb
                     , bbMax     :: RealPosition -- upper right corner of bb
                     }

@@ -116,7 +116,7 @@ makeRB center vel width height = RigidBody { rigidPos = center, rigidVel = vel, 
 
 -- | Builder to get a BoundingBox from its center position and sizes
 sizedBB :: RealPosition -> Pixel -> Pixel -> BoundingBox
-sizedBB center width height = BoundingBox posMin posMax
+sizedBB center width height = BB posMin posMax
   where
     posMin = (minX, minY)
     posMax = (maxX, maxY)
@@ -144,7 +144,7 @@ centerBB bb = (newX, newY)
 bbFromList :: (Positioned a) => [a] -> BoundingBox
 bbFromList []  = BBEmpty
 bbFromList [_] = BBEmpty
-bbFromList xs  = BoundingBox (minX, minY) (maxX, maxY)
+bbFromList xs  = BB (minX, minY) (maxX, maxY)
   where
     minX = minimum $ map getX xs
     minY = minimum $ map getY xs
@@ -156,7 +156,7 @@ bbFromList xs  = BoundingBox (minX, minY) (maxX, maxY)
 mergeBB :: BoundingBox -> BoundingBox -> BoundingBox
 mergeBB BBEmpty bb2 = bb2
 mergeBB bb1 BBEmpty = bb1
-mergeBB bb1 bb2     = BoundingBox newMin newMax
+mergeBB bb1 bb2     = BB newMin newMax
   where
     newMin = mergeMin poss
     newMax = mergeMax poss
@@ -191,7 +191,7 @@ tilePosToBB pos = BoundingBox minPos maxPos
 
 -- | Builds a BoundingBox
 makeBB :: RealPosition -> Pixel -> Pixel -> BoundingBox
-makeBB center width height = BoundingBox newMin newMax
+makeBB center width height = BB newMin newMax
   where
     newMin = ((fst center - width / 2), (snd center - height / 2))
     newMax = ((fst center + width / 2), (snd center + height / 2))

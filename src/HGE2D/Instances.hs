@@ -71,12 +71,12 @@ instance Moveable RealPosition where
 
 -- | Instance of Moveable for BoundingBox
 instance Moveable BoundingBox where
-    moveBy by bb = BoundingBox { bbMin = newMinPos, bbMax = newMaxPos }
+    moveBy by bb = BB { bbMin = newMinPos, bbMax = newMaxPos }
       where
         newMinPos = moveBy by $ bbMin bb
         newMaxPos = moveBy by $ bbMax bb
 
-    moveTo by bb = BoundingBox { bbMin = newMinPos, bbMax = newMaxPos }
+    moveTo by bb = BB { bbMin = newMinPos, bbMax = newMaxPos }
       where
         newMinPos = moveTo by $ bbMin bb
         newMaxPos = moveTo by $ bbMax bb
