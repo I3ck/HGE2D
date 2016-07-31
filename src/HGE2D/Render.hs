@@ -25,6 +25,8 @@ instance GlRender RenderInstruction where
         RenderText text                   -> do currentRasterPosition $= Vertex4 0 0 0 1
                                                 renderString TimesRoman24 text
 
+        RenderPoints shape                -> do renderPrimitive Points $ mapM_ vertex shape
+        
         RenderLineStrip shape w           -> do lineWidth $= w
                                                 (renderPrimitive LineStrip $ mapM_ vertex shape)
 

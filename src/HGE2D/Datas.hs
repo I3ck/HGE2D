@@ -71,6 +71,7 @@ data EngineState a = EngineState
 data RenderInstruction = RenderNothing                                                       -- do nothing
                        | RenderWithCamera GlPosX GlPosY GlScaleX GlScaleY RenderInstruction  -- render with a given camera view
                        | RenderText String                                                   -- render a string
+                       | RenderPoints GlShape                                                -- render as points
                        | RenderLineStrip GlShape GL.GLfloat                                  -- render as line strip
                        | RenderTriangle GlShape                                              -- render as triangles / faces
                        | RenderLineLoop GlShape GL.GLfloat                                   -- render as line which connects first and last
