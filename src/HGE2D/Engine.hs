@@ -91,7 +91,7 @@ mouseHover es mvarGs (Position x y) = do
     let w          = fst $ getSize es gs
         h          = snd $ getSize es gs
         correctedX = realToFrac x * (fst $ getSize es gs) / w
-        correctedY = realToFrac ys * (snd $ getSize es gs) / h
+        correctedY = realToFrac y * (snd $ getSize es gs) / h
         newState   = hover es correctedX correctedY gs
 
     swapMVar mvarGs newState
