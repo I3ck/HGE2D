@@ -21,19 +21,20 @@ import Graphics.UI.GLUT
 runEngine :: EngineState a -> a -> IO ()
 runEngine es impl = do
     secs <- getSeconds
-    let ms = toMilliSeconds secs
+    let ms     = toMilliSeconds secs
+        (w, h) = getSize es impl
 
     state <- newMVar $ setTime es ms impl
 
     (_progName, _args)    <- getArgsAndInitialize
     initialDisplayMode    $= [DoubleBuffered]
-    initialWindowSize     $= Size (round $ fst $ getSize es impl) (round $ snd $ getSize es impl)
+    initialWindowSize     $= Size (round w) (round h)
     _window               <- createWindow $ getTitle es impl
     keyboardMouseCallback $= Just (keyboardMouse es state)
     motionCallback        $= Just (mouseGrab es state)
     passiveMotionCallback $= Just (mouseHover es state)
-    blend $= Enabled
-    blendFunc $= (SrcAlpha, OneMinusSrcAlpha)
+    blend                 $= Enabled
+    blendFunc             $= (SrcAlpha, OneMinusSrcAlpha)
     displayCallback       $= display es state
     reshapeCallback       $= Just (reshape es state)
     idleCallback          $= Just (idle es state)
@@ -53,14 +54,14 @@ display es mvarGs = do
 
 -- | Function to react to changes of the window size
 reshape :: EngineState a -> MVar (a) -> Size -> IO ()
-reshape es mvarGs (Size width height) = do
+reshape es mvarGs s@(Size width height) = do
     gs <- takeMVar mvarGs
 
     let newState = resize es (realToFrac width, realToFrac height) gs
 
     putMVar mvarGs newState
 
-    viewport $= (Position 0 0, Size width height)
+    viewport $= (Position 0 0, s)
     postRedisplay Nothing
 
 
@@ -174,8 +175,8 @@ keyUp es mvarGs x y c = do
 -- | Idle function of the engine. Used to e.g. apply changes in time to the game state
 idle :: EngineState a -> MVar (a) -> IdleCallback
 idle es mvarGs = do
-  gs <- readMVar mvarGs
-  secs <- getSeconds
+  gs    <- readMVar mvarGs
+  secs  <- getSeconds
 
   let ms       = toMilliSeconds secs
       deltaMs  = ms - (getTime es gs)
