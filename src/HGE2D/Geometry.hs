@@ -96,8 +96,8 @@ furthest a = maximumByMay (distanceSqrComparison a)
 interceptionPos :: (RealPosition, Double) -> (RealPosition, Velocity) -> RealPosition
 interceptionPos (p1, v) (p2, v2) = (newX, newY)
   where
-    tx = (fst p2) - (fst p1)
-    ty = (snd p2) - (snd p1)
+    tx  = fst p2 - fst p1
+    ty  = snd p2 - snd p1
     tvx = fst v2
     tvy = snd v2
 
@@ -112,8 +112,8 @@ interceptionPos (p1, v) (p2, v2) = (newX, newY)
     t | temp > 0 = temp
       | otherwise = max t0 t1
 
-    newX = (fst p2) + (fst v2) * t
-    newY = (snd p2) + (snd v2) * t
+    newX = fst p2 + fst v2 * t
+    newY = snd p2 + snd v2 * t
 
 -- | Builder for a rigidbody
 makeRB :: RealPosition -> Velocity -> Pixel -> Pixel -> RigidBody
@@ -151,10 +151,12 @@ bbFromList []  = BBEmpty
 bbFromList [_] = BBEmpty
 bbFromList xs  = BoundingBox (minX, minY) (maxX, maxY)
   where
-    minX = minimum $ map getX xs
-    minY = minimum $ map getY xs
-    maxX = maximum $ map getX xs
-    maxY = maximum $ map getY xs
+    minX = minimum xxs
+    minY = minimum yxs
+    maxX = maximum xxs
+    maxY = maximum yxs
+    xxs  = fmap getX xs
+    yxs  = fmap getY xs
 
 -- | Merges two bounding boxes, creating a new one which wraps around the inputs
 --   In case a nullBB is passed as one parameter, the other BoundingBox is returned
@@ -167,7 +169,7 @@ mergeBB bb1 bb2     = BoundingBox newMin newMax
     newMax = mergeMax poss
     poss = [bbMin bb1, bbMin bb2, bbMax bb1, bbMax bb2]
 
-    mergeMin :: [RealPosition]-> RealPosition
+    mergeMin :: [RealPosition] -> RealPosition
     mergeMin poss = (x, y)
       where
        x = fst $ minimumBy compareX poss
@@ -179,8 +181,8 @@ mergeBB bb1 bb2     = BoundingBox newMin newMax
        x = fst $ maximumBy compareX poss
        y = snd $ maximumBy compareY poss
 
-    compareX a b = compare (fst a) (fst b)
-    compareY a b = compare (snd a) (snd b)
+    compareX (ax, _) (bx, _) = compare ax bx
+    compareY (_, ay) (_, by) = compare ay by
 
 {- see above
 tilePosToBB :: TilePosition -> BoundingBox
@@ -200,6 +202,6 @@ makeBB = sizedBB
 
 -- | Given a position, time and veilocty it calculates the position where the moving object would be
 applyVelocity :: RealPosition -> Velocity -> Millisecond -> RealPosition
-applyVelocity oldPos vel time =
-    (((fst oldPos) + (fromIntegral time) * (fst vel)),
-    ((snd oldPos) + (fromIntegral time) * (snd vel)))
+applyVelocity (oldPosX, oldPosY) (velX, velY) time =
+    (oldPosX + fromIntegral time * velX,
+     oldPosY + fromIntegral time * velY)
