@@ -15,6 +15,7 @@ import HGE2D.Datas
 import HGE2D.Classes
 
 import Safe
+import Data.Function (on)
 
 ---TODO rewrite most / all functions to use classes
 ---TODO use typedefs
@@ -29,15 +30,15 @@ deg2rad deg = deg * pi / 180
 
 -- | Calculate angle in radians between two positions in space, from the first to the secind
 radRealPos :: RealPosition -> RealPosition -> Radian
-radRealPos p1 p2 = atan2 dY dX
+radRealPos (p1x, p1y) (p2x, p2y) = atan2 dY dX
   where
-    dX = (fst p2) - (fst p1)
-    dY = (snd p2) - (snd p1)
+    dX = p2x - p1x
+    dY = p2y - p1y
 
 
 -- | Calculate angle of a velocity
 velAngle :: Velocity -> Radian
-velAngle v = atan2 (fst v) (snd v)
+velAngle = uncurry atan2
 
 -- | Distance between two positions
 distance :: (Positioned a, Positioned b) => a -> b -> Double
@@ -46,10 +47,10 @@ distance x y = sqrt $ distanceSqr x y
 -- | Squared distance between two positions
 --   Faster than calculating the distance. Can be used to e.g. compare distances cheaply
 distanceSqr :: (Positioned a, Positioned b) => a -> b -> Double
-distanceSqr x y = (fst p1 - fst p2)**2 + (snd p1 - snd p2)**2
+distanceSqr x y = (p1x - p2x)**2 + (p1y - p2y)**2
   where
-    p1 = getPos x
-    p2 = getPos y
+    (p1x, p1y) = getPos x
+    (p2x, p2y) = getPos y
 
 -- | Distance between a position and a bounding box
 distanceBB :: (Positioned a, HasBoundingBox b) => a -> b -> Double
@@ -64,35 +65,39 @@ distanceBBSqr p bb = dx * dx + dy * dy
       dy = max 0 $ abs (yP - yBB) - h / 2.0
       xP = getX p
       yP = getY p
-      xBB = fst $ centerBB $ getBB bb
-      yBB = snd $ centerBB $ getBB bb
-      (w, h) = sizeBB $ getBB bb
+      (xBB, yBB) = centerBB $ getBB bb
+      (w, h)     = sizeBB   $ getBB bb
 
 -- | Calculate the direction vector between two positions
 direction :: (Positioned a, Positioned b) => a -> b -> RealPosition
-direction x y = (newX, newY)
+direction x y   = (dirX, dirY)
   where
-    newX = ((fst p2) - (fst p1)) / l
-    newY = ((snd p2) - (snd p1)) / l
-    l = distance x y
-    p1 = getPos x
-    p2 = getPos y
+    dirX        = (p2x - p1x) / l
+    dirY        = (p2y - p1y) / l
+    l           = distance x y
+    (p1x, p1y)  = getPos x
+    (p2x, p2y)  = getPos y
+
+-- Gives the Order of 2 elements based on their distance to a third element
+-- {Hidden function: reduce redundancy}
+distanceSqrComparison :: (Positioned a, Positioned b) => a -> b -> b -> Ordering
+distanceSqrComparison a = compare `on` distanceSqr a
 
 -- | Find the closest in [b] to a
 closest :: (Positioned a, Positioned b) => a -> [b] -> Maybe b
-closest a bs = minimumByMay (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
+closest a = minimumByMay (distanceSqrComparison a)
 
 -- | Find the furthest in [b] to a
 furthest :: (Positioned a, Positioned b) => a -> [b] -> Maybe b
-furthest a bs = maximumByMay (  \ x y -> compare (distanceSqr a x) (distanceSqr a y)  ) bs
+furthest a = maximumByMay (distanceSqrComparison a)
 
 -- | Given a position and projectile speed of a gun / turret and an object defined by its current position and velocity
 --   Calculates the position where both will intercept. (useful for pre-aiming)
 interceptionPos :: (RealPosition, Double) -> (RealPosition, Velocity) -> RealPosition
 interceptionPos (p1, v) (p2, v2) = (newX, newY)
   where
-    tx = (fst p2) - (fst p1)
-    ty = (snd p2) - (snd p1)
+    tx  = fst p2 - fst p1
+    ty  = snd p2 - snd p1
     tvx = fst v2
     tvy = snd v2
 
@@ -107,8 +112,8 @@ interceptionPos (p1, v) (p2, v2) = (newX, newY)
     t | temp > 0 = temp
       | otherwise = max t0 t1
 
-    newX = (fst p2) + (fst v2) * t
-    newY = (snd p2) + (snd v2) * t
+    newX = fst p2 + fst v2 * t
+    newY = snd p2 + snd v2 * t
 
 -- | Builder for a rigidbody
 makeRB :: RealPosition -> Velocity -> Pixel -> Pixel -> RigidBody
@@ -116,14 +121,14 @@ makeRB center vel width height = RigidBody { rigidPos = center, rigidVel = vel, 
 
 -- | Builder to get a BoundingBox from its center position and sizes
 sizedBB :: RealPosition -> Pixel -> Pixel -> BoundingBox
-sizedBB center width height = BB posMin posMax
+sizedBB (cX, cY) w h = BB posMin posMax
   where
-    posMin = (minX, minY)
-    posMax = (maxX, maxY)
-    minX = (fst center) - width / 2
-    minY = (snd center) - height / 2
-    maxX = (fst center) + width / 2
-    maxY = (snd center) + height / 2
+    posMin  = (minX, minY)
+    posMax  = (maxX, maxY)
+    minX    = cX - w / 2
+    minY    = cY - h / 2
+    maxX    = cX + w / 2
+    maxY    = cY + h / 2
 
 -- | Calculates the size of a BoundingBox
 sizeBB :: BoundingBox -> (Pixel, Pixel)
@@ -146,10 +151,12 @@ bbFromList []  = BBEmpty
 bbFromList [_] = BBEmpty
 bbFromList xs  = BB (minX, minY) (maxX, maxY)
   where
-    minX = minimum $ map getX xs
-    minY = minimum $ map getY xs
-    maxX = maximum $ map getX xs
-    maxY = maximum $ map getY xs
+    minX = minimum xxs
+    minY = minimum yxs
+    maxX = maximum xxs
+    maxY = maximum yxs
+    xxs  = fmap getX xs
+    yxs  = fmap getY xs
 
 -- | Merges two bounding boxes, creating a new one which wraps around the inputs
 --   In case a nullBB is passed as one parameter, the other BoundingBox is returned
@@ -162,7 +169,7 @@ mergeBB bb1 bb2     = BB newMin newMax
     newMax = mergeMax poss
     poss = [bbMin bb1, bbMin bb2, bbMax bb1, bbMax bb2]
 
-    mergeMin :: [RealPosition]-> RealPosition
+    mergeMin :: [RealPosition] -> RealPosition
     mergeMin poss = (x, y)
       where
        x = fst $ minimumBy compareX poss
@@ -174,8 +181,8 @@ mergeBB bb1 bb2     = BB newMin newMax
        x = fst $ maximumBy compareX poss
        y = snd $ maximumBy compareY poss
 
-    compareX a b = compare (fst a) (fst b)
-    compareY a b = compare (snd a) (snd b)
+    compareX (ax, _) (bx, _) = compare ax bx
+    compareY (_, ay) (_, by) = compare ay by
 
 {- see above
 tilePosToBB :: TilePosition -> BoundingBox
@@ -191,13 +198,10 @@ tilePosToBB pos = BoundingBox minPos maxPos
 
 -- | Builds a BoundingBox
 makeBB :: RealPosition -> Pixel -> Pixel -> BoundingBox
-makeBB center width height = BB newMin newMax
-  where
-    newMin = ((fst center - width / 2), (snd center - height / 2))
-    newMax = ((fst center + width / 2), (snd center + height / 2))
+makeBB = sizedBB
 
 -- | Given a position, time and veilocty it calculates the position where the moving object would be
 applyVelocity :: RealPosition -> Velocity -> Millisecond -> RealPosition
-applyVelocity oldPos vel time =
-    (((fst oldPos) + (fromIntegral time) * (fst vel)),
-    ((snd oldPos) + (fromIntegral time) * (snd vel)))
+applyVelocity (oldPosX, oldPosY) (velX, velY) time =
+    (oldPosX + fromIntegral time * velX,
+     oldPosY + fromIntegral time * velY)
