@@ -1,5 +1,5 @@
 -- |
--- Module      :  Engine.Data.Vector
+-- Module      :  HGE2D.Vector
 -- Copyright   :  (c) 2017 Giorgio Susanna
 -- License     :  see LICENSE
 --
