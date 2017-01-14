@@ -39,6 +39,7 @@ library
     HGE2D.QuadTree
     HGE2D.AABBTree
     HGE2D.Settings
+    HGE2D.Vector
   -- other-modules:
   -- other-extensions:
   build-depends:
