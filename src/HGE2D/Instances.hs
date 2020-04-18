@@ -18,9 +18,12 @@ import HGE2D.Classes
 --------------------------------------------------------------------------------
 
 -- | Instance of Monoid for BoundingBox
+
+instance Semigroup BoundingBox where
+    (<>) = mergeBB
+
 instance Monoid BoundingBox where
     mempty = BBEmpty
-    mappend = mergeBB
 
 --------------------------------------------------------------------------------
 
