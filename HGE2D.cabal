@@ -42,11 +42,11 @@ library
   -- other-modules:
   -- other-extensions:
   build-depends:
-      base >= 4.8.2.0 && < 5.0,
-      OpenGL >=3.0 && < 3.1,
+      base >= 4.11 && < 4.15,
+      OpenGL >= 3.0 && < 3.1,
       GLUT >= 2.7 && < 2.8,
-      time >= 1.5.0.1 && < 1.7,
-      safe == 0.3.9
+      time >= 1.5.0.1 && < 1.10,
+      safe >= 0.3.9 && <= 0.3.19
   hs-source-dirs:      src
   default-language:    Haskell2010
   ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
@@ -55,7 +55,7 @@ test-suite test1
   type:                exitcode-stdio-1.0
   default-language:    Haskell2010
   main-is:             Test.hs
-  build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D, hspec, QuickCheck
+  build-depends:       base >= 4.8.2.0 && < 4.15, HGE2D, hspec, QuickCheck
   hs-source-dirs:      src/tests
   ghc-options:         -W -fwarn-incomplete-patterns -Werror
 
@@ -63,27 +63,27 @@ test-suite test1
 executable example1
   default-language:    Haskell2010
   main-is:             Example1.hs
-  build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D
+  build-depends:       base >= 4.8.2.0 && < 4.15, HGE2D
   hs-source-dirs:      src/examples
   ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
 
 executable example2
   default-language:    Haskell2010
   main-is:             Example2.hs
-  build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D
+  build-depends:       base >= 4.8.2.0 && < 4.15, HGE2D
   hs-source-dirs:      src/examples
   ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
 
 executable example3
   default-language:    Haskell2010
   main-is:             Example3.hs
-  build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D
+  build-depends:       base >= 4.8.2.0 && < 4.15, HGE2D
   hs-source-dirs:      src/examples
   ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
 
 executable example4
   default-language:    Haskell2010
   main-is:             Example4.hs
-  build-depends:       base >= 4.8.2.0 && < 5.0, HGE2D
+  build-depends:       base >= 4.8.2.0 && < 4.15, HGE2D
   hs-source-dirs:      src/examples
   ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
